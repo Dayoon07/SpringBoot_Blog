@@ -1,0 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<c:set var="cl" value="${ pageContext.request.contextPath }" />
+<jsp:include page="/WEB-INF/common/header.jsp" />
+
+	<section class="container mt-5 my-5">
+	    <h2>공지사항</h2>
+	    <p class="mb-5">개선 또는 서비스 점검, 새 소식을 알려 드립니다.</p>
+	    <div class="card">
+	    	<div class="list-group list-group-flush" id="noticeList">
+		        <c:forEach var="nl" items="${ noticeList }">
+		            <a href="${ cl }/notice/view?noticeid=${ nl.noticeid }"
+		            	class="list-group-item list-group-item-action blog-item">
+		                ${ nl.noticetitle } <span style="float: right;">${ nl.formattedDate }</span>
+		            </a>
+		        </c:forEach>
+		    </div>
+	    </div>
+	    <div id="pagination-container" class="mt-3 text-center"></div>
+	</section>
+	
+<jsp:include page="/WEB-INF/common/footer.jsp" />

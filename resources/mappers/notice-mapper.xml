@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e.d.model.mapper.NoticeMapper">
+	
+	<select id="selectAllNotice" resultType="com.e.d.model.vo.NoticeVo">
+		SELECT * FROM blognotice ORDER BY noticeid DESC
+	</select>
+	
+	<select id="selectViewNotice" parameterType="int" resultType="com.e.d.model.vo.NoticeVo">
+		SELECT * FROM blognotice WHERE noticeid = #{noticeid}
+	</select>
+	
+</mapper>

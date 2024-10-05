@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e.d.model.mapper.BlogBoardMapper">
+
+	<select id="selectAllBlogs" resultType="com.e.d.model.vo.BlogBoardVo">
+		SELECT * FROM blogboard	ORDER BY blogId DESC
+	</select>
+	
+	<insert id="insertBlog" parameterType="String">
+		INSERT INTO blogboard (writer, title, blogcontent) VALUES(#{writer}, #{title}, #{blogcontent})
+	</insert>
+	
+	<select id="selectBoardIdBlog" parameterType="int" resultType="com.e.d.model.vo.BlogBoardVo">
+		SELECT * FROM blogboard WHERE blogid = #{blogid}
+	</select>
+	
+</mapper>

@@ -1,60 +1,49 @@
-$(document).ready(function() {
-        const itemsPerPage = 10; // 페이지당 게시글 수
-        const noticeItems = $('#noticeList .blog-item'); // 모든 공지사항 요소
-        const totalItems = noticeItems.length; // 총 공지사항 수
-        const totalPages = Math.ceil(totalItems / itemsPerPage); // 총 페이지 수
-        let currentPage = 1; // 현재 페이지
-        let displayedPageButtons = 10; // 최대 페이지 버튼 수
+document.addEventListener("DOMContentLoaded", function () {
+    const noticeList = Array.from(document.querySelectorAll('#noticeList .list-group-item')); // 공지사항 항목들을 가져옴
+    const itemsPerPage = 20; // 페이지당 항목 수
+    let currentPage = 1; // 현재 페이지 번호
 
-        // 초기화: 모든 공지사항 숨기기
-        noticeItems.hide();
+    function renderNoticeList(page) {
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = page * itemsPerPage;
 
-        // 페이징 처리 함수
-        function paginate(page) {
-            const start = (page - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-
-            // 현재 페이지에 해당하는 공지사항만 표시
-            noticeItems.hide().slice(start, end).show();
-
-            // 페이지 버튼 생성
-            updatePaginationButtons(page);
-        }
-
-        // 페이지 버튼 업데이트 함수
-        function updatePaginationButtons(page) {
-            $('#pagination-container').find('.page-button').remove(); // 기존 페이지 버튼 제거
-
-            const startPage = Math.max(1, page - Math.floor(displayedPageButtons / 2));
-            const endPage = Math.min(totalPages, startPage + displayedPageButtons - 1);
-
-            // 페이지 버튼 추가
-            for (let i = startPage; i <= endPage; i++) {
-                $('#pagination-container').append(`<button class="btn btn-outline-dark page-button" style="width: 50px;" data-page="${i}">${i}</button>`);
-            }
-
-            // 현재 페이지 버튼 활성화
-            $('.page-button[data-page="' + page + '"]').addClass('active');
-        }
-
-        // 버튼 클릭 이벤트 처리
-        $(document).on('click', '.page-button', function() {
-            const page = $(this).data('page');
-
-            // "처음" 버튼 클릭
-            if ($(this).attr('id') === 'first-page') {
-                currentPage = 1;
-            }
-            // "끝" 버튼 클릭
-            else if ($(this).attr('id') === 'last-page') {
-                currentPage = totalPages;
-            } else {
-                currentPage = page;
-            }
-
-            paginate(currentPage);
+        // 모든 공지사항 항목을 숨기고 해당 페이지 항목만 표시
+        noticeList.forEach((item, index) => {
+            item.style.display = (index >= startIndex && index < endIndex) ? 'block' : 'none';
         });
 
-        // 첫 페이지 로드
-        paginate(currentPage);
-    });
+        // 스크롤을 페이지 상단으로 이동
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderPagination(totalItems) {
+        const paginationContainer = document.getElementById('noticePagination');
+        paginationContainer.innerHTML = ''; // 기존 페이지네이션 버튼 삭제
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageItem = document.createElement('li');
+            pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+            
+            const pageLink = document.createElement('a');
+            pageLink.className = 'page-link';
+            pageLink.href = '#';
+            pageLink.textContent = i;
+
+            // 페이지 버튼 클릭 이벤트
+            pageLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentPage = i; // 클릭한 페이지로 이동
+                renderNoticeList(currentPage);
+                renderPagination(noticeList.length); // 페이지네이션 갱신
+            });
+
+            pageItem.appendChild(pageLink);
+            paginationContainer.appendChild(pageItem);
+        }
+    }
+
+    // 초기 공지사항 목록과 페이지네이션 렌더링
+    renderNoticeList(currentPage);
+    renderPagination(noticeList.length);
+});

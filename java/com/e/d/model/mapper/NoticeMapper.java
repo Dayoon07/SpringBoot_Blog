@@ -9,5 +9,5 @@ import com.e.d.model.vo.NoticeVo;
 @Mapper
 public interface NoticeMapper {
 	List<NoticeVo> selectAllNotice();
-	NoticeVo selectViewNotice(int noticeid);
+	NoticeVo selectViewNotice(int noticeid);	
 }

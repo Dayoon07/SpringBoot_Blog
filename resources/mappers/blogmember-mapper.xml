@@ -5,12 +5,16 @@
 <mapper namespace="com.e.d.model.mapper.BlogMemberMapper">
 	
 	<insert id="insertBlogMember" parameterType="com.e.d.model.vo.BlogMemberVo">
-	    INSERT INTO blogmember (username, useremail, userpassword, bio)
-	    VALUES (#{username}, #{useremail}, #{userpassword}, <if test="bio != null">#{bio}</if>)
+	    INSERT INTO blogmember (username, useremail, userpassword, profiletext)
+	    VALUES (#{username}, #{useremail}, #{userpassword}, <if test="profiletext != null">#{profiletext}</if>)
 	</insert>
 
 	<select id="selectLoginUser" parameterType="com.e.d.model.vo.BlogMemberVo" resultType="com.e.d.model.vo.BlogMemberVo">
 		SELECT * FROM blogmember WHERE useremail = #{useremail} AND userpassword = #{userpassword}
+	</select>
+	
+	<select id="selectAllUserInfo" parameterType="String" resultType="com.e.d.model.vo.BlogMemberVo">
+		SELECT * FROM blogmember WHERE username = #{username}
 	</select>
 	
 </mapper>

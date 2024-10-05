@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function() {
 	});
 	
 	blogContents.forEach(content => {
-		if (content.textContent.length >= 50) {}
-		content.textContent = content.textContent.slice(0, 50) + "...";
-	})
+		if (content.textContent.length >= 50) {
+			content.textContent = content.textContent.slice(0, 50) + "...";
+		}
+	});
 });

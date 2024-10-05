@@ -21,8 +21,8 @@
 	            <input type="password" id="userpassword" name="userpassword" class="form-control" placeholder="비밀번호" required>
 	        </div>
 	        <div class="form-group">
-	            <label for="bio">자기소개 (선택)</label>
-	            <textarea id="bio" name="bio" class="form-control" style="resize: none;" placeholder="프로필 소개 글"></textarea>
+	            <label for="profiletext">자기소개 (선택)</label>
+	            <textarea id="profiletext" name="profiletext" class="form-control" style="resize: none;" placeholder="프로필 소개 글"></textarea>
 	        </div>
 	        <button type="submit" class="btn btn-outline-primary btn-block">가입하기</button>
 	        <a href="${ cl }/" class="btn btn-outline-dark btn-block my-2">돌아가기</a>

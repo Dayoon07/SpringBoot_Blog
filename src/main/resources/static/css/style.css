@@ -1,8 +1,13 @@
 @charset "UTF-8";
-.btn.dropdown-toggle:focus {
+#sidebar-btn:focus {
     box-shadow: none; /* 포커스 시 그림자 제거 */
     outline: none; /* 아웃라인 제거 */
     border-color: transparent; /* 테두리 색상 제거 */
+}
+#header-search-input:focus {
+	box-shadow: none;
+    outline: none;
+    border-color: transparent;
 }
 #ytd-btn {
 	width: 350px;
@@ -14,4 +19,14 @@
 	outline: none;
 	border-bottom: 1px solid black;
 	transition: all 0.2s;
+}
+a {
+	color: black;
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+.btn:hover {
+	text-decoration: none;
 }

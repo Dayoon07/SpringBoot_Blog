@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -83,10 +84,7 @@ public class MainController {
 	
 	@PostMapping("/signup")
 	public String signup(@ModelAttribute BlogMemberVo blogMemberVo) {
-		if (blogMemberVo.getUseremail() == blogMemberVo.getUseremail()) {
-			System.out.println("이메일이 같은 계정이 회원가입을 하려고 했지만 막음");
-			return "redirect:/";
-		} else blogMemberService.insertBlogMember(blogMemberVo);
+		blogMemberService.insertBlogMember(blogMemberVo);
 		return "redirect:/";
 	}
 	
@@ -107,7 +105,7 @@ public class MainController {
 			return "redirect:/";
 		}
 		return "redirect:/";
-	}	
+	}
 	
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -116,7 +114,9 @@ public class MainController {
 	}
 	
 	@GetMapping("/username/{username}")
-	public String userProfile() {
+	public String userProfile(@PathVariable String username, Model model) {
+		BlogMemberVo list = blogMemberService.selectAllUserInfo(username);
+		model.addAttribute("userinfo", list);
 		return "user/userprofile";
 	}
 	

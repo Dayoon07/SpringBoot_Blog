@@ -24,4 +24,9 @@ public class BlogMemberService implements BlogMemberMapper {
 		return mapper.selectLoginUser(useremail, userpassword);
 	}
 	
+	@Override
+	public BlogMemberVo selectAllUserInfo(String username) {
+		return mapper.selectAllUserInfo(username);
+	}
+	
 }

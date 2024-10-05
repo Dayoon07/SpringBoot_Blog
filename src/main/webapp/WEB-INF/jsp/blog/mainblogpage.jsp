@@ -13,23 +13,26 @@
 	    <div class="container mt-5 mb-5">
 	        <div class="row" id="blog-list">
 	            <c:forEach var="list" items="${ blogList }">
-	                <!-- col-md-6: 화면이 md 이상일 때 2개의 열로 표시 -->
-	                <div class="col-md-6 mb-4">
-	                    <a href="${ cl }/blog/blogview?blogid=${ list.blogid }"
-	                    	class="list-group-item list-group-item-action">
-	                        <div class="d-flex w-100 justify-content-between">
-	                            <h5 class="mb-1 blogTitle">${ list.title }</h5>
-	                            <small>${ list.formattedDateTime }</small>
-	                        </div>
-	                        <p class="mb-1 blogContent">${ list.blogContent }</p>
-	                        <small class="d-flex w-100 justify-content-between">${ list.writer }<span>${ list.blogviews } : 조회수</span></small>
-	                    </a>
+	                <div class="col-md-6 mb-3 list-group">
+	                	<a href="${ cl }/blog/blogview?blogid=${ list.blogid }" class="list-group-item list-group-item-action">
+				    		<div class="w-100 d-flex justify-content-between">
+				      			<h5 class="mb-1 blogTitle">${ list.title }</h5>
+				      			<small class="text-body-secondary">${ list.formattedDateTime }</small>
+				    		</div>
+				    		<p class="mb-1 blogContent">${ list.blogContent }</p>
+				    		<small class="text-body-secondary w-100 d-flex justify-content-between">
+				    			<span>${ list.writer }</span>
+	                            <span>${ list.blogviews } : 조회수</span>
+				    		</small>
+				  		</a>
 	                </div>
 	            </c:forEach>
 	        </div>
 	    </div>
 	    <nav aria-label="Page" class="d-flex justify-content-center mt-4">
-	        <ul class="pagination" id="pagination"></ul>
+	        <ul class="pagination" id="pagination">
+	            <!-- Pagination content will go here -->
+	        </ul>
 	    </nav>
 	</c:if>
 

@@ -7,11 +7,12 @@
 
 	<div class="container mt-5">
         <h2>회원 정보</h2>
+        
         <c:if test="${ not empty loginuser }">
         	<form action="/refreshUser" method="post" autocomplete="off">
 	            <div class="mb-3">
 	                <label for="username" class="form-label">아이디</label>
-	                <input type="text" class="form-control" id="username" name="username" value="${userinfo.userId}" required>
+	                <input type="text" class="form-control" id="username" name="username" value="${userinfo.userId}" readonly required>
 	            </div>
 	            <div class="mb-3">
 	                <label for="fullName" class="form-label">이름</label>
@@ -19,7 +20,7 @@
 	            </div>
 	            <div class="mb-3">
 	                <label for="email" class="form-label">이메일</label>
-	                <input type="email" class="form-control" id="email" name="email" value="${userinfo.useremail}" required>
+	                <input type="email" class="form-control" id="email" name="email" value="${userinfo.useremail}" readonly required>
 	            </div>
 	            <div class="mb-3">
 	                <label for="email" class="form-label">비밀번호</label>
@@ -31,15 +32,15 @@
 	            </div>
 	            <div class="mb-3">
 	                <label for="joinDate" class="form-label">가입일 (Join Date)</label>
-	                <input type="text" class="form-control" id="joinDate" name="joinDate" value="${userinfo.formattedDateTime}" required>
+	                <input type="text" class="form-control" id="joinDate" name="joinDate" value="${userinfo.formattedDateTime}" readonly required>
 	            </div>
 				<div class="mb-3">
 	                <label for="joinDate" class="form-label">팔로워 수</label>
-	                <input type="text" class="form-control" id="joinDate" name="joinDate" value="${userinfo.followerId}" required>
+	                <input type="text" class="form-control" id="joinDate" name="joinDate" value="${userinfo.followerId}" required required>
 	            </div>
 	            <div class="mb-3">
 	                <label for="joinDate" class="form-label">팔로잉</label>
-	                <input type="text" class="form-control" id="joinDate" name="joinDate" value="${userinfo.followedId}" required>
+	                <input type="text" class="form-control" id="joinDate" name="joinDate" value="${userinfo.followedId}" required required>
 	            </div>
 	        </form>
         </c:if>

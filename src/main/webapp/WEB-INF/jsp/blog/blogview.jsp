@@ -8,8 +8,8 @@
  	<div class="container mt-5">
 		<h2 class="card-title mb-3">${ blogNum.title }</h2>
 		<h6 class="card-subtitle mb-2 text-muted">
-        	<span class="float-end">${ blogNum.formattedDateTime }</span><br>
-            작성자: ${ blogNum.writer }
+			<a href="${ cl }/username/${ blogNum.writer }">작성자: ${ blogNum.writer }</a><br>
+			<span>작성일 : ${ blogNum.formattedDateTime }</span>
 		</h6>
         <p class="card-text mt-4">${ blogNum.blogContent }</p>
         <div class="mt-3 mb-5">

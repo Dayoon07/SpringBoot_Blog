@@ -9,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class BlogLikeVo {
-	private Long likeId;
-    private Long blogId;
-    private Long userId;
+	private int likeId;
+    private int blogId;
+    private int userId;
     private LocalDateTime dateTime;
 }

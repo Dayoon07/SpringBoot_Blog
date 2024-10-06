@@ -10,14 +10,14 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class BlogMemberVo {
-    private Long userId;
+    private int userId;
     private String username;
     private String useremail;
     private String userpassword;
     private String profiletext;
     private LocalDateTime dateTime;
-    private Long followerId;
-    private Long followedId;
+    private int followerId;
+    private int followedId;
     
     public String getFormattedDateTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a hh시 mm분");

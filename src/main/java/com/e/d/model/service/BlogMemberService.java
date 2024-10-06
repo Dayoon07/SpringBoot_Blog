@@ -20,8 +20,8 @@ public class BlogMemberService implements BlogMemberMapper {
 	}
 	
 	@Override
-	public BlogMemberVo selectLoginUser(String useremail, String userpassword) {
-		return mapper.selectLoginUser(useremail, userpassword);
+	public BlogMemberVo selectLoginUser(String username, String userpassword) {
+		return mapper.selectLoginUser(username, userpassword);
 	}
 	
 	@Override

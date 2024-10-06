@@ -10,11 +10,11 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class BlogBoardVo {
-	private Long blogid;
+	private int blogid;
 	private String writer;
     private String title;
     private String blogContent;
-    private Long blogviews;
+    private int blogviews;
     private LocalDateTime dateTime;
     
     public String getFormattedDateTime() {

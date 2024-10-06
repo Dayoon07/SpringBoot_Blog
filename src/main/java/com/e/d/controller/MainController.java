@@ -44,6 +44,11 @@ public class MainController {
 		 this.noticeService = noticeService;
 	}
 	
+	@GetMapping("/welcome")
+	public String welcome() {
+		return "welcome/welcome";
+	}
+	
 	@GetMapping("/")
 	public String index(Model model) {
 		List<BlogBoardVo> list = blogBoardService.selectAllBlogs();
@@ -84,19 +89,25 @@ public class MainController {
 	
 	@PostMapping("/signup")
 	public String signup(@ModelAttribute BlogMemberVo blogMemberVo) {
-		blogMemberService.insertBlogMember(blogMemberVo);
+		try {
+			blogMemberService.insertBlogMember(blogMemberVo);
+			System.out.println(blogMemberVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("뭔진 모르겠지만 에러남");
+		}
 		return "redirect:/";
 	}
 	
 	@PostMapping("/signin")
 	public String signin(
-			@RequestParam String useremail,
+			@RequestParam String username,
 			@RequestParam String userpassword,
 			HttpSession session) {
-		BlogMemberVo loginuser = blogMemberService.selectLoginUser(useremail, userpassword);
+		BlogMemberVo loginuser = blogMemberService.selectLoginUser(username, userpassword);
 		
 		if (loginuser != null
-				&& loginuser.getUseremail().equals(useremail)
+				&& loginuser.getUsername().equals(username)
 				&& loginuser.getUserpassword().equals(userpassword)
 			) {
 			session.setAttribute("loginuser", loginuser);
@@ -116,7 +127,10 @@ public class MainController {
 	@GetMapping("/username/{username}")
 	public String userProfile(@PathVariable String username, Model model) {
 		BlogMemberVo list = blogMemberService.selectAllUserInfo(username);
-		model.addAttribute("userinfo", list);
+		if (list == null) {
+			model.addAttribute("NullUserException", "요청에 해당하는 유저가 없습니다.");
+			return "user/NullUserE";
+		} else model.addAttribute("userinfo", list);
 		return "user/userprofile";
 	}
 	

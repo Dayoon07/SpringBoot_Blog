@@ -9,14 +9,13 @@
 	    <h2>공지사항</h2>
 	    <p class="mb-5">개선 또는 서비스 점검, 새 소식을 알려 드립니다.</p>
 	    <div class="card">
-	        <div class="list-group list-group-flush" id="noticeList">
+	        <div class="list-group list-group-flush rounded-0" id="noticeList">
 	            <c:if test="${ not empty noticeList }">
 	                <c:forEach var="nl" items="${ noticeList }">
-	                    <div class="list-group-item blog-item" data-noticeid="${ nl.noticeid }">
-	                        <a href="${ cl }/notice/view?noticeid=${ nl.noticeid }">
-	                            ${ nl.noticetitle } <span style="float: right;">${ nl.formattedDate }</span>
-	                        </a>
-	                    </div>
+	                	<a href="${ cl }/notice/view?noticeid=${ nl.noticeid }"
+	                		class="list-group-item list-group-item-action rounded-0 blog-item">
+	                    	${ nl.noticetitle } <span style="float: right;">${ nl.formattedDate }</span>
+						</a>
 	                </c:forEach>
 	            </c:if>
 	            <c:if test="${ empty noticeList }">

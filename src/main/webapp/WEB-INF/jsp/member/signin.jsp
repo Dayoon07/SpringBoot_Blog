@@ -8,15 +8,15 @@
 	<section class="container mt-5">
 	    <h2 class="text-center">로그인</h2>
 	    <form action="/signin" method="post" class="w-50 mx-auto mt-4">
-	        <div class="form-group">
-	            <label for="useremail">이메일</label>
-	            <input type="email" id="useremail" name="useremail" class="form-control" placeholder="이메일" required>
+	        <div class="mb-4">
+	            <label for="username" class="form-label">이름</label>
+	            <input type="text" id="username" name="username" class="form-control" placeholder="이름" required>
 	        </div>
-	        <div class="form-group">
-	            <label for="userpassword">비밀번호</label>
+	        <div class="mb-4">
+	            <label for="userpassword" class="form-label">비밀번호</label>
 	            <input type="password" id="userpassword" name="userpassword" class="form-control" placeholder="비밀번호" required>
 	        </div>
-	        <button type="submit" class="btn btn-outline-primary btn-block">로그인</button>
+	        <button type="submit" class="btn btn-outline-primary w-100">로그인</button>
 	        <p class="mt-3 text-center">계정이 없습니까? <a href="${ cl }/signup">회원가입</a></p>
 	    </form>
 	</section>

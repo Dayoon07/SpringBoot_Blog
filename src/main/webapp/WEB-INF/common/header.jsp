@@ -40,20 +40,22 @@
 			            <c:if test="${ not empty loginuser }">
 			            	<div class="list-group rounded-0">
 				                <a class="list-group-item list-group-item-action" href="${ cl }/username/${ loginuser.username }">${ loginuser.username }님</a>
-				                <a class="list-group-item list-group-item-action" href="${ cl }/myBlog/${ loginuser.username }">내가 쓴 게시글 조회</a>
+				                <a class="list-group-item list-group-item-action" href="${ cl }/myBlog/${ loginuser.username }">작성한 글 조회</a>
 				                <a class="list-group-item list-group-item-action" href="${ cl }/blog/write">게시글 작성하기</a>
 				                <a class="list-group-item list-group-item-action" href="${ cl }/logout">로그아웃</a><br><br>
 				                <a class="list-group-item list-group-item-action" href="${ cl }/">홈</a>
+			            		<a class="list-group-item list-group-item-action" href="${ cl }/notice">공지사항</a>
 					            <a class="list-group-item list-group-item-action" href="${ cl }/welcome">소개</a>
-					            <a class="list-group-item list-group-item-action" href="#">연락처</a><br><br>
+					            <a class="list-group-item list-group-item-action" href="mailto:gangd0642@gmail.com">연락처</a><br><br>
 					            <p class="text-center">&copy; 2024 MyVlog. All rights reserved.</p>
 				            </div>
 			            </c:if>
 			            <c:if test="${ empty loginuser }">
 			            	<div class="list-group rounded-0">
 			            		<a class="list-group-item list-group-item-action" href="${ cl }/">홈</a>
+			            		<a class="list-group-item list-group-item-action" href="${ cl }/notice">공지사항</a>
 					            <a class="list-group-item list-group-item-action" href="${ cl }/welcome">소개</a>
-					            <a class="list-group-item list-group-item-action" href="#">연락처</a><br><br>
+					            <a class="list-group-item list-group-item-action" href="mailto:gangd0642@gmail.com">연락처</a><br><br>
 					            <p class="text-center">&copy; 2024 MyVlog. All rights reserved.</p>
 			            	</div>
 			            </c:if>

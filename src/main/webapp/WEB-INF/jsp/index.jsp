@@ -46,7 +46,7 @@
 	                <h3>최신 글</h3>
 	            </div>
 	            <c:forEach var="board" items="${ defaultList }" varStatus="mainPageAllBoardNumber">
-	                <c:if test="${ mainPageAllBoardNumber.index <= 10 }">
+	                <c:if test="${ mainPageAllBoardNumber.index <= 20 }">
 	                    <div class="card shadow-sm border rounded">
 	                        <div class="card-body">
 	                            <h5 class="card-title">

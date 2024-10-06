@@ -9,8 +9,7 @@
         <h2>${noticeView.noticetitle}</h2>
         <p>작성일: ${noticeView.formattedDate}</p><hr>
         <p>${noticeView.noticecontent}</p><hr><br><br>
-        <a href="/notice"><button type="button" class="btn btn-dark">목록으로 돌아가기</button></a>
+        <a href="${ cl }/notice"><button type="button" class="btn btn-dark">목록으로 돌아가기</button></a>
     </div>
-	
 
 <jsp:include page="/WEB-INF/common/footer.jsp" />

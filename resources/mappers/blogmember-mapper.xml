@@ -10,7 +10,7 @@
 	</insert>
 
 	<select id="selectLoginUser" parameterType="com.e.d.model.vo.BlogMemberVo" resultType="com.e.d.model.vo.BlogMemberVo">
-		SELECT * FROM blogmember WHERE useremail = #{useremail} AND userpassword = #{userpassword}
+		SELECT * FROM blogmember WHERE username = #{username} AND userpassword = #{userpassword}
 	</select>
 	
 	<select id="selectAllUserInfo" parameterType="String" resultType="com.e.d.model.vo.BlogMemberVo">

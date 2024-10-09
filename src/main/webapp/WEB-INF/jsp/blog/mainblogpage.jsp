@@ -15,7 +15,7 @@
 	            <c:forEach var="list" items="${ blogList }">
 	                <div class="col-md-6 mb-3 list-group">
 	                	<a href="${ cl }/blog/blogview?blogid=${ list.blogid }" class="list-group-item list-group-item-action">
-				    		<div class="w-100 d-flex justify-content-between">
+				    		<div class="w-100 d-flex justify-content-between py-2">
 				      			<h5 class="mb-1 blogTitle">${ list.title }</h5>
 				      			<small class="text-body-secondary">${ list.formattedDateTime }</small>
 				    		</div>

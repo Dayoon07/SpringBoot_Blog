@@ -2,7 +2,7 @@
 	<br>
     <footer class="bg-white py-4 border-top">
         <div class="container text-center">
-            <p><a href="#">이용약관</a> | <a href="#">개인정보처리방침</a> | <a href="#">연락처</a></p>
+            <p><a href="#">개인정보처리방침</a> | <a href="mailto:gangd0642@gmail.com">문의하기</a></p>
             <p>&copy; 2024 MyVlog(강다윤). All rights reserved.</p>
         </div>
     </footer>

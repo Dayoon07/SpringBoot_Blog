@@ -104,18 +104,19 @@ public class MainController {
 			@RequestParam String username,
 			@RequestParam String userpassword,
 			HttpSession session) {
-		BlogMemberVo loginuser = blogMemberService.selectLoginUser(username, userpassword);
+		BlogMemberVo loginuser = blogMemberService.selectLoginMember(username, userpassword);
 		
 		if (loginuser != null
 				&& loginuser.getUsername().equals(username)
 				&& loginuser.getUserpassword().equals(userpassword)
 			) {
+			System.out.println("방금 로그인한 유저의 고유 아이디는 " + loginuser.getUserId());
 			session.setAttribute("loginuser", loginuser);
+			return "redirect:/";
 		} else {
 			System.out.println("이메일이나 비번 둘 중 하나가 틀림");
 			return "redirect:/";
 		}
-		return "redirect:/";
 	}
 	
 	@GetMapping("/logout")
@@ -126,7 +127,7 @@ public class MainController {
 	
 	@GetMapping("/username/{username}")
 	public String userProfile(@PathVariable String username, Model model) {
-		BlogMemberVo list = blogMemberService.selectAllUserInfo(username);
+		BlogMemberVo list = blogMemberService.selectAllMemberInfo(username);
 		if (list == null) {
 			model.addAttribute("NullUserException", "요청에 해당하는 유저가 없습니다.");
 			return "user/NullUserE";
@@ -140,7 +141,11 @@ public class MainController {
 		return "blog/blogview";
 	}
 	
-	
+	@PostMapping("/updateMemberInfo")
+    public String updateMemberInfo(@ModelAttribute BlogMemberVo blogMemberVo) {
+        blogMemberService.updateMemberInfo(blogMemberVo);
+        return "index";
+    }
 	
 	
 	

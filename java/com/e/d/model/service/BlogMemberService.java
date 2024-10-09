@@ -20,13 +20,32 @@ public class BlogMemberService implements BlogMemberMapper {
 	}
 	
 	@Override
-	public BlogMemberVo selectLoginUser(String username, String userpassword) {
-		return mapper.selectLoginUser(username, userpassword);
+	public BlogMemberVo selectLoginMember(String username, String userpassword) {
+		return mapper.selectLoginMember(username, userpassword);
 	}
 	
 	@Override
-	public BlogMemberVo selectAllUserInfo(String username) {
-		return mapper.selectAllUserInfo(username);
+	public BlogMemberVo selectAllMemberInfo(String username) {
+		return mapper.selectAllMemberInfo(username);
+	}
+
+	@Override
+	public int updateMemberInfo(BlogMemberVo blogMemberVo) {
+        if (blogMemberVo.getUsername() != null && blogMemberVo.getUsername().isEmpty()) {
+            blogMemberVo.setUsername(null);
+        }
+        if (blogMemberVo.getUserpassword() != null && blogMemberVo.getUserpassword().isEmpty()) {
+            blogMemberVo.setUserpassword(null);
+        }
+        if (blogMemberVo.getProfiletext() != null && blogMemberVo.getProfiletext().isEmpty()) {
+            blogMemberVo.setProfiletext(null);
+        }
+        return mapper.updateMemberInfo(blogMemberVo);
+    }
+	
+	@Override
+	public void deleteBlogmember(int userId) {
+		mapper.deleteBlogmember(userId);
 	}
 	
 }

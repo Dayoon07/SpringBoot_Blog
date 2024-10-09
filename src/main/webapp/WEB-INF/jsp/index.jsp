@@ -17,11 +17,21 @@
 	                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
 	                </div>
 	                <div class="carousel-inner">
-	                    <div class="carousel-item active"><img src="${ cl }/img/img-1.jpg" class="d-block w-100"></div>
-	                    <div class="carousel-item"><img src="${ cl }/img/img-2.jpg" class="d-block w-100"></div>
-	                    <div class="carousel-item"><img src="${ cl }/img/img-3.jpg" class="d-block w-100"></div>
-	                    <div class="carousel-item"><img src="${ cl }/img/img-4.jpg" class="d-block w-100"></div>
-	                    <div class="carousel-item"><img src="${ cl }/img/img-5.jpg" class="d-block w-100"></div>
+	                    <div class="carousel-item active">
+	                        <img src="${ cl }/img/img-1.jpg" class="d-block w-100">
+	                    </div>
+	                    <div class="carousel-item">
+	                        <img src="${ cl }/img/img-2.jpg" class="d-block w-100">
+	                    </div>
+	                    <div class="carousel-item">
+	                        <img src="${ cl }/img/img-3.jpg" class="d-block w-100">
+	                    </div>
+	                    <div class="carousel-item">
+	                        <img src="${ cl }/img/img-4.jpg" class="d-block w-100">
+	                    </div>
+	                    <div class="carousel-item">
+	                        <img src="${ cl }/img/img-5.jpg" class="d-block w-100">
+	                    </div>
 	                </div>
 	                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
 	                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -65,6 +75,7 @@
 	                        <p style="font-size: large;">${ loginuser.useremail }</p>
 	                        <a href="${ cl }/logout"><button type="button" class="btn btn-dark w-100">로그아웃</button></a><hr>
 	                        <h5><a href="${ cl }/blog">블로그</a></h5><hr>
+	                        <h5><a href="${ cl }/blog/write">글 작성하기</a></h5><hr>
 	                        <h5><a href="${ cl }/notice">공지사항</a></h5><hr>
 	                        <h5><a href="#">프로모션</a></h5>
 	                    </c:if>

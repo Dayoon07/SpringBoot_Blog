@@ -9,12 +9,21 @@
 	    VALUES (#{username}, #{useremail}, #{userpassword}, <if test="profiletext != null">#{profiletext}</if>)
 	</insert>
 
-	<select id="selectLoginUser" parameterType="com.e.d.model.vo.BlogMemberVo" resultType="com.e.d.model.vo.BlogMemberVo">
+	<select id="selectLoginMember" parameterType="com.e.d.model.vo.BlogMemberVo" resultType="com.e.d.model.vo.BlogMemberVo">
 		SELECT * FROM blogmember WHERE username = #{username} AND userpassword = #{userpassword}
 	</select>
 	
-	<select id="selectAllUserInfo" parameterType="String" resultType="com.e.d.model.vo.BlogMemberVo">
+	<select id="selectAllMemberInfo" parameterType="String" resultType="com.e.d.model.vo.BlogMemberVo">
 		SELECT * FROM blogmember WHERE username = #{username}
 	</select>
+	
+	<update id="updateMemberInfo" parameterType="com.e.d.model.vo.BlogMemberVo">
+        UPDATE blogmember <set>
+            <if test="username != null"> username = #{username}, </if>
+            <if test="userpassword != null"> userpassword = #{userpassword}, </if>
+            <if test="profiletext != null"> profiletext = #{profiletext}, </if>
+		</set>
+        WHERE userId = #{userId}
+    </update>
 	
 </mapper>

@@ -1,6 +1,7 @@
 package com.e.d.controller;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -147,7 +148,12 @@ public class MainController {
         return "index";
     }
 	
-	
+	@PostMapping("/dropMemberInfo")
+	public String deleteBlogmember(@RequestParam int userId, HttpSession session) {
+	    blogMemberService.deleteBlogmember(userId);
+	    session.invalidate();
+	    return "index";
+	}
 	
 	
 	

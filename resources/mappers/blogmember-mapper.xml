@@ -25,5 +25,9 @@
 		</set>
         WHERE userId = #{userId}
     </update>
+    
+    <delete id="deleteBlogmember" parameterType="int">
+    	DELETE FROM blogmember WHERE userId = #{userId}
+    </delete>
 	
 </mapper>

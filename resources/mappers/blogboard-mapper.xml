@@ -9,7 +9,8 @@
 	</select>
 	
 	<insert id="insertBlog" parameterType="String">
-		INSERT INTO blogboard (writer, title, blogcontent) VALUES(#{writer}, #{title}, #{blogcontent})
+		INSERT INTO blogboard (writer, title, blogcontent)
+		VALUES(#{writer}, #{title}, #{blogcontent})
 	</insert>
 	
 	<select id="selectBoardIdBlog" parameterType="int" resultType="com.e.d.model.vo.BlogBoardVo">

@@ -7,7 +7,7 @@
 
 	<section class="container mt-5">
 	    <h2 class="text-center">회원가입</h2>
-	    <form action="/signup" method="post" class="w-50 mx-auto mt-4">
+	    <form action="${ cl }/signup" method="post" class="w-50 mx-auto mt-4">
 	        <div class="mb-4">
 	            <label for="username" class="form-label">사용자이름</label>
 	            <input type="text" id="username" name="username" class="form-control" placeholder="사용자이름" required>

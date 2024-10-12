@@ -1,9 +1,9 @@
 package com.e.d.controller;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +26,23 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class MainController {
 	
+	@Autowired
 	private BlogBoardService blogBoardService;
+	
+	@Autowired
 	private BlogCommentService blogCommentService;
+	
+	@Autowired
 	private BlogLikeService blogLikeService;
+	
+	@Autowired
 	private BlogMemberService blogMemberService;
+	
+	@Autowired
 	private NoticeService noticeService;
 	
-	public MainController(
+	/** ↓ 에 있는 생성자 주입 방식은 너무 읽기 싫음 */
+	/* public MainController(
 			BlogBoardService blogBoardService,
 			BlogCommentService blogCommentService,
 			BlogLikeService blogLikeService,
@@ -43,7 +53,7 @@ public class MainController {
 		 this.blogLikeService = blogLikeService;
 		 this.blogMemberService = blogMemberService;
 		 this.noticeService = noticeService;
-	}
+	} */
 	
 	@GetMapping("/welcome")
 	public String welcome() {
@@ -88,6 +98,23 @@ public class MainController {
 		return "redirect:/blog";
 	}
 	
+	@GetMapping("/myBlog/{username}")
+	public String myBlogSelectMethod(@PathVariable String username, Model model, HttpSession session) {
+	    // HttpSession에서 BlogMemberVo 객체 가져오기
+	    BlogMemberVo loggedInUser = (BlogMemberVo) session.getAttribute("loginuser");
+
+	    // null 체크 및 writer 값 확인
+	    // 설명 : 로그인한 사용자가 맞는지 그리고 모든 글에서 writer가 사용자의 이름인지 확인 로그인을 하지 않으면 error 페이지로 이동
+	    if (loggedInUser != null && loggedInUser.getUsername().equals(username)) {
+	        List<BlogBoardVo> list = blogBoardService.selectByBlogWriter(loggedInUser.getUsername());
+	        model.addAttribute("selectByUserBlog", list);
+	        return "user/myBlog";
+	    } else {
+	        model.addAttribute("NotWriterUserException", "이 블로그를 볼 수 있는 권한이 없습니다.");
+	        return "user/NotWriterUserException";
+	    }
+	}
+	
 	@PostMapping("/signup")
 	public String signup(@ModelAttribute BlogMemberVo blogMemberVo) {
 		try {
@@ -111,7 +138,6 @@ public class MainController {
 				&& loginuser.getUsername().equals(username)
 				&& loginuser.getUserpassword().equals(userpassword)
 			) {
-			System.out.println("방금 로그인한 유저의 고유 아이디는 " + loginuser.getUserId());
 			session.setAttribute("loginuser", loginuser);
 			return "redirect:/";
 		} else {
@@ -145,21 +171,21 @@ public class MainController {
 	@PostMapping("/updateMemberInfo")
     public String updateMemberInfo(@ModelAttribute BlogMemberVo blogMemberVo) {
         blogMemberService.updateMemberInfo(blogMemberVo);
-        return "index";
+        return "redirect:/";
     }
 	
 	@PostMapping("/dropMemberInfo")
-	public String deleteBlogmember(@RequestParam int userId, HttpSession session) {
+	public String deleteBlogmember(@RequestParam int userId) {
 	    blogMemberService.deleteBlogmember(userId);
-	    session.invalidate();
-	    return "index";
+	    System.out.println(userId + "가 사라짐");
+	    return "redirect:/index";
 	}
 	
-	
-	
-	
-	
-	
+	@PostMapping("/myblogViewUpdate")
+	public String myblogViewUpdate(@ModelAttribute BlogBoardVo blogBoardVo) {
+		blogBoardService.updateOnlyMyBlog(blogBoardVo);
+		return "redirect:/";
+	}
 	
 	
 	

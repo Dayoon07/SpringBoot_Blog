@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>블로그 페이지 | (나혼자서만듬)</title>
-    <link rel="stylesheet" href="/css/bootstrap.5.3.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -52,6 +52,8 @@
 			            </c:if>
 			            <c:if test="${ empty loginuser }">
 			            	<div class="list-group rounded-0">
+			            		<a class="list-group-item list-group-item-action" href="${ cl }/signin">로그인</a>
+			            		<a class="list-group-item list-group-item-action" href="${ cl }/signup">회원가입</a><br><br>
 			            		<a class="list-group-item list-group-item-action" href="${ cl }/">홈</a>
 			            		<a class="list-group-item list-group-item-action" href="${ cl }/notice">공지사항</a>
 					            <a class="list-group-item list-group-item-action" href="${ cl }/welcome">소개</a>

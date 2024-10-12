@@ -31,4 +31,20 @@ public class BlogBoardService implements BlogBoardMapper {
 		return mapper.selectBoardIdBlog(boardId);
 	}
 	
+	@Override
+	public List<BlogBoardVo> selectByBlogWriter(String writer) {
+		return mapper.selectByBlogWriter(writer);
+	}
+	
+	@Override
+	public void updateOnlyMyBlog(BlogBoardVo blogBoardVo) {
+	    if (blogBoardVo.getTitle() != null && blogBoardVo.getTitle().isEmpty()) {
+	        blogBoardVo.setTitle(null);
+	    }
+	    if (blogBoardVo.getBlogContent() != null && blogBoardVo.getBlogContent().isEmpty()) {
+	        blogBoardVo.setBlogContent(null);
+	    }
+	    mapper.updateOnlyMyBlog(blogBoardVo);
+	}
+	
 }

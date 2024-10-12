@@ -17,4 +17,18 @@
 		SELECT * FROM blogboard WHERE blogid = #{blogid}
 	</select>
 	
+	<select id="selectByBlogWriter" resultType="com.e.d.model.vo.BlogBoardVo">
+		SELECT * FROM blogboard WHERE writer = #{writer}
+	</select>
+	
+	<update id="updateOnlyMyBlog" parameterType="com.e.d.model.vo.BlogBoardVo">
+	    UPDATE blogboard
+	    <set>
+            <if test="title != null"> title = #{title}, </if>
+            <if test="blogContent != null"> blogContent = #{blogContent} </if>
+		</set>
+	    WHERE blogid = #{blogid}
+	</update>
+
+	
 </mapper>

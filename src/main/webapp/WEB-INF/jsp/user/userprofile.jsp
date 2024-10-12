@@ -44,8 +44,8 @@
 			                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			                </div>
 			                <div class="modal-body">
-			                    고유 아이디 <input type="hidden" name="userId" value="${ userinfo.userId }"><br>
-			                    정말로 회원 탈퇴를 하시겠습니까?
+			                   	<input type="hidden" name="userId" id="userId" value="${ userinfo.userId }">
+			                    정말로 회원 탈퇴를 하시겠습니까
 			                </div>
 			                <div class="modal-footer">
 			                    <button type="button" class="btn btn-outline-primary w-25" data-bs-dismiss="modal">취소</button>

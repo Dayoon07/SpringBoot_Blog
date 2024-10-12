@@ -6,43 +6,55 @@
 <jsp:include page="/WEB-INF/common/header.jsp" />
 
  	<div class="container mt-5">
-		<h2 class="card-title mb-3">${ blogNum.title }</h2>
-		<h6 class="card-subtitle mb-2 text-muted">
-			<a href="${ cl }/username/${ blogNum.writer }">작성자: ${ blogNum.writer }</a><br>
-			<span>작성일 : ${ blogNum.formattedDateTime }</span>
-		</h6>
-        <p class="card-text mt-4">${ blogNum.blogContent }</p>
-        <div class="mt-3 mb-5">
-        	<!-- <h6>첨부파일:</h6>
-            <a href="${ board.fileUrl }" download>${ board.fileName }</a> -->
-		</div><hr>
+		<c:if test="${ blogNum.writer == sessionScope.loginuser.username }">
+		    <form action="${ cl }/myblogViewUpdate" method="post" autocomplete="off">
+		    	<div class="d-flex flex-row mb-3">
+		    		<button type="submit" class="btn btn-outline-primary px-3">수정하기</button>
+			    </div>
+			    <div class="input-group input-group-lg">
+				  	<input type="text" id="title" name="title" value="${ blogNum.title }" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+				</div>
+				<h6 class="card-subtitle mb-2 text-muted">
+					<a href="${ cl }/username/${ blogNum.writer }">작성자: ${ blogNum.writer }</a><br>
+					<span>작성일 : ${ blogNum.formattedDateTime }</span>
+				</h6>
+				<div class="mb-3">
+				  	<textarea class="form-control" id="blogContent" name="blogContent" rows="3">${ blogNum.blogContent }</textarea>
+				</div>
+		        <div class="mt-3 mb-5">
+		        	<!-- <h6>첨부파일:</h6>
+		            <a href="${ board.fileUrl }" download>${ board.fileName }</a> -->
+				</div>
+		    </form>
+		    <div class="mt-4 mb-4">
+	            <a href="${ cl }/blog" class="btn btn-dark" style="float: right;">목록으로 바로가기</a>
+	        </div><br>
+		</c:if>
+		<c:if test="${ blogNum.writer != sessionScope.loginuser.username  }">
+			<h2 class="card-title mb-3">${ blogNum.title }</h2>
+			<h6 class="card-subtitle mb-2 text-muted">
+				<a href="${ cl }/username/${ blogNum.writer }">작성자: ${ blogNum.writer }</a><br>
+				<span>작성일 : ${ blogNum.formattedDateTime }</span>
+			</h6>
+	        <p class="card-text mt-4">${ blogNum.blogContent }</p>
+	        <div class="mt-3 mb-5">
+	        	<!-- <h6>첨부파일:</h6>
+	            <a href="${ board.fileUrl }" download>${ board.fileName }</a> -->
+			</div>
+			<div class="mt-4 mb-4">
+	            <a href="${ cl }/blog" class="btn btn-dark" style="float: right;">목록으로 바로가기</a>
+	        </div><br>
+		</c:if>
         <div class="card border-0">
 			<h5 class="card-title m-0">댓글 OO개</h5>
                 
             <form action="/addComment" method="post" class="mt-4">
 				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-				    	<button type="submit" class="btn btn-dark rounded-0">댓글 달기</button>
-				  	</div>
-				 	<input type="text" id="ytd-btn">
+					<button type="submit" class="btn btn-dark">댓글작성</button>
+				  	<input type="text" class="form-control" id="notFocus" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
 				</div>
-			</form>
-
-                <!-- 댓글 리스트 -->
-                <!-- <ul class="list-group list-group-flush">
-                    <c:forEach var="comment" items="${ board.comments }">
-                        <li class="list-group-item">
-                            <strong>${ comment.writer }</strong> <span class="text-muted">${ comment.formattedDateTime }</span>
-                            <p class="mt-2">${ comment.content }</p>
-                        </li>
-                    </c:forEach>
-                </ul> -->                
+			</form>             
 		</div>
-
-        <!-- 뒤로 가기 버튼 -->
-        <div class="mt-4">
-            <a href="${ cl }/blog" class="btn btn-dark">목록으로 바로가기</a>
-        </div>
     </div>
 
 <jsp:include page="/WEB-INF/common/footer.jsp" />

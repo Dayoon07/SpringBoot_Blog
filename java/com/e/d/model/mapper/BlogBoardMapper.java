@@ -11,4 +11,6 @@ public interface BlogBoardMapper {
 	List<BlogBoardVo> selectAllBlogs();
 	void insertBlog(String writer, String title, String blogcontent);
 	BlogBoardVo selectBoardIdBlog(int boardId);
+	List<BlogBoardVo> selectByBlogWriter(String writer);
+	void updateOnlyMyBlog(BlogBoardVo blogBoardVo);
 }

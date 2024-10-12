@@ -7,7 +7,7 @@
 
 	<div class="container mt-5">
         <h2 class="mb-4">글 작성하기</h2>
-        <form action="/blogWrite" method="post" autocomplete="off">
+        <form action="${ cl }/blogWrite" method="post" autocomplete="off">
             <div class="mb-3">
                 <label for="writer" class="form-label">제목</label>
                 <input type="text" class="form-control" id="writer" name="writer" placeholder="작성자" value="${ loginuser.username }" required readonly>

@@ -8,7 +8,7 @@ import com.e.d.model.vo.BlogMemberVo;
 @Mapper
 public interface BlogMemberMapper {
 	void insertBlogMember(BlogMemberVo memberVo);
-	void deleteBlogmember(int userId);
+	void deleteBlogmember(@Param("userId") int userId);
 	
 	BlogMemberVo selectLoginMember(@Param("username") String username, @Param("userpassword") String userpassword);
 	BlogMemberVo selectAllMemberInfo(String username);

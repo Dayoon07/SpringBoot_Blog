@@ -140,8 +140,7 @@ public class MainController {
 
 	    if (!username.isEmpty() && username.equals(member.get().getUsername())) {
 	        model.addAttribute("userProfileList", member.get());
-	        model.addAttribute("userProfileName", member.get().getUsername().trim().toUpperCase().substring(1));
-	        log.info(member.get().getUsername().trim().toUpperCase().substring(1));
+	        model.addAttribute("userProfileName", member.get().getUsername().trim().toUpperCase().substring(0, 1));
 	        return "user/profile";
 	    } else if (username == null || username.isEmpty()) {
 	        return "e/UserNotFound";

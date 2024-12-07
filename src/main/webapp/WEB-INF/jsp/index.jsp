@@ -74,7 +74,7 @@
 			      			<div class="w-10 h-10 bg-gray-500 text-white rounded-full flex justify-center items-center">${ blog.writer.substring(0, 1) }</div>
 			      			<div class="ml-3 flex justify-between items-center">
 			        			<p class="text-xl font-medium mr-3">${ blog.writer }</p>
-			        			<p class="text-md text-gray-500">
+			        			<!-- <p class="text-md text-gray-500">
 								    <c:choose>
 								        <c:when test="${ blog.datetime.substring(0, 4) == '2024' }">
 								            ${ blog.datetime.substring(6) }
@@ -83,10 +83,16 @@
 								            ${ blog.datetime }
 								        </c:otherwise>
 								    </c:choose>
+								</p> -->
+								<p class="text-md text-gray-500">
+								    ${ blog.datetime.length() >= 6 && blog.datetime.substring(0, 4) == '2024' ? blog.datetime.substring(6) : blog.datetime }
 								</p>
 			      			</div>
 			    		</div>
-			    		<p class="text-xl text-gray-800 mb-3">${ blog.content }</p>
+			    		<p class="text-xl text-gray-800 mb-3">${ blog.title }</p><br>
+			    		<p class="text-xl text-gray-800 mb-3">
+			    			${ blog.content.length() > 100 ? blog.content.substring(0, 100) + "..." : blog.content }
+						</p>
 						<div class="flex space-x-4 text-lg text-gray-500">
 				      		<button class="hover:text-gray-800">👍 좋아요 ${ blog.likes }</button>
 				      		<button class="hover:text-gray-800">💬 댓글 </button>

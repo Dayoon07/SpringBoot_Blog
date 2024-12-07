@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <c:set var="cl" value="${ pageContext.request.contextPath }" />
 
-	<header class="w-full py-4 pl-10 shadow-md flex justify-between items-center">
+	<header class="w-full py-4 pl-10 shadow-md flex justify-between items-center" id="header">
 		<div class="flex justify-between items-center">
 			<a href="${ cl }/" class="text-2xl">네이버 가고 싶지는 않아</a>
 		</div>
@@ -31,32 +31,32 @@
 			</div>
 		</c:if>
 		<c:if test="${ not empty sessionScope.userSession }">
-			<div class="flex justify-between items-center pr-10">
-				<a href="${ cl }/profile/${ sessionScope.userSession.username }">
+			<div class="flex justify-between items-center mr-10">
+				<a href="${ cl }/profile/${ sessionScope.userSession.username }" class="text-lg">
 					${ sessionScope.userSession.username }님
 				</a>
 				<button type="button" class="text-3xl ml-5" onclick="openSide()">&#9776;</button>
-				<!-- 사이드바 구조 -->
-				<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-lg bg-gray-900 hidden z-50">
-					<div style="height: 64px;" class="flex justify-end items-center shadow-lg">
-						<button type="button" class="text-3xl mr-10 text-white" onclick="closeSide()">&#9776;</button>
-					</div>
-				    <nav>
-				        <ul>
-				            <li><a href="${ cl }/" class="flex items-center w-full p-2 text-gray-900 transition duration-75 pl-11 group 
-								hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">홈</a></li>
-				            <li><a href="${ cl }/profile/${ sessionScope.userSession.username }" class="flex items-center w-full p-2 text-gray-900 transition duration-75 pl-11 group 
-								hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">프로필</a></li>
-							<li><a href="${ cl }/board/write" class="flex items-center w-full p-2 text-gray-900 transition duration-75 pl-11 group 
-								hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">글 작성</a></li>
-				        </ul><br>
-				        <form action="${ cl }/logout" method="post" autocomplete="off">
-							<input type="hidden" name="memberid" id="memberid" value="${ sessionScope.userSession.memberid }" required readonly>
-							<button type="submit" class="w-full p-2 text-gray-900 transition duration-75 pl-11 group text-left 
-								hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">로그아웃</button>
-						</form>
-				    </nav>
-				</aside>
 			</div>
+			<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-lg bg-gray-900 hidden z-50">
+				<div style="height: 64px;" class="flex justify-end items-center shadow-lg">
+					<button type="button" class="text-3xl mr-10 text-white" onclick="closeSide()">&#9776;</button>
+				</div>
+				<nav>
+					<ul>
+				    	<li><a href="${ cl }/" class="flex items-center w-full p-2 text-gray-900 transition duration-75 pl-11 group 
+							hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">홈</a></li>
+						<li><a href="${ cl }/profile/${ sessionScope.userSession.username }" class="flex items-center w-full p-2 text-gray-900 
+							transition duration-75 pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white 
+							hover:text-black text-xl">프로필</a></li>
+						<li><a href="${ cl }/board/write" class="flex items-center w-full p-2 text-gray-900 transition duration-75 pl-11 group 
+							hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">글 작성</a></li>
+					</ul><br>
+				    <form action="${ cl }/logout" method="post" autocomplete="off">
+						<input type="hidden" name="memberid" id="memberid" value="${ sessionScope.userSession.memberid }" required readonly>
+						<button type="submit" class="w-full p-2 text-gray-900 transition duration-75 pl-11 group text-left 
+							hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">로그아웃</button>
+					</form>
+				</nav>
+			</aside>
 		</c:if>
 	</header>

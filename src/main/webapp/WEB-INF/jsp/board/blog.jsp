@@ -102,14 +102,7 @@
 		          		</td>
 		          		<td class="px-4 py-2 text-sm text-gray-900 border-b">${ pb.writer }</td>
 		          		<td class="px-4 py-2 text-sm text-gray-900 border-b">
-		          			<c:choose>
-								<c:when test="${ pb.datetime.substring(0, 4) == '2024' }">
-									${ pb.datetime.substring(6) }
-								</c:when>
-								<c:otherwise>
-									${ pb.datetime }
-								</c:otherwise>
-							</c:choose>	
+							${ pb.datetime.length() >= 6 && pb.datetime.substring(0, 4) == '2024' ? pb.datetime.substring(6) : pb.datetime }
 		          		</td>
 		          		<td class="px-4 py-2 text-sm text-gray-900 border-b">${ pb.views }</td>
 		        	</tr>

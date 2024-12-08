@@ -126,7 +126,7 @@ public class MainController {
 	    
 	    if (user != null && user.getMemberid() == memberid) {
 	    	try {
-	    		session.invalidate(); // 세션 무효화
+	    		session.invalidate();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

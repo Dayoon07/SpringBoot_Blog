@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <c:set var="cl" value="${ pageContext.request.contextPath }" />
 
-	<div style="position: fixed; right: 10px; bottom: 10px; width: auto; height: auto; cursor: pointer;">
+	<div style="position: fixed; right: 10px; bottom: 10px; width: 55px; height: auto; cursor: pointer;">
 		<button type="button" class="text-xl px-4 py-2 border border-gray-300" onclick="onPageTop()">▲</button>
 		<button type="button" class="text-xl px-4 py-2 border border-gray-300" onclick="onPageBottom()">▼</button>
 	</div>

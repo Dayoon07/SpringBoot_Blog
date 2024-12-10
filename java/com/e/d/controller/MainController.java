@@ -126,7 +126,7 @@ public class MainController {
 	    
 	    if (user != null && user.getMemberid() == memberid) {
 	    	try {
-	    		session.invalidate();
+	    		session.invalidate(); // 세션 무효화
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -135,17 +135,21 @@ public class MainController {
 	}
 	
 	@GetMapping("/profile/{username}")
-	String userProfile(@PathVariable String username, Model model) {
-	    Optional<MemberEntity> member = memberRepository.findByUsername(username);
-
-	    if (!username.isEmpty() && username.equals(member.get().getUsername())) {
-	        model.addAttribute("userProfileList", member.get());
-	        model.addAttribute("userProfileName", member.get().getUsername().trim().toUpperCase().substring(0, 1));
-	        return "user/profile";
-	    } else if (username == null || username.isEmpty()) {
+	public String userProfile(@PathVariable String username, Model model) {
+	    if (username == null || username.isEmpty()) {
+	        model.addAttribute("UserNotFoundErrorMessage", "존재하지 않는 유저이거나 삭제된 유저입니다.");
 	        return "e/UserNotFound";
+	    }
+
+	    Optional<MemberEntity> member = memberRepository.findByUsername(username);
+	    if (member.isPresent()) {
+	        MemberEntity user = member.get();
+	        model.addAttribute("userProfileList", user);
+	        model.addAttribute("userProfileName", user.getUsername().trim().toUpperCase().substring(0, 1));
+	        return "user/profile";
 	    } else {
-	    	return "e/UserNotFound";
+	        model.addAttribute("UserNotFoundErrorMessage", "존재하지 않는 유저이거나 삭제된 유저입니다.");
+	        return "e/UserNotFound";
 	    }
 	}
 	

@@ -1,9 +1,9 @@
 function onPageTop() {
-	window.onscroll({ top : 0, behavior: 'smooth' });
+	window.scrollTo({ top : 0 });
 }
 
 function onPageBottom() {
-	window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+	window.scrollTo({ top: document.body.scrollHeight });
 }
 
 function a() {

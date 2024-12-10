@@ -19,7 +19,7 @@
         			${ particularBlog.writer.substring(0, 1) }
         		</div>
         		<div class="ml-3">
-          			<h4 class="text-2xl font-medium">${ particularBlog.writer }</h4>
+          			<a href="${ cl }/profile/${ particularBlog.writer }" class="text-2xl font-medium">${ particularBlog.writer }</a>
           			<p class="text-xl text-indigo-200">
           				<c:choose>
 							<c:when test="${ particularBlog.datetime.substring(0, 4) == '2024' }">

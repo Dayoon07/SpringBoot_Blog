@@ -7,10 +7,14 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>title</title>
+	<title>${ UserNotFoundErrorMessage }</title>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/common/header.jsp" />
+	
+	<h1 class="text-3xl text-center mt-20 my-32">
+		${ UserNotFoundErrorMessage }
+	</h1>
 	
 	<jsp:include page="/WEB-INF/common/footer.jsp" />
 </body>

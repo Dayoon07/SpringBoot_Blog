@@ -35,7 +35,7 @@
     <td>clob</td>
     <td>없음</td>
   </tr>
-</table><br><br>
+</table><br>
 
 <h4>blogboard 테이블</h4>
 <table>
@@ -84,7 +84,7 @@
     <td>varchar2(255)</td>
     <td>not null</td>
   </tr>
-</table><br><br>
+</table><br>
 
 <h4>blogcomment 테이블</h4>
 <table>

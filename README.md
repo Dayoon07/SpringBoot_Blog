@@ -1,4 +1,4 @@
-<h4>blogmember 테이블</h4>
+<h3>blogmember 테이블</h3>
 <table>
   <tr>
     <td>필드명</td>
@@ -37,7 +37,7 @@
   </tr>
 </table><br>
 
-<h4>blogboard 테이블</h4>
+<h3>blogboard 테이블</h3>
 <table>
   <tr>
     <td>필드명</td>
@@ -86,7 +86,7 @@
   </tr>
 </table><br>
 
-<h4>blogcomment 테이블</h4>
+<h3>blogcomment 테이블</h3>
 <table>
   <tr>
     <td>필드명</td>

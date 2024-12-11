@@ -40,6 +40,11 @@
 <h4>blogboard 테이블</h4>
 <table>
   <tr>
+    <td>필드명</td>
+    <td>타입</td>
+    <td>제약조건</td>
+  </tr>
+  <tr>
     <td>blog_id</td>
     <td>number</td>
     <td>generated</td>
@@ -83,6 +88,11 @@
 
 <h4>blogcomment 테이블</h4>
 <table>
+  <tr>
+    <td>필드명</td>
+    <td>타입</td>
+    <td>제약조건</td>
+  </tr>
   <tr>
     <td>commentid</td>
     <td>number</td>

@@ -178,10 +178,39 @@ public class MainController {
 	@GetMapping("/blog/board")
 	String particularBoard(@RequestParam long blogid,
 			@RequestParam String writer,
-			@RequestParam String title, Model model) {
-		model.addAttribute("particularBlog", boardRepository.findById(blogid).get());
-		model.addAttribute("particularBlogAndFindAllBlogs", boardRepository.findAll(Sort.by(Sort.Direction.DESC, "blogid")));
-		return "board/blog";
+			@RequestParam String title,
+			HttpSession session,
+			Model model) {
+		Optional<BoardEntity> optionalBlog = boardRepository.findById(blogid);
+		MemberEntity member = (MemberEntity) session.getAttribute("userSession");
+		BoardEntity blog = optionalBlog.get();
+		
+		if (!optionalBlog.isPresent()) {
+			model.addAttribute("NotFoundBlog", "존재하지 않는 글입니다.");
+			return "e/NotFoundBlog";
+		}
+		
+	    if (member == null) {
+	    	blog.setViews(blog.getViews());
+	    	
+	    	model.addAttribute("particularBlog", blog);
+			model.addAttribute("particularBlogAndFindAllBlogs", boardRepository.findAll(Sort.by(Sort.Direction.DESC, "blogid")));
+			return "board/blog";
+	    } else {
+	    	// 조회수 증가
+		    blog.setViews(blog.getViews() + 1);
+		    boardRepository.save(blog);
+		    
+		    model.addAttribute("particularBlog", blog);
+			model.addAttribute("particularBlogAndFindAllBlogs", boardRepository.findAll(Sort.by(Sort.Direction.DESC, "blogid")));
+			return "board/blog";
+	    }
+	}
+	
+	@PostMapping("/blogLike")
+	String blogLike() {
+		
+		return "redirect:/";
 	}
 	
 

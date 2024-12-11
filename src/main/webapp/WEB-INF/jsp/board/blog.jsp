@@ -50,9 +50,11 @@
     	</div>
 
     	<div class="flex justify-between items-center border-t border-gray-200 px-6 py-4">
-      		<button class="flex items-center text-sm text-gray-500 hover:text-gray-900">
-      			👍 <span class="ml-1">좋아요 ${ particularBlog.likes }</span>
-      		</button>
+      		<form action="${ cl }/blogLike?blogid=${ particularBlog.blogid }">
+      			<button type="submit" class="flex items-center text-sm text-gray-500 hover:text-gray-900">
+	      			👍 <span class="ml-1">좋아요 ${ particularBlog.likes }</span>
+	      		</button>
+      		</form>
       		<button class="flex items-center text-sm text-gray-500 hover:text-gray-900">
       			💬 <span class="ml-1">댓글</span>
       		</button>
@@ -60,13 +62,13 @@
 
     	<div class="p-6 border-t border-gray-200">
       		<h3 class="text-lg font-semibold text-gray-800">댓글</h3>
-        	<div class="mt-4 flex justify-between">
-          		<textarea class="w-4/5 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none text-lg"
-          			placeholder="댓글을 작성하세요" rows="1"></textarea>
-          		<button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-            		댓글 작성
-          		</button>
-        	</div>
+      		
+      		<form action="${ cl }/comment" method="post" autocomplete="off" class="mt-3 mb-2">
+      			<textarea rows="2" cols="55" name="commentcontent" placeholder="댓글 추가..." class="px-3 py-2 border 
+      				border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea><br>
+      			<button type="submit" class="border border-gray-300 px-5 py-2 hover:bg-gray-200">댓글 작성</button>
+      		</form>
+      		
       		<div class="mt-4 space-y-4">
         		<div class="flex items-start">
 	          		<img src="https://via.placeholder.com/40" alt="프로필 사진" class="w-10 h-10 rounded-full">
@@ -81,7 +83,10 @@
 	</div>
 	
 	<div class="max-w-3xl mx-auto bg-white shadow-md overflow-hidden">
-  		<div class="p-4 bg-blue-500 text-white font-bold text-lg">최신 블로그 목록</div>
+  		<div class="p-4 bg-blue-500 text-white font-bold text-lg">
+  			최신 블로그 목록
+  		</div>
+  		
   		<table class="w-full border-collapse border-t">
     		<thead class="bg-gray-100">
       			<tr>

@@ -1,0 +1,27 @@
+<table>
+  <tr>
+    <td>필드명</td>
+    <td>타입</td>
+    <td>제약조건</td>
+  </tr>
+  <tr>
+    <td>memberid</td>
+    <td>number</td>
+    <td>generated</td>
+  </tr>
+  <tr>
+    <td>username</td>
+    <td>varchar2(255)</td>
+    <td>unique, not null</td>
+  </tr>
+  <tr>
+    <td>필드명</td>
+    <td>타입</td>
+    <td>제약조건</td>
+  </tr>
+  <tr>
+    <td>필드명</td>
+    <td>타입</td>
+    <td>제약조건</td>
+  </tr>
+</table>

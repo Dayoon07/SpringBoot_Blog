@@ -1,5 +1,8 @@
 package com.e.d.model.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,4 +39,17 @@ public class BoardEntity {
 	
 	@Column(name = "datetime", nullable = false)
 	private String datetime;
+	
+	@Column(name = "commentcount")
+	private long commentCount;
+	
+	@ElementCollection
+	@CollectionTable(name = "BOARD_LIKES_BY_USER", joinColumns = @JoinColumn(name = "blog_id"))
+	@Column(name = "user_id")
+	private Set<Long> likesByUser = new HashSet<>();
+	
+	public void incrementViews() {
+        this.views++;
+    }
+	
 }

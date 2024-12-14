@@ -4,9 +4,9 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <c:set var="cl" value="${ pageContext.request.contextPath }" />
 
-	<header class="w-full py-4 pl-10 shadow-md flex justify-between items-center" id="header">
+	<header class="w-full p-2 pl-10 bg-white border-b flex justify-between items-center" id="header" style="height: 60px;">
 		<div class="flex justify-between items-center">
-			<a href="${ cl }/" class="text-2xl">네이버 가고 싶지는 않아</a>
+			<a href="${ cl }/" class="text-2xl text-blue-600">벨로그 vs 블로그</a>
 		</div>
 		
 		<!-- <form action="${ cl }/search" method="get" autocomplete="on" 
@@ -25,20 +25,24 @@
 		</form> -->
 		
 		<c:if test="${ empty sessionScope.userSession }">
-			<div class="flex justify-between absolute top-0 right-0" style="height: 64px;">
-				<a href="${ cl }/signin" class="px-6 py-4 text-lg border border-l-gray-500 hover:font-bold">로그인</a>
-	          	<a href="${ cl }/signup" class="px-6 py-4 text-lg border border-l-gray-500 hover:font-bold">회원가입</a>
+			<div class="flex justify-between">
+				<a href="${ cl }/signin">
+		            <button type="button" class="py-2 text-lg text-black hover:bg-gray-200 rounded-md mr-3" style="width: 100px;">로그인</button>
+		        </a>
+		        <a href="${ cl }/signup">
+		            <button type="button" class="py-2 text-lg text-black hover:bg-gray-200 rounded-md" style="width: 120px;">회원가입</button>
+		        </a>
 			</div>
 		</c:if>
 		<c:if test="${ not empty sessionScope.userSession }">
-			<div class="flex justify-between items-center mr-10">
-				<a href="${ cl }/profile/${ sessionScope.userSession.username }" class="text-lg">
-					${ sessionScope.userSession.username }님
+			<div class="flex justify-between items-center mr-9">
+				<a href="${ cl }/profile/${ sessionScope.userSession.username }" class="text-lg font-semibold">
+				    ${ sessionScope.userSession.username }님
 				</a>
 				<button type="button" class="text-3xl ml-5" onclick="openSide()">&#9776;</button>
 			</div>
 			<aside id="sidebar" class="fixed top-0 right-0 w-64 h-full shadow-lg bg-gray-900 hidden z-50">
-				<div style="height: 64px;" class="flex justify-end items-center shadow-lg">
+				<div style="height: 60px;" class="flex justify-end items-center shadow-lg">
 					<button type="button" class="text-3xl mr-10 text-white" onclick="closeSide()">&#9776;</button>
 				</div>
 				<nav>

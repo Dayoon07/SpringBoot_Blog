@@ -1,4 +1,5 @@
-<%@page import="com.e.d.controller.MainController"%>
+<%@ page import="java.time.format.DateTimeFormatter"%>
+<%@ page import="java.time.LocalDateTime"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -8,6 +9,7 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="${ cl }/resources/css/custom.css">
 	<title>메인페이지</title>
 </head>
 <body>
@@ -15,30 +17,24 @@
 	
 	<div class="w-full mx-auto">
 	    <div id="default-carousel" class="w-full relative overflow-hidden shadow-lg" data-carousel="static">
-	        <!-- Carousel wrapper -->
 	        <div class="relative h-64 w-full" data-carousel-inner>
-	            <!-- Item 1 -->
 	            <div class="hidden duration-700 ease-in-out w-full" data-carousel-item>
 	                <img src="${ cl }/resources/img/pexels-5.jpg"
 	                    class="object-cover w-full h-full" alt="Slide 1">
 	            </div>
-	            <!-- Item 2 -->
 	            <div class="hidden duration-700 ease-in-out" data-carousel-item>
 	                <img src="${ cl }/resources/img/pexels-7.jpg"
 	                    class="object-cover w-full h-full" alt="Slide 2">
 	            </div>
-	            <!-- Item 3 -->
 	            <div class="hidden duration-700 ease-in-out" data-carousel-item>
 	                <img src="${ cl }/resources/img/pexels-16.jpg"
 	                    class="object-cover w-full h-full" alt="Slide 3">
 	            </div>
-	            <!-- Item 4 -->
 	            <div class="hidden duration-700 ease-in-out" data-carousel-item>
 	                <img src="${ cl }/resources/img/pexels-18.jpg"
 	                    class="object-cover w-full h-full" alt="Slide 3">
 	            </div>
 	        </div>
-	        <!-- Slider controls -->
 	        <button type="button"
 	            class="flex absolute top-1/2 left-3 z-40 items-center justify-center w-10 h-10 bg-gray-200/50 rounded-full hover:bg-gray-300 focus:outline-none transition"
 	            data-carousel-prev>
@@ -67,18 +63,8 @@
 			      			<div class="w-10 h-10 bg-gray-500 text-white rounded-full flex justify-center items-center">${ blog.writer.substring(0, 1) }</div>
 			      			<div class="ml-3 flex justify-between items-center">
 			        			<p class="text-xl font-medium mr-3">${ blog.writer }</p>
-			        			<!-- <p class="text-md text-gray-500">
-								    <c:choose>
-								        <c:when test="${ blog.datetime.substring(0, 4) == '2024' }">
-								            ${ blog.datetime.substring(6) }
-								        </c:when>
-								        <c:otherwise>
-								            ${ blog.datetime }
-								        </c:otherwise>
-								    </c:choose>
-								</p> -->
 								<p class="text-md text-gray-500">
-								    ${ blog.datetime.length() >= 6 && blog.datetime.substring(0, 4) == '2024' ? blog.datetime.substring(6) : blog.datetime }
+								    ${ blog.datetime.substring(0, 4) == LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")) ? blog.datetime.substring(6) : blog.datetime.substring(0, 13) }
 								</p>
 			      			</div>
 			    		</div>
@@ -87,9 +73,19 @@
 			    			${ blog.content.length() > 100 ? blog.content.substring(0, 100) + "..." : blog.content }
 						</p>
 						<div class="flex space-x-4 text-lg text-gray-500">
-				      		<button class="hover:text-gray-800">👍 좋아요 ${ blog.likes }</button>
-				      		<button class="hover:text-gray-800">💬 댓글 </button>
-				      		<button class="hover:text-gray-800">조회수 ${ blog.views } </button>
+				      		<button class="hover:text-gray-800">👍 좋아요 ${ blog.likes == 0 ? " 없음" : blog.likes }</button>
+				      		<button class="hover:text-gray-800">
+				      			💬
+				      			<c:choose>
+								    <c:when test="${ blog.commentCount == 0 }">
+								        댓글 없음
+								    </c:when>
+								    <c:otherwise>
+								        댓글 ${ blog.commentCount }개 
+								    </c:otherwise>
+								</c:choose>
+				      		</button>
+				      		<button class="hover:text-gray-800">&nbsp;조회수 ${ blog.views == 0 ? " 없음" : blog.views } </button>
 				    	</div>
 			  		</div>
 		  		</a>

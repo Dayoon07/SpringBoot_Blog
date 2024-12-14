@@ -17,17 +17,20 @@ public class CommentEntity {
 	private Long commentid;
 	
 	@Column(name = "blogboard_title", nullable = false)
-	private String blogboard_title;
+	private String blogboardTitle;
+	
+	@Column(name = "commentasblogid", nullable = false, unique = true)
+	private Long commentasblogid;
 	
 	@Column(name = "commenter", nullable = false)
 	private String commenter;
 	
 	@Lob
 	@Column(name = "commentcontent", nullable = false)
-	private String commentcontent;
+	private String commentContent;
 	
 	@Column(name = "commentdatetime", nullable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
-	private String commentdatetime;
+	private String commentDatetime;
 	
 	@Column(name = "parentcommentid")
 	private long parentcommentid;

@@ -128,8 +128,4 @@
     <td>number</td>
     <td>없음</td>
   </tr>
-  <tr>
-    <td>FOREIGN KEY(commentid)</td>
-    <td colspan="2">REFERENCES BLOGBOARD(blog_id)</td>
-  </tr>
 </table>

@@ -1,3 +1,11 @@
+<div style="width: 100%; padding: 10px 20px;">
+  <h2>개발 기간 2024년 11월 23일 ~~~</h2>
+</div>
+
+
+
+
+
 <h3>blogmember 테이블</h3>
 <table>
   <tr>

@@ -84,6 +84,11 @@
     <td>varchar2(255)</td>
     <td>not null</td>
   </tr>
+  <tr>
+    <td>commentcount</td>
+    <td>NUMBER</td>
+    <td>DEFAULT 0</td>
+  </tr>
 </table><br>
 
 <h3>blogcomment 테이블</h3>

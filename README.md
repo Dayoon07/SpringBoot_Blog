@@ -137,3 +137,9 @@
     <td>없음</td>
   </tr>
 </table>
+
+<h2>기능 정리</h2>
+
+<details>
+   <summary>댓글 기능</summary>
+</details>

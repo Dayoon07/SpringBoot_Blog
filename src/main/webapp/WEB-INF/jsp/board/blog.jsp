@@ -1,6 +1,6 @@
-<%@ page import="java.time.LocalDateTime"%>
-<%@ page import="java.time.format.DateTimeFormatter"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
@@ -18,10 +18,16 @@
 		<div class="p-6 rounded-t-lg border-b"> <!-- bg-gradient-to-r from-indigo-500 to-blue-500 text-white -->
 			<div class="flex items-center mt-2">
 				<div class="w-12 h-12 bg-gray-400 text-black rounded-full text-2xl flex justify-center items-center font-bold">
-					${ particularBlog.writer.substring(0, 1) }
+					<c:if test="${ not empty particularBlog.writer }">
+					    ${ particularBlog.writer.substring(0, 1).toUpperCase() }
+					</c:if>
 				</div>
 				<div class="ml-3">
-					<a href="${ cl }/profile/${ particularBlog.writer }" class="text-2xl font-semibold">${ particularBlog.writer }</a>
+					<c:if test="${ not empty blogWriterInfo }">
+						<a href="${ cl }/profile?username=${ blogWriterInfo.username }&memberid=${ blogWriterInfo.memberid }" class="text-2xl font-semibold">
+							${ particularBlog.writer }
+						</a>
+					</c:if>
 					<p class="text-md text-gray-800">
 						${ particularBlog.datetime.substring(0, 4) == LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy")) ? particularBlog.datetime.substring(6) : particularBlog.datetime }
 					</p>
@@ -69,14 +75,18 @@
 				<c:if test="${ empty allComment }"></c:if>
 				<c:if test="${ not empty allComment }">
 					<c:forEach var="comment" items="${ allComment }">
-						<div class="w-full px-4 mb-5">
-							<div class="flex justify-start items-center">
-								<h4 class="text-lg font-medium text-gray-900">${ comment.commenter }</h4>
-								<p class="text-md text-gray-500 ml-5">${ comment.commentDatetime }</p>
-							</div>
-							<div>
-								<p class="text-xl text-gray-700">${ comment.commentContent }</p>
-							</div>
+						<div class="w-full mx-auto bg-gray-50 p-4 mb-5 shadow-md border">
+						    <div class="flex items-center mb-3 border-b border-gray-300 pb-2">
+						        <h4 class="text-lg font-medium ${ comment.commenter.equals(particularBlog.writer) ? 'text-indigo-600' : 'text-gray-900' }">
+						            ${ comment.commenter.equals(particularBlog.writer) ? "글쓴이" : comment.commenter }
+						        </h4>
+						        <p class="text-sm text-gray-500 ml-3">
+						            ${ comment.commentDatetime.substring(0, 4).equals(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy"))) ? comment.commentDatetime.substring(6) : comment.commentDatetime }
+						        </p>
+						    </div>
+						    <div class="text-gray-800 text-lg leading-relaxed break-words">
+						        ${ comment.commentContent }
+						    </div>
 						</div>
 					</c:forEach>
 				</c:if>

@@ -10,8 +10,8 @@ public class PagingService {
 	public String generatePageBar(Page<?> page, String basePath) {
 	    StringBuilder pageBar = new StringBuilder();
 	    String baseClass = "flex items-center justify-center px-3 h-10 text-md border border-gray-300";
-	    String activeClass = "text-blue-600 bg-blue-50";
-	    String hoverClass = "hover:bg-gray-100 hover:text-gray-700";
+	    String activeClass = "text-blue-600 bg-blue-50 px-3";
+	    String hoverClass = "hover:bg-gray-100 hover:text-gray-700 px-3";
 	    String roundedClass = "rounded-lg";
 
 	    pageBar.append("<nav aria-label=\"Page navigation\">\n");

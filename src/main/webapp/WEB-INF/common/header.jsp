@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
@@ -49,9 +49,9 @@
 					<ul>
 				    	<li><a href="${ cl }/" class="flex items-center w-full p-2 text-gray-900 transition duration-75 pl-11 group 
 							hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">홈</a></li>
-						<li><a href="${ cl }/profile/${ sessionScope.userSession.username }" class="flex items-center w-full p-2 text-gray-900 
-							transition duration-75 pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white 
-							hover:text-black text-xl">프로필</a></li>
+						<li><a href="${ cl }/profile?username=${ sessionScope.userSession.username }&memberid=${ sessionScope.userSession.memberid }"
+							class="flex items-center w-full p-2 text-gray-900 transition duration-75 pl-11 group hover:bg-gray-100 dark:text-white 
+							dark:hover:bg-gray-700 text-white hover:text-black text-xl">프로필</a></li>
 						<li><a href="${ cl }/board/write" class="flex items-center w-full p-2 text-gray-900 transition duration-75 pl-11 group 
 							hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 text-white hover:text-black text-xl">글 작성</a></li>
 					</ul><br>

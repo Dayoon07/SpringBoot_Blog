@@ -7,15 +7,12 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>${ UserNotFoundErrorMessage }</title>
+	<title>일치하는 회원님의 정보가 없습니다.</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/common/header.jsp" />
+
+	<h1>일치하는 회원님의 정보가 없습니다.</h1>
+	<a href="${ cl }/" class="p-5 bg-black rounded-md">돌아가기</a>	
 	
-	<h1 class="text-3xl text-center mt-20 my-32">
-		${ UserNotFoundErrorMessage }
-	</h1>
-	
-	<jsp:include page="/WEB-INF/common/footer.jsp" />
 </body>
 </html>

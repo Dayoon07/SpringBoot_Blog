@@ -1,6 +1,6 @@
-<%@ page import="java.time.format.DateTimeFormatter"%>
-<%@ page import="java.time.LocalDateTime"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
@@ -56,9 +56,10 @@
 	
 	<div class="m-10 mx-auto max-w-screen-lg">
 		<c:if test="${ not empty findAllBlogs }">
+			<h2 class="ml-5 mb-3 text-kg font-semibold">${ paginationInfo }</h2>
 			<c:forEach var="blog" items="${ findAllBlogs }">
 				<a href="${ cl }/blog/board?blogid=${ blog.blogid }&writer=${ blog.writer }&title=${ blog.title }">
-					<div class="mx-auto bg-white mx-5 border border-gray-300 rounded-lg mb-5 py-4 px-6 hover:bg-gray-200">
+					<div class="bg-white mx-5 border border-gray-300 rounded-lg mb-5 py-4 px-6 hover:bg-gray-200">
 			    		<div class="flex items-center mb-3">
 			      			<div class="w-10 h-10 bg-gray-500 text-white rounded-full flex justify-center items-center">${ blog.writer.substring(0, 1) }</div>
 			      			<div class="ml-3 flex justify-between items-center">
@@ -69,8 +70,8 @@
 			      			</div>
 			    		</div>
 			    		<p class="text-xl text-gray-800 mb-3">${ blog.title }</p><br>
-			    		<p class="text-xl text-gray-800 mb-3">
-			    			${ blog.content.length() > 100 ? blog.content.substring(0, 100) + "..." : blog.content }
+			    		<p class="text-xl text-left text-gray-800 mb-3">
+			    			${ blog.content.length() > 100 ? blog.content.substring(0, 100) : blog.content }
 						</p>
 						<div class="flex space-x-4 text-lg text-gray-500">
 				      		<button class="hover:text-gray-800">👍 좋아요 ${ blog.likes == 0 ? " 없음" : blog.likes }</button>

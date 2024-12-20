@@ -16,7 +16,7 @@ public class MemberEntity {
 	@Column(name = "memberid", nullable = false)
 	private long memberid;
 	
-	@Column(name = "username", nullable = false, unique = true)
+	@Column(name = "username", nullable = false)
 	private String username;
 	
 	@Column(name = "useremail", nullable = false, unique = true)

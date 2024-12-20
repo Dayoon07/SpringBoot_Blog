@@ -59,6 +59,12 @@ public class MainController {
 	@Autowired
 	private PagingService pagingService;
 	
+	@GetMapping("/em")
+	String em(Model model) {
+		model.addAttribute("a", memberRepository.findAll());
+		return "e/ee";
+	}
+	
 	@GetMapping("/")
 	public String index(Model model,
 	                    @RequestParam(defaultValue = "0") int page,
@@ -102,7 +108,6 @@ public class MainController {
 				session.setAttribute("userSession", user.get());
 			}
 		}
-		
 		return "redirect:/";
 	}
 	
@@ -116,7 +121,7 @@ public class MainController {
 				entity.setJoindate(LocalDateTime.now().format(formatter));
 				memberRepository.save(entity);
 			}
-			return "index";
+			return "redirect:/";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "redirect:/";
@@ -137,18 +142,23 @@ public class MainController {
 	    return "redirect:/";
 	}
 	
-	@GetMapping("/profile/{username}")
-	public String userProfile(@PathVariable String username, Model model) {
+	@GetMapping("/profile")
+	public String userProfile(
+			@RequestParam String username,
+			@RequestParam long memberid, Model model) {
 	    if (username == null || username.isEmpty()) {
 	        model.addAttribute("UserNotFoundErrorMessage", "존재하지 않는 유저이거나 삭제된 유저입니다.");
 	        return "e/UserNotFound";
 	    }
 
 	    Optional<MemberEntity> member = memberRepository.findByUsername(username);
+	    List<BoardEntity> memberOfBlog = boardRepository.findByWriter(member.get().getUsername());
+	    
+	    
 	    if (member.isPresent()) {
-	        MemberEntity user = member.get();
-	        model.addAttribute("userProfileList", user);
-	        model.addAttribute("userProfileName", user.getUsername().trim().toUpperCase().substring(0, 1));
+	        model.addAttribute("userProfileList", member.get());
+	        model.addAttribute("userProfileName", member.get().getUsername().trim().toUpperCase().substring(0, 1));
+	        model.addAttribute("userProfileBoardBlog", memberOfBlog);
 	        return "user/profile";
 	    } else {
 	        model.addAttribute("UserNotFoundErrorMessage", "존재하지 않는 유저이거나 삭제된 유저입니다.");
@@ -157,8 +167,13 @@ public class MainController {
 	}
 	
 	@GetMapping("/board/write")
-	String writeBoard() {
-		return "board/write";
+	String writeBoard(HttpSession session) {
+		MemberEntity member = (MemberEntity) session.getAttribute("userSession");
+		if (member != null) {
+			return "board/write";
+		} else {
+			return "user/signup";
+		}
 	}
 	
 	@PostMapping("/createPost")
@@ -180,30 +195,40 @@ public class MainController {
 	
 	@GetMapping("/blog/board")
 	String particularBoard(@RequestParam long blogid,
-			@RequestParam String writer,
-			@RequestParam String title,
-			HttpSession session,
-			Model model) {
-		Optional<BoardEntity> optionalBlog = boardRepository.findById(blogid);
-		MemberEntity member = (MemberEntity) session.getAttribute("userSession");
-		BoardEntity blog = optionalBlog.get();
-		List<CommentEntity> comments = commentRepository.findByCommentasblogidOrderByCommentidDesc(blogid);
-		
-		if (!optionalBlog.isPresent()) {
-			model.addAttribute("NotFoundBlog", "존재하지 않는 글입니다.");
-			return "e/NotFoundBlog";
-		}
-		
+	                       @RequestParam String writer,
+	                       @RequestParam String title,
+	                       HttpSession session,
+	                       Model model) {
+	    Optional<BoardEntity> optionalBlog = boardRepository.findById(blogid);
+	    MemberEntity member = (MemberEntity) session.getAttribute("userSession");
+
+	    // 존재하지 않는 글 처리
+	    if (!optionalBlog.isPresent()) {
+	        model.addAttribute("NotFoundBlog", "존재하지 않는 글입니다.");
+	        return "e/NotFoundBlog";
+	    }
+
+	    BoardEntity blog = optionalBlog.get();
+	    List<CommentEntity> comments = commentRepository.findByCommentasblogidOrderByCommentidDesc(blogid);
+
+	    // 글쓴이 정보 조회
+	    Optional<MemberEntity> optionalWriter = memberRepository.findByUsername(blog.getWriter());
+	    MemberEntity blogWriterInfo = optionalWriter.orElse(null); // 존재하지 않을 경우 null
+
+	    // 조회수 증가 (로그인한 사용자만)
 	    if (member != null) {
 	        blog.incrementViews();
 	        boardRepository.save(blog);
 	    }
 	    
+	    // 모델에 값 추가
 	    model.addAttribute("allComment", comments);
 	    model.addAttribute("commentSize", comments.size());
 	    model.addAttribute("particularBlog", blog);
-		model.addAttribute("particularBlogAndFindAllBlogs", boardRepository.findAll(Sort.by(Sort.Direction.DESC, "blogid")));
-		return "board/blog";
+	    model.addAttribute("blogWriterInfo", blogWriterInfo); // Optional에서 추출한 값
+	    model.addAttribute("particularBlogAndFindAllBlogs", boardRepository.findAll(Sort.by(Sort.Direction.DESC, "blogid")));
+
+	    return "board/blog";
 	}
 	
 	@PostMapping("/blogLike")
@@ -260,9 +285,47 @@ public class MainController {
 	    	       "&title=" + URLEncoder.encode(title, StandardCharsets.UTF_8);
 	}
 	
+	@PostMapping("/deleteBlog")
+	String deleteBlog(@RequestParam long blogid,
+			@RequestParam String username,
+			@RequestParam long memberid) {
+		boardRepository.deleteById(blogid);
+		return "redirect:/profile?username="+username+"&memberid="+memberid;
+	}
 	
+	@PostMapping("changeBlog")
+	String changeBlog(@RequestParam long blogid, Model m) {
+		Optional<BoardEntity> myBlog = boardRepository.findById(blogid);
+		if (myBlog.isPresent()) {
+			m.addAttribute("changeMyBlog", myBlog.get());
+		}
+		return "board/updateBlog";
+	}
 	
-	
+	@PostMapping("changeMyBlog")
+	String changeMyBlog(@RequestParam long blogid, @ModelAttribute BoardEntity entity) {
+		Optional<BoardEntity> list = boardRepository.findById(entity.getBlogid());
+		
+		if (list.isPresent()) {
+			// System.out.println("수정 전 : " + list.get().getTitle() + "\n 수정 후 : " + entity.getTitle());
+			BoardEntity titi = BoardEntity.builder()
+					.blogid(entity.getBlogid())
+					.title(entity.getTitle())
+					.writer(entity.getWriter())
+					.content(entity.getContent())
+					.views(list.get().getViews())
+					.likes(list.get().getLikes())
+					.category(entity.getCategory())
+					.datetime(entity.getDatetime())
+					.commentCount(entity.getCommentCount())
+					.likesByUser(entity.getLikesByUser())
+					.build();
+			
+			boardRepository.save(titi);
+		}
+		
+		return "redirect:/";
+	}
 	
 	
 	

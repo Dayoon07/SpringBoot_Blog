@@ -16,12 +16,12 @@
   <tr>
     <td>memberid</td>
     <td>number</td>
-    <td>generated</td>
+    <td>identity(increment)</td>
   </tr>
   <tr>
     <td>username</td>
     <td>varchar2(255)</td>
-    <td>unique, not null</td>
+    <td>not null</td>
   </tr>
   <tr>
     <td>useremail</td>
@@ -43,6 +43,11 @@
     <td>clob</td>
     <td>없음</td>
   </tr>
+  <tr>
+    <td>selfbio</td>
+    <td>clob</td>
+    <td>없음</td>
+  </tr>
 </table><br>
 
 <h3>blogboard 테이블</h3>
@@ -55,7 +60,7 @@
   <tr>
     <td>blog_id</td>
     <td>number</td>
-    <td>generated</td>
+    <td>identity(increment)</td>
   </tr>
   <tr>
     <td>title</td>
@@ -84,12 +89,12 @@
   </tr>
   <tr>
     <td>category</td>
-    <td>varchar2(255)</td>
+    <td>varchar2(50)</td>
     <td>not null</td>
   </tr>
   <tr>
     <td>datetime</td>
-    <td>varchar2(255)</td>
+    <td>varchar2(50)</td>
     <td>not null</td>
   </tr>
   <tr>
@@ -109,11 +114,16 @@
   <tr>
     <td>commentid</td>
     <td>number</td>
-    <td>generated</td>
+    <td>identity(increment)</td>
   </tr>
   <tr>
     <td>blogboard_title</td>
     <td>varchar2(255)</td>
+    <td>not null</td>
+  </tr>
+  <tr>
+    <td>commentasblogid</td>
+    <td>number</td>
     <td>not null</td>
   </tr>
   <tr>
@@ -134,7 +144,11 @@
   <tr>
     <td>parentcommentid</td>
     <td>number</td>
-    <td>없음</td>
+    <td>default 0</td>
+  </tr>
+  <tr>
+    <td>FK_BLOGCOMMENT_BLOGBOARD</td>
+    <td colspan="2">constraint commentasblogid references</td>
   </tr>
 </table>
 

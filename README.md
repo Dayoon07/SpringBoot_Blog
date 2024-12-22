@@ -23,7 +23,8 @@
   <h3>Server : Spring Boot 내장 서버</h3>
   <h3>프레임워크</h3>
   <div style="display: flex;">
-    <img src="https://velog.velcdn.com/images/alsgudtkwjs/post/7e8d4ffb-67bb-441a-87f4-be01d1ede318/image.png" width="380" height="350">
+    <img src="https://velog.velcdn.com/images/alsgudtkwjs/post/7e8d4ffb-67bb-441a-87f4-be01d1ede318/image.png" width="380" height="325">
+    <img src="https://getlogovector.com/wp-content/uploads/2021/01/tailwind-css-logo-vector.png" width="450" height="150">
   </div>
   <h3>언어</h3>
   <div style="display: flex;">

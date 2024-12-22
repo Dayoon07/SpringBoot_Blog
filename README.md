@@ -20,6 +20,10 @@
     <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Oracle_SQL_Developer_logo.svg/800px-Oracle_SQL_Developer_logo.svg.png" width="150" height="150">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png" width="150" height="150">
   </div>
+  <h3>Server</h3>
+  <div style="display: flex;">
+    <img src="https://velog.velcdn.com/images/zo_meong/post/2633c1e5-041e-4733-bd55-e5021cf7bcae/image.png" width="200" height="150">
+  </div>
 </div>
 
 <h3>blogmember 테이블</h3>

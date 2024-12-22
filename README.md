@@ -17,7 +17,7 @@
   <h3>IDE</h3>
   <div style="display: flex;">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRtQyXi1necbFlJOetK3_3MHaLeHDGZ-C3pw&s" width="150" height="150">
-    <img src="https://w7.pngwing.com/pngs/863/183/png-transparent-cylindrical-gray-and-green-container-illustration-oracle-sql-developer-oracle-database-pl-sql-oracle-application-express-sql-server-icon-miscellaneous-material-computer-icons-thumbnail.png" width="150" height="150">
+    <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Oracle_SQL_Developer_logo.svg/800px-Oracle_SQL_Developer_logo.svg.png" width="150" height="150">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png" width="150" height="150">
   </div>
 </div>

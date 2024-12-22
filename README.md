@@ -22,7 +22,20 @@
   </div>
   <h3>Server</h3>
   <div style="display: flex;">
-    <img src="https://velog.velcdn.com/images/zo_meong/post/2633c1e5-041e-4733-bd55-e5021cf7bcae/image.png" width="200" height="150">
+    <img src="https://blog.kakaocdn.net/dn/xXbuR/btq8ntnuvid/oocKV5CKLFcguK6a2ltsq1/img.png" width="220" height="150">
+  </div>
+  <h3>프레임워크</h3>
+  <div style="display: flex;">
+    <img src="https://velog.velcdn.com/images/alsgudtkwjs/post/7e8d4ffb-67bb-441a-87f4-be01d1ede318/image.png" width="180" height="150">
+  </div>
+  <h3>언어</h3>
+  <div style="display: flex;">
+    <img src="https://velog.velcdn.com/images/alsgudtkwjs/post/7e8d4ffb-67bb-441a-87f4-be01d1ede318/image.png" width="180" height="150">
+    <img src="https://static-00.iconduck.com/assets.00/java-original-icon-756x1024-j3tx11wk.png" width="150" height="150">
+  </div>
+  <h3>라이브러리</h3>
+  <div style="display: flex;">
+    <img src="https://velog.velcdn.com/images/alsgudtkwjs/post/7e8d4ffb-67bb-441a-87f4-be01d1ede318/image.png" width="180" height="150">
   </div>
 </div>
 

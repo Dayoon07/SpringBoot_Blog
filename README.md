@@ -14,7 +14,7 @@
 </div>
 
 <div align="center">
-  <h3>IDE</h3>
+  <h2>IDE</h2>
   <div style="display: flex;">
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRtQyXi1necbFlJOetK3_3MHaLeHDGZ-C3pw&s" width="150" height="150">
     <img src="https://upload.wikimedia.org/wikipedia/en/thumb/6/68/Oracle_SQL_Developer_logo.svg/800px-Oracle_SQL_Developer_logo.svg.png" width="150" height="150">
@@ -24,7 +24,7 @@
   <h3>프레임워크</h3>
   <div style="display: flex;">
     <img src="https://velog.velcdn.com/images/alsgudtkwjs/post/7e8d4ffb-67bb-441a-87f4-be01d1ede318/image.png" width="380" height="325">
-    <img src="https://getlogovector.com/wp-content/uploads/2021/01/tailwind-css-logo-vector.png" width="450" height="150">
+    <img src="https://getlogovector.com/wp-content/uploads/2021/01/tailwind-css-logo-vector.png" width="450" height="250">
   </div>
   <h3>언어</h3>
   <div style="display: flex;">
@@ -36,6 +36,11 @@
   <div style="display: flex;">
     <img src="https://velog.velcdn.com/images/gloom/post/17bae182-7380-43e0-a45e-fff76b8ba9c7/image.png" width="294" height="247">
     <img src="https://camo.githubusercontent.com/f8cb17a34ed54e31a5d35ad6598dbffb019faa75833409ed9bb4db87dc3c7714/68747470733a2f2f626c6f672e6b616b616f63646e2e6e65742f646e2f6c757556582f627472594978796f4667682f6b6a3545724d507975724136686d4b644a714831486b2f696d672e706e67" width="250" height="150">
+  </div>
+  <h3>API</h3>
+  <div style="display: flex;">
+    <img src="https://getlogovector.com/wp-content/uploads/2021/01/tailwind-css-logo-vector.png" width="600" height="150">
+    <img src="https://velog.velcdn.com/images/clydehan/post/b538860a-54a1-477e-9bc0-fc09c6129816/image.png" width="500" height="250">
   </div>
 </div>
 

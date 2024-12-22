@@ -1,10 +1,26 @@
+## 프로젝트명 : SpringBoot_Blog
+<br>
+
+## 프로젝트 소개
+<p style="font-size: 24px;">
+  이 프로젝트는 혼자서 진행한 프로젝트로 블로그 플랫폼 구축을 위한 레포지토리입니다.
+  주요 기능으로 게시물 작성, 수정, 삭제, 댓글 기능, 좋아요 기능이 있으며
+  Spring Boot, JPA를 사용해 만들었습니다.
+</p>
+
+
 <div style="width: 100%; padding: 10px 20px;">
   <h2>개발 기간 2024.11.23~</h2>
 </div>
 
-
-
-
+<div align="center">
+  <h3>IDE</h3>
+  <div style="display: flex;">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRtQyXi1necbFlJOetK3_3MHaLeHDGZ-C3pw&s" width="150" height="150">
+    <img src="https://w7.pngwing.com/pngs/863/183/png-transparent-cylindrical-gray-and-green-container-illustration-oracle-sql-developer-oracle-database-pl-sql-oracle-application-express-sql-server-icon-miscellaneous-material-computer-icons-thumbnail.png" width="150" height="150">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png" width="150" height="150">
+  </div>
+</div>
 
 <h3>blogmember 테이블</h3>
 <table>

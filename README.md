@@ -183,10 +183,6 @@
     <td>FK_BLOGCOMMENT_BLOGBOARD</td>
     <td colspan="2">constraint commentasblogid references</td>
   </tr>
-</table>
+</table><br><br>
 
-<h2>기능 정리</h2>
-
-<details>
-   <summary>댓글 기능</summary>
-</details>
+<h2>프로젝트 기능 정리 중(2024.12.26일까지)</h2>

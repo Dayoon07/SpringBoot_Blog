@@ -39,8 +39,8 @@
   </div>
   <h3>API</h3>
   <div style="display: flex;">
-    <img src="https://getlogovector.com/wp-content/uploads/2021/01/tailwind-css-logo-vector.png" width="600" height="150">
-    <img src="https://velog.velcdn.com/images/clydehan/post/b538860a-54a1-477e-9bc0-fc09c6129816/image.png" width="500" height="250">
+    <img src="https://dayoon07.github.io/static-page-test/img/jpa.png" width="350" height="150">
+    <img src="https://velog.velcdn.com/images/clydehan/post/b538860a-54a1-477e-9bc0-fc09c6129816/image.png" width="350" height="250">
   </div>
 </div>
 

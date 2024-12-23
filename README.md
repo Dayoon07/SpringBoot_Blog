@@ -49,7 +49,7 @@
   <tr>
     <td>memberid</td>
     <td>number</td>
-    <td>identity(increment)</td>
+    <td>identity(increment), pk</td>
   </tr>
   <tr>
     <td>username</td>
@@ -93,7 +93,7 @@
   <tr>
     <td>blog_id</td>
     <td>number</td>
-    <td>identity(increment)</td>
+    <td>identity(increment), pk</td>
   </tr>
   <tr>
     <td>title</td>
@@ -147,7 +147,7 @@
   <tr>
     <td>commentid</td>
     <td>number</td>
-    <td>identity(increment)</td>
+    <td>identity(increment), pk</td>
   </tr>
   <tr>
     <td>blogboard_title</td>
@@ -193,9 +193,14 @@
     <td>제약조건</td>
   </tr>
   <tr>
+    <td>img_id</td>
+    <td>number</td>
+    <td>identity(increment), pk</td>
+  </tr>
+  <tr>
     <td>blog_value</td>
     <td>number</td>
-    <td>not null, pk</td>
+    <td>not null</td>
   </tr>
   <tr>
     <td>filepath</td>

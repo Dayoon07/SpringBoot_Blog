@@ -183,6 +183,36 @@
     <td>FK_BLOGCOMMENT_BLOGBOARD</td>
     <td colspan="2">constraint commentasblogid references</td>
   </tr>
-</table><br><br>
+</table><br>
+
+<h3>blogimg 테이블</h3>
+<table>
+  <tr>
+    <td>필드명</td>
+    <td>타입</td>
+    <td>제약조건</td>
+  </tr>
+  <tr>
+    <td>blog_value</td>
+    <td>number</td>
+    <td>not null, pk</td>
+  </tr>
+  <tr>
+    <td>filepath</td>
+    <td>varchar2(255 char)</td>
+    <td>not null</td>
+  </tr>
+  <tr>
+    <td>filename</td>
+    <td>varchar2(255 char)</td>
+    <td>not null</td>
+  </tr>
+  <tr>
+    <td>create_at</td>
+    <td>varchar2(50 char)</td>
+    <td>not null</td>
+  </tr>
+</table>
+<br>
 
 <h2>프로젝트 기능 정리 중(2024. 12. 26일까지)</h2>

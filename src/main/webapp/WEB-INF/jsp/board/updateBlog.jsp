@@ -19,11 +19,12 @@
 	    	<div class="p-6 rounded-t-lg border-b text-black">
 				<p class="text-lg font-semibold">작성자 : <input type="text" name="writer" value="${ changeMyBlog.writer }" readonly></p>
 		        <p class="text-md">작성일 : <input type="text" name="datetime" value="${ changeMyBlog.datetime }" readonly></p>
-		        	<h1 class="mt-4 text-3xl font-bold">
-		        		제목 <textarea name="title" class="block p-3 w-full h-auto text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 
-			        	focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
-			        	dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-5 mb-5 resize-none mx-auto">${ changeMyBlog.title }</textarea>
-		        	</h1>
+		        <img src="${ changeMyBlogImg.filepath }" alt="${ changeMyBlogImg.filename }" style="max-width: 100%;">
+		        <h1 class="mt-4 text-3xl font-bold">
+		        	제목 <textarea name="title" class="block p-3 w-full h-auto text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 
+			        focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
+			        dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-5 mb-5 resize-none mx-auto">${ changeMyBlog.title }</textarea>
+		        </h1>
 		        <div class="flex items-center pt-4">
 		            <h3 class="text-lg font-medium">카테고리</h3>
 		            &nbsp;&nbsp;&nbsp;

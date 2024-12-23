@@ -12,6 +12,10 @@ import lombok.*;
 public class BlogImgEntity {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "img_id", nullable = false)
+	private long imgId;
+	
 	@Column(name = "blog_value", nullable = false)
 	private long blogValue;
 	

@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -69,12 +68,6 @@ public class MainController {
 	
 	@Autowired
 	private PagingService pagingService;
-	
-	@GetMapping("/em")
-	String em(Model model) {
-		model.addAttribute("a", memberRepository.findAll());
-		return "e/ee";
-	}
 	
 	@GetMapping("/")
 	public String index(Model model,
@@ -196,36 +189,52 @@ public class MainController {
 	    String fileName = filepath.getOriginalFilename();
 		
 		try {
-			// 디렉토리가 없으면 생성
+			// 디렉토리가 없으면 생성 (Java IO)
 	        File dir = new File(uploadDir);
 	        if (!dir.exists()) {
 	            dir.mkdirs();
 	        }
-	        
-	        filepath.transferTo(new File(uploadDir + fileName));
-	        
 			if (board.getDatetime() == null) {
 				board.setDatetime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")));
-				boardRepository.save(board);
 			} else {
 				boardRepository.save(board);
 			}
-			
-			/* BlogImgEntity img = BlogImgEntity.builder()
-	        		.blogValue(board.getBlogid())
-	        		.filepath(uploadDir + fileName)
-	        		.filename(fileName)
-	        		.createAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a HH시 mm분 ss초")))
-	        		.build(); */
-			
-			BlogImgEntity img = BlogImgEntity.builder()
-				    .blogValue(board.getBlogid())
-				    .filepath("/blogProjectImg/" + fileName) // 상대 경로로 설정
-				    .filename(fileName)
-				    .createAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a HH시 mm분 ss초")))
-				    .build();
-			
-			blogImgRepository.save(img);
+			boardRepository.save(board);
+			if (fileName != null) {
+			    // 파일 이름 중복 방지 로직
+			    String originalFileName = fileName;
+			    String fileExtension = ""; // 확장자 저장 변수
+			    if (fileName.contains(".")) {
+			        int dotIndex = fileName.lastIndexOf(".");
+			        fileExtension = fileName.substring(dotIndex); // 확장자 추출
+			        originalFileName = fileName.substring(0, dotIndex); // 확장자 제외한 파일 이름
+			    }
+
+			    File newFile = new File(uploadDir + fileName);
+			    int count = 1;
+
+			    // 파일 이름 중복 확인 및 새 이름 생성
+			    while (newFile.exists()) {
+			        fileName = originalFileName + "(" + count + ")" + fileExtension;
+			        newFile = new File(uploadDir + fileName);
+			        count++;
+			    }
+
+			    // 파일 저장
+			    filepath.transferTo(newFile);
+
+			    // BlogImgEntity 저장
+			    BlogImgEntity img = BlogImgEntity.builder()
+			        .blogValue(board.getBlogid())
+			        .filepath("/blogProjectImg/" + fileName) // 상대 경로로 설정
+			        .filename(fileName)
+			        .createAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a HH시 mm분 ss초")))
+			        .build();
+
+			    blogImgRepository.save(img);
+			} else {   
+	        	
+	        }
 			return "redirect:/";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -269,7 +278,9 @@ public class MainController {
 	    model.addAttribute("particularBlog", blog);
 	    model.addAttribute("blogWriterInfo", blogWriterInfo); // Optional에서 추출한 값
 	    model.addAttribute("particularBlogAndFindAllBlogs", boardRepository.findAll(Sort.by(Sort.Direction.DESC, "blogid")));
-	    model.addAttribute("img", img.orElse(null));
+	    if (img.isPresent()) {
+	    	model.addAttribute("img", img.get());
+	    }
 
 	    return "board/blog";
 	}
@@ -339,8 +350,12 @@ public class MainController {
 	@PostMapping("changeBlog")
 	String changeBlog(@RequestParam long blogid, Model m) {
 		Optional<BoardEntity> myBlog = boardRepository.findById(blogid);
+		Optional<BlogImgEntity> myBlogImg = blogImgRepository.findById(blogid);
 		if (myBlog.isPresent()) {
 			m.addAttribute("changeMyBlog", myBlog.get());
+		}
+		if (myBlogImg.isPresent()) {
+			m.addAttribute("changeMyBlogImg", myBlogImg.get());
 		}
 		return "board/updateBlog";
 	}

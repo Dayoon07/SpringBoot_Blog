@@ -43,6 +43,10 @@ public class BoardEntity {
 	@Column(name = "commentcount")
 	private long commentCount;
 	
+	@Lob
+	@Column(name = "filepath")
+	private String file;
+	
 	@ElementCollection
 	@CollectionTable(name = "BOARD_LIKES_BY_USER", joinColumns = @JoinColumn(name = "blog_id"))
 	@Column(name = "user_id")

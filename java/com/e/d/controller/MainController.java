@@ -1,5 +1,6 @@
 package com.e.d.controller;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -19,13 +20,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.e.d.model.entity.BlogImgEntity;
 import com.e.d.model.entity.BoardEntity;
 import com.e.d.model.entity.CommentEntity;
 import com.e.d.model.entity.MemberEntity;
+import com.e.d.model.repository.BlogImgRepository;
 import com.e.d.model.repository.BoardRepository;
 import com.e.d.model.repository.CommentRepository;
 import com.e.d.model.repository.MemberRepository;
+import com.e.d.model.service.BlogImgService;
 import com.e.d.model.service.BoardService;
 import com.e.d.model.service.CommentService;
 import com.e.d.model.service.MemberService;
@@ -48,6 +53,9 @@ public class MainController {
 	private MemberService memberService;
 	
 	@Autowired
+	private BlogImgService blogImgService;
+	
+	@Autowired
 	private BoardRepository boardRepository;
 	
 	@Autowired
@@ -55,6 +63,9 @@ public class MainController {
 	
 	@Autowired
 	private MemberRepository memberRepository;
+	
+	@Autowired
+	private BlogImgRepository blogImgRepository;
 	
 	@Autowired
 	private PagingService pagingService;
@@ -177,15 +188,44 @@ public class MainController {
 	}
 	
 	@PostMapping("/createPost")
-	String createBoard(@ModelAttribute BoardEntity board, HttpSession session) {
+	String createBoard(@ModelAttribute BoardEntity board,
+			@RequestParam("filepath") MultipartFile filepath,
+			HttpSession session) {
+		
+		String uploadDir = "C:/blogProjectImg/";
+	    String fileName = filepath.getOriginalFilename();
+		
 		try {
+			// 디렉토리가 없으면 생성
+	        File dir = new File(uploadDir);
+	        if (!dir.exists()) {
+	            dir.mkdirs();
+	        }
+	        
+	        filepath.transferTo(new File(uploadDir + fileName));
+	        
 			if (board.getDatetime() == null) {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분");
-				board.setDatetime(LocalDateTime.now().format(formatter));
+				board.setDatetime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")));
 				boardRepository.save(board);
 			} else {
 				boardRepository.save(board);
 			}
+			
+			/* BlogImgEntity img = BlogImgEntity.builder()
+	        		.blogValue(board.getBlogid())
+	        		.filepath(uploadDir + fileName)
+	        		.filename(fileName)
+	        		.createAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a HH시 mm분 ss초")))
+	        		.build(); */
+			
+			BlogImgEntity img = BlogImgEntity.builder()
+				    .blogValue(board.getBlogid())
+				    .filepath("/blogProjectImg/" + fileName) // 상대 경로로 설정
+				    .filename(fileName)
+				    .createAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a HH시 mm분 ss초")))
+				    .build();
+			
+			blogImgRepository.save(img);
 			return "redirect:/";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -207,6 +247,8 @@ public class MainController {
 	        model.addAttribute("NotFoundBlog", "존재하지 않는 글입니다.");
 	        return "e/NotFoundBlog";
 	    }
+	    
+	    Optional<BlogImgEntity> img = blogImgRepository.findById(blogid);
 
 	    BoardEntity blog = optionalBlog.get();
 	    List<CommentEntity> comments = commentRepository.findByCommentasblogidOrderByCommentidDesc(blogid);
@@ -227,6 +269,7 @@ public class MainController {
 	    model.addAttribute("particularBlog", blog);
 	    model.addAttribute("blogWriterInfo", blogWriterInfo); // Optional에서 추출한 값
 	    model.addAttribute("particularBlogAndFindAllBlogs", boardRepository.findAll(Sort.by(Sort.Direction.DESC, "blogid")));
+	    model.addAttribute("img", img.orElse(null));
 
 	    return "board/blog";
 	}

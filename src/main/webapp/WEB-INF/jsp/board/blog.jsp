@@ -40,7 +40,13 @@
 			</div>
 		</div>
 
-		<div class="p-6 text-lg text-gray-800">${ particularBlog.content }</div>
+		<div class="p-6 text-lg text-gray-800">
+			<c:if test="${ empty img }"></c:if>
+			<c:if test="${ not empty img }">
+				<img src="${ img.filepath }" alt="${ img.filename }" style="max-width: 100%;">
+			</c:if>
+			${ particularBlog.content }
+		</div>
 
 		<div class="p-6 border-gray-200 border-t">
 			<div class="flex justify-start items-center">

@@ -39,7 +39,6 @@
   </div>
 </div>
 
-<div align="center" style="display: flex; justify-content: center;">
   <h3>blogmember 테이블</h3>
 <table>
   <tr>
@@ -137,7 +136,6 @@
     <td>DEFAULT 0</td>
   </tr>
 </table><br>
-</div>
 
 <h3>blogcomment 테이블</h3>
 <table>

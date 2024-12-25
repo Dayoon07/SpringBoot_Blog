@@ -39,7 +39,8 @@
   </div>
 </div>
 
-<h3>blogmember 테이블</h3>
+<div align="center">
+  <h3>blogmember 테이블</h3>
 <table>
   <tr>
     <td>필드명</td>
@@ -218,6 +219,7 @@
     <td>not null</td>
   </tr>
 </table>
+</div>
 <br>
 
 <h2>프로젝트 기능 정리 중</h2>

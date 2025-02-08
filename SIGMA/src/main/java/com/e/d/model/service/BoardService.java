@@ -1,56 +1,67 @@
 package com.e.d.model.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.e.d.model.entity.BoardEntity;
 import com.e.d.model.repository.BoardRepository;
-import com.e.d.model.repository.CommentRepository;
 
-import jakarta.transaction.Transactional;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
 public class BoardService {
-	
-	@Autowired
-	private BoardRepository boardRepository;
-	
-	@Autowired
-	private CommentRepository commentRepository;
-	
-	@Transactional
-	public boolean toggleLike(long blogid, long memberid) {
-	    BoardEntity blog = boardRepository.findById(blogid)
-	            .orElseThrow(() -> new IllegalArgumentException("블로그 게시글을 찾을 수 없습니다."));
 
-	    if (blog.getLikesByUser().contains(memberid)) {
-	        // 좋아요 취소
-	        blog.getLikesByUser().remove(memberid);
-	        blog.setLikes(blog.getLikes() - 1);
-	        boardRepository.save(blog);
-	        return false; // 좋아요 취소됨
-	    } else {
-	        // 좋아요 추가
-	        blog.getLikesByUser().add(memberid);
-	        blog.setLikes(blog.getLikes() + 1);
-	        boardRepository.save(blog);
-	        return true; // 좋아요 추가됨
-	    }
+	private final BoardRepository repository;
+
+	public BoardEntity boardWrite1(String title, long writerId, String writer, 
+			String content, String category, String dateTime) {
+		
+		BoardEntity entity = BoardEntity.builder()
+				.title(title)
+				.writerId(writerId)
+				.writer(writer)
+				.content(content)
+				.category(category)
+				.dateTime(dateTime)
+				.build();
+		
+		return repository.save(entity);
 	}
 	
-	public Page<BoardEntity> getBoardWithCommentCount(Pageable pageable) {
-        Page<BoardEntity> boardPage = boardRepository.findAll(pageable);
-        
-        // 각 게시물에 대해 댓글 수를 설정
-        boardPage.forEach(board -> {
-            long commentCount = commentRepository.countByCommentasblogid(board.getBlogid());
-            board.setCommentCount(commentCount);
-            boardRepository.save(board);
-        });
+	public BoardEntity boardWrite2(String title, long writerId, String writer, 
+			String content, String category, String dateTime, HttpSession session,
+			MultipartFile img) throws IllegalStateException, IOException {
+		String uploadDir = session.getServletContext().getRealPath("/resources/blog-img/");
+		String extension = img.getOriginalFilename().substring(img.getOriginalFilename().lastIndexOf("."));
+		String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")) + "_"
+				+ UUID.randomUUID().toString().replaceAll("-", "") + extension;
 
-        return boardPage;
-    }
-
+		File dir = new File(uploadDir);
+		if (!dir.exists()) dir.mkdirs();
+		
+		img.transferTo(new File(uploadDir + fileName));
+		
+		BoardEntity entity = BoardEntity.builder()
+				.title(title)
+				.writerId(writerId)
+				.writer(writer)
+				.content(content)
+				.category(category)
+				.dateTime(dateTime)
+				.img("/resources/blog-img/" + fileName)
+				.build();
+		
+		return repository.save(entity);
+	}
+	
 }

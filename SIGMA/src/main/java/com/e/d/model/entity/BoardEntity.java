@@ -1,26 +1,26 @@
 package com.e.d.model.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "BLOGBOARD")
+@Table(name = "BLOG_BOARD")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class BoardEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "blog_id")
-	private long blogid;
+	@Column(name = "blog_id", nullable = false)
+	private long blogId;
 	
 	@Column(name = "title", nullable = false)
 	private String title;
+	
+	@Column(name = "writer_id", nullable = false)
+	private long writerId;
 	
 	@Column(name = "writer", nullable = false)
 	private String writer;
@@ -37,23 +37,13 @@ public class BoardEntity {
 	@Column(name = "category", nullable = false)
 	private String category;
 	
-	@Column(name = "datetime", nullable = false)
-	private String datetime;
+	@Column(name = "date_time", nullable = false)
+	private String dateTime;
 	
-	@Column(name = "commentcount")
+	@Column(name = "comment_count")
 	private long commentCount;
 	
-	@Lob
-	@Column(name = "filepath")
-	private String file;
-	
-	@ElementCollection
-	@CollectionTable(name = "BOARD_LIKES_BY_USER", joinColumns = @JoinColumn(name = "blog_id"))
-	@Column(name = "user_id")
-	private Set<Long> likesByUser = new HashSet<>();
-	
-	public void incrementViews() {
-        this.views++;
-    }
+	@Column(name = "img")
+	private String img;
 	
 }

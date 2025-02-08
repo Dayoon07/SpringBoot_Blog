@@ -1,425 +1,211 @@
 package com.e.d.controller;
 
-import java.io.File;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.e.d.model.entity.BlogImgEntity;
-import com.e.d.model.entity.BoardEntity;
-import com.e.d.model.entity.CommentEntity;
 import com.e.d.model.entity.MemberEntity;
-import com.e.d.model.repository.BlogImgRepository;
 import com.e.d.model.repository.BoardRepository;
 import com.e.d.model.repository.CommentRepository;
+import com.e.d.model.repository.LikeRepository;
 import com.e.d.model.repository.MemberRepository;
-import com.e.d.model.service.BlogImgService;
 import com.e.d.model.service.BoardService;
 import com.e.d.model.service.CommentService;
+import com.e.d.model.service.LikeService;
 import com.e.d.model.service.MemberService;
-import com.e.d.model.service.PagingService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @Controller
 public class MainController {
 	
-	@Autowired
-	private BoardService boardService;
+	private final BoardRepository boardRepository;
+	private final CommentRepository commentRepository;
+	private final LikeRepository likeRepository;
+	private final MemberRepository memberRepository;
+	
+	private final BoardService boardService;
+	private final CommentService commentService;
+	private final LikeService likeService;
+	private final MemberService memberService;
 	
 	@Autowired
-	private CommentService commentService;
+	private BCryptPasswordEncoder passwordEncoder;
 	
-	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private BlogImgService blogImgService;
-	
-	@Autowired
-	private BoardRepository boardRepository;
-	
-	@Autowired
-	private CommentRepository commentRepository;
-	
-	@Autowired
-	private MemberRepository memberRepository;
-	
-	@Autowired
-	private BlogImgRepository blogImgRepository;
-	
-	@Autowired
-	private PagingService pagingService;
-	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncode;
+	protected void ipPrint() {
+	    HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+	    String ip = req.getHeader("x-forwarded-for");
+	    if (ip == null || ip.isEmpty()) {
+	        ip = req.getRemoteAddr();
+	        if (ip.equals("0:0:0:0:0:0:0:1")) {
+	            try {
+	                ip = InetAddress.getLocalHost().getHostAddress();
+	            } catch (UnknownHostException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	    
+	    log.info("클라이언트 IP : {}", ip);
+	    log.info("클라이언트 브라우저 : {}", parseBrowserInfo(req.getHeader("User-Agent")));
+	}
+
+	protected String parseBrowserInfo(String userAgent) {
+	    String browserName = "";
+	    String version = "";
+	    
+	    userAgent = userAgent.toLowerCase();
+	    
+	    if (userAgent.contains("chrome") && !userAgent.contains("edg")) {
+	        browserName = "구글 크롬";
+	        version = extractVersion(userAgent, "chrome/");
+	    } else if (userAgent.contains("safari") && !userAgent.contains("chrome")) {
+	        browserName = "사파리";
+	        version = extractVersion(userAgent, "version/");
+	    } else if (userAgent.contains("firefox")) {
+	        browserName = "파이어폭스";
+	        version = extractVersion(userAgent, "firefox/");
+	    } else if (userAgent.contains("edg")) {
+	        browserName = "엣지";
+	        version = extractVersion(userAgent, "edg/");
+	    } else {
+	        browserName = "기타 브라우저";
+	    }
+	    
+	    return version.isEmpty() ? browserName : browserName + " " + version;
+	}
+
+	protected String extractVersion(String userAgent, String keyword) {
+	    int start = userAgent.indexOf(keyword) + keyword.length();
+	    int end = userAgent.indexOf(" ", start);
+	    
+	    if (end == -1) end = userAgent.length();
+	    
+	    return userAgent.substring(start, end);
+	}
 	
 	@GetMapping("/")
-	public String index(Model model,
-	                    @RequestParam(defaultValue = "0") int page,
-	                    @RequestParam(defaultValue = "20") int size) {
-	    Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "blogid"));
-	    Page<BoardEntity> blog = boardService.getBoardWithCommentCount(pageable);
-	    
-	    // 페이지네이션 정보 생성
-	    String pageBar = pagingService.generatePageBar(blog, "/");
-
-	    // 페이지네이션 메시지
-	    String paginationInfo = "총 " + blog.getTotalElements() + "개의 글 중 " 
-	                            + (page * size + 1) + "-" 
-	                            + Math.min((page + 1) * size, blog.getTotalElements()) + "번째 글";
-	    
-	    model.addAttribute("pageBar", pageBar);
-	    model.addAttribute("paginationInfo", paginationInfo);
-	    model.addAttribute("findAllBlogs", blog.getContent());
-	    return "index";
+	public String index(Model m) {
+		ipPrint();
+		m.addAttribute("boardRepoFindAll", boardRepository.findAll());
+		return "index";
 	}
 	
-	@GetMapping("signin")
-	String signin() {
-		return "user/signin";
-	}
-
-	@GetMapping("signup")
-	String signup() {
+	@GetMapping("/signup")
+	public String signupPage() {
 		return "user/signup";
 	}
 	
-	@PostMapping("/login")
-	String signinForm(
-			@RequestParam String username,
-			@RequestParam String userpassword,
-			HttpSession session) {
-		Optional<MemberEntity> user = memberRepository.findByUsernameAndUserpassword(username, userpassword);
-		
-		if (!username.isEmpty() && user.get().getUsername().equals(username)) {
-			if (!userpassword.isEmpty() && user.get().getUserpassword().equals(userpassword)) {
-				session.setAttribute("userSession", user.get());
-			}
-		}
-		return "redirect:/";
+	@GetMapping("/signin")
+	public String signinPage() {
+		return "user/login";
 	}
 	
-	@PostMapping("/signupForm")
-	String signupForm(@ModelAttribute MemberEntity entity) {
+	@PostMapping("/signupF")
+	public String signupF(@RequestParam String username,
+			@RequestParam String useremail,
+			@RequestParam String userpassword,
+			@RequestParam String dateTime,
+			@RequestParam String bio,
+			@RequestParam MultipartFile profile,
+			HttpSession session, Model m) {
 		try {
-			if (entity.getJoindate() != null) {
-				memberRepository.save(entity);
-			} else {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-				entity.setJoindate(LocalDateTime.now().format(formatter));
-				memberRepository.save(entity);
-			}
-			return "redirect:/";
+			memberService.signup(username, useremail, dateTime, userpassword, bio, profile, session);
+			m.addAttribute("success", "회원가입에 성공했습니다.");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "redirect:/";
+			m.addAttribute("success", "회원가입에 실패했습니다.");
 		}
+		return "success/signupSuccess";
 	}
+	
+	@PostMapping("/login")
+    public String login(@RequestParam String username,
+    		@RequestParam String userpassword,
+            HttpSession session,
+            Model model) {
+        // 로그인 시도 로그
+        log.info("사용자 {} 로그인 시도", username);
+
+        // 사용자 정보 조회
+        MemberEntity member = memberRepository.findByUsername(username);
+
+        // 사용자 존재 여부 확인
+        if (member == null) {
+            log.warn("사용자 {}를 찾을 수 없습니다.", username);
+            model.addAttribute("error", "사용자를 찾을 수 없습니다.");
+            return "login"; // 로그인 페이지로 돌아감
+        }
+
+        // 비밀번호 비교
+        if (passwordEncoder.matches(userpassword, member.getUserpassword())) {
+            // 세션에 사용자 정보 저장
+            session.setAttribute("user", member);
+            log.info("사용자 {}가 성공적으로 로그인하였습니다.", username);
+            return "redirect:/"; // 성공적으로 로그인한 후 홈으로 리다이렉트
+        } else {
+            log.warn("사용자 {}의 비밀번호가 틀렸습니다.", username);
+            model.addAttribute("error", "비밀번호가 틀렸습니다.");
+            return "login"; // 비밀번호가 틀린 경우 로그인 페이지로 돌아감
+        }
+    }
 	
 	@PostMapping("/logout")
-	String logout(@RequestParam long memberid, HttpSession session) {
-	    MemberEntity user = (MemberEntity) session.getAttribute("userSession");
-	    
-	    if (user != null && user.getMemberid() == memberid) {
-	    	try {
-	    		session.invalidate(); // 세션 무효화
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	    }
-	    return "redirect:/";
-	}
-	
-	@GetMapping("/profile")
-	public String userProfile(
-			@RequestParam String username,
-			@RequestParam long memberid, Model model) {
-	    if (username == null || username.isEmpty()) {
-	        model.addAttribute("UserNotFoundErrorMessage", "존재하지 않는 유저이거나 삭제된 유저입니다.");
-	        return "e/UserNotFound";
-	    }
-
-	    Optional<MemberEntity> member = memberRepository.findByUsername(username);
-	    List<BoardEntity> memberOfBlog = boardRepository.findByWriter(member.get().getUsername());
-	    
-	    
-	    if (member.isPresent()) {
-	        model.addAttribute("userProfileList", member.get());
-	        model.addAttribute("userProfileName", member.get().getUsername().trim().toUpperCase().substring(0, 1));
-	        model.addAttribute("userProfileBoardBlog", memberOfBlog);
-	        return "user/profile";
-	    } else {
-	        model.addAttribute("UserNotFoundErrorMessage", "존재하지 않는 유저이거나 삭제된 유저입니다.");
-	        return "e/UserNotFound";
-	    }
-	}
-	
-	@GetMapping("/board/write")
-	String writeBoard(HttpSession session) {
-		MemberEntity member = (MemberEntity) session.getAttribute("userSession");
-		if (member != null) {
-			return "board/write";
-		} else {
-			return "user/signup";
-		}
-	}
-	
-	@PostMapping("/createPost")
-	String createBoard(@ModelAttribute BoardEntity board,
-			@RequestParam("filepath") MultipartFile filepath,
-			HttpSession session) {
-		
-		String uploadDir = "C:/blogProjectImg/";
-	    String fileName = filepath.getOriginalFilename();
-		
-		try {
-			// 디렉토리가 없으면 생성 (Java IO)
-	        File dir = new File(uploadDir);
-	        if (!dir.exists()) {
-	            dir.mkdirs();
-	        }
-			if (board.getDatetime() == null) {
-				board.setDatetime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")));
-			} else {
-				boardRepository.save(board);
-			}
-			boardRepository.save(board);
-			if (fileName != null) {
-			    // 파일 이름 중복 방지 로직
-			    String originalFileName = fileName;
-			    String fileExtension = ""; // 확장자 저장 변수
-			    if (fileName.contains(".")) {
-			        int dotIndex = fileName.lastIndexOf(".");
-			        fileExtension = fileName.substring(dotIndex); // 확장자 추출
-			        originalFileName = fileName.substring(0, dotIndex); // 확장자 제외한 파일 이름
-			    }
-
-			    File newFile = new File(uploadDir + fileName);
-			    int count = 1;
-
-			    // 파일 이름 중복 확인 및 새 이름 생성
-			    while (newFile.exists()) {
-			        fileName = originalFileName + "(" + count + ")" + fileExtension;
-			        newFile = new File(uploadDir + fileName);
-			        count++;
-			    }
-
-			    // 파일 저장
-			    filepath.transferTo(newFile);
-
-			    // BlogImgEntity 저장
-			    BlogImgEntity img = BlogImgEntity.builder()
-			        .blogValue(board.getBlogid())
-			        .filepath("/blogProjectImg/" + fileName) // 상대 경로로 설정
-			        .filename(fileName)
-			        .createAt(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a HH시 mm분 ss초")))
-			        .build();
-
-			    blogImgRepository.save(img);
-			} else {   
-	        	
-	        }
-			return "redirect:/";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "redirect:/";
-		}
-	}
-	
-	@GetMapping("/blog/board")
-	String particularBoard(@RequestParam long blogid,
-	                       @RequestParam String writer,
-	                       @RequestParam String title,
-	                       HttpSession session,
-	                       Model model) {
-	    Optional<BoardEntity> optionalBlog = boardRepository.findById(blogid);
-	    MemberEntity member = (MemberEntity) session.getAttribute("userSession");
-
-	    // 존재하지 않는 글 처리
-	    if (!optionalBlog.isPresent()) {
-	        model.addAttribute("NotFoundBlog", "존재하지 않는 글입니다.");
-	        return "e/NotFoundBlog";
-	    }
-	    
-	    Optional<BlogImgEntity> img = blogImgRepository.findById(blogid);
-
-	    BoardEntity blog = optionalBlog.get();
-	    List<CommentEntity> comments = commentRepository.findByCommentasblogidOrderByCommentidDesc(blogid);
-
-	    // 글쓴이 정보 조회
-	    Optional<MemberEntity> optionalWriter = memberRepository.findByUsername(blog.getWriter());
-	    MemberEntity blogWriterInfo = optionalWriter.orElse(null); // 존재하지 않을 경우 null
-
-	    // 조회수 증가 (로그인한 사용자만)
-	    if (member != null) {
-	        blog.incrementViews();
-	        boardRepository.save(blog);
-	    }
-	    
-	    // 모델에 값 추가
-	    model.addAttribute("allComment", comments);
-	    model.addAttribute("commentSize", comments.size());
-	    model.addAttribute("particularBlog", blog);
-	    model.addAttribute("blogWriterInfo", blogWriterInfo); // Optional에서 추출한 값
-	    model.addAttribute("particularBlogAndFindAllBlogs", boardRepository.findAll(Sort.by(Sort.Direction.DESC, "blogid")));
-	    if (img.isPresent()) {
-	    	model.addAttribute("img", img.get());
-	    }
-
-	    return "board/blog";
-	}
-	
-	@PostMapping("/blogLike")
-	String blogLike(HttpSession session, Model model,
-			@RequestParam long blogid,
-			@RequestParam String writer,
-			@RequestParam String title) {
-	    MemberEntity user = (MemberEntity) session.getAttribute("userSession");
-	    if (user == null) {
-	        model.addAttribute("errorMessage", "로그인이 필요합니다.");
-	        return "redirect:/signin";
-	    }
-	    
-	    try {
-	    	String encodedWriter = URLEncoder.encode(writer, StandardCharsets.UTF_8.toString());
-	    	String encodedTitle = URLEncoder.encode(title, StandardCharsets.UTF_8.toString());
-	    	boardService.toggleLike(blogid, user.getMemberid());
-		    return "redirect:/blog/board?blogid=" + blogid + "&writer=" + encodedWriter + "&title=" + encodedTitle;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "e/error500";
-		}
-	}
-	
-	@PostMapping("/commentAdd")
-	String addComment(
-	        @RequestParam long blogid,
-	        @RequestParam String writer,
-	        @RequestParam String title,
-	        @RequestParam String blogboardTitle,
-	        @RequestParam String commenter,
-	        @RequestParam String commentcontent, Model m) {
-	    try {
-	    	boardRepository.findById(blogid).orElseThrow(() -> new IllegalArgumentException("존재하지 않거나 삭제된 글입니다."));
-
-	        CommentEntity addComment = CommentEntity.builder()
-	                .blogboardTitle(blogboardTitle)
-	                .commentasblogid(blogid)
-	                .commenter(commenter)
-	                .commentContent(commentcontent)
-	                .commentDatetime(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분")))
-	                .build();
-
-	        commentRepository.save(addComment);
-	    } catch (IllegalArgumentException e) {
-	        m.addAttribute("EmptyBlog", e.getMessage());
-	        return "e/EmptyBlog";
-	    } catch (Exception e) {
-	        m.addAttribute("errorMessage", "댓글 저장 중 문제가 발생했습니다.");
-	        return "e/Error";
-	    }
-	    return "redirect:/blog/board?blogid=" + blogid + 
-	    	       "&writer=" + URLEncoder.encode(writer, StandardCharsets.UTF_8) + 
-	    	       "&title=" + URLEncoder.encode(title, StandardCharsets.UTF_8);
-	}
-	
-	@PostMapping("/deleteBlog")
-	String deleteBlog(@RequestParam long blogid,
-			@RequestParam String username,
-			@RequestParam long memberid) {
-		boardRepository.deleteById(blogid);
-		return "redirect:/profile?username="+username+"&memberid="+memberid;
-	}
-	
-	@PostMapping("changeBlog")
-	String changeBlog(@RequestParam long blogid, Model m) {
-		Optional<BoardEntity> myBlog = boardRepository.findById(blogid);
-		Optional<BlogImgEntity> myBlogImg = blogImgRepository.findById(blogid);
-		if (myBlog.isPresent()) {
-			m.addAttribute("changeMyBlog", myBlog.get());
-		}
-		if (myBlogImg.isPresent()) {
-			m.addAttribute("changeMyBlogImg", myBlogImg.get());
-		}
-		return "board/updateBlog";
-	}
-	
-	@PostMapping("changeMyBlog")
-	String changeMyBlog(@RequestParam long blogid, @ModelAttribute BoardEntity entity) {
-		Optional<BoardEntity> list = boardRepository.findById(entity.getBlogid());
-		
-		if (list.isPresent()) {
-			// System.out.println("수정 전 : " + list.get().getTitle() + "\n 수정 후 : " + entity.getTitle());
-			BoardEntity titi = BoardEntity.builder()
-					.blogid(entity.getBlogid())
-					.title(entity.getTitle())
-					.writer(entity.getWriter())
-					.content(entity.getContent())
-					.views(list.get().getViews())
-					.likes(list.get().getLikes())
-					.category(entity.getCategory())
-					.datetime(entity.getDatetime())
-					.commentCount(entity.getCommentCount())
-					.likesByUser(entity.getLikesByUser())
-					.build();
-			
-			boardRepository.save(titi);
-		}
-		
+	public String logout(HttpSession session, @RequestParam long memberId) {
+		MemberEntity u = (MemberEntity) session.getAttribute("user");
+		if (u != null && u.getMemberId() == memberId) session.invalidate();
 		return "redirect:/";
 	}
 	
-	@GetMapping("/search")
-	String search(@RequestParam String search_title, Model m) {
-		List<BoardEntity> searchLists = boardRepository.searchByTitleIgnoreCaseContaining(search_title);
-		m.addAttribute("searchLists", searchLists);
-		return "board/search";
+	@GetMapping("/write")
+	public String writePage() {
+		return "blog/write";
 	}
 	
+	@PostMapping("/boardWrite")
+	public String write(@RequestParam String title,
+			@RequestParam String content,
+			@RequestParam String category,
+			@RequestParam String dateTime,
+			@RequestParam MultipartFile img,
+			HttpSession session) throws IllegalStateException, IOException {
+		MemberEntity u = (MemberEntity) session.getAttribute("user");
+		if (img.isEmpty()) {
+			boardService.boardWrite1(title, u.getMemberId(), u.getUsername(), content, category, dateTime);
+		} else {
+			boardService.boardWrite2(title, u.getMemberId(), u.getUsername(), content, category, dateTime, session, img);
+		}
+		return "redirect:/profile/" + u.getUsername();
+	}
 	
+	@GetMapping("/profile/{username}")
+	public String profilePage(@PathVariable String username, Model m) {
+		m.addAttribute("profileInfo", memberRepository.findByUsername(username));
+		return "profile/profile";
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@GetMapping("/{username}/{title}")
+	public String boardPage(@PathVariable String username, @PathVariable String title, Model m) {
+		m.addAttribute("writerInfo", memberRepository.findByUsername(username));
+		m.addAttribute("boardInfo", boardRepository.findByTitleAndWriterId(title, memberRepository.findByUsername(username).getMemberId()).get());
+		return "blog/board";
+	}
 	
 }

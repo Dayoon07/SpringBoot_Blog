@@ -1,3 +1,4 @@
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -8,54 +9,52 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>회원가입</title>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/common/header.jsp" />
-	
-	<div style="width: 450px;" class="p-5 m-5 mx-auto">
-		<form action="${ cl }/signupForm" method="post" autocomplete="off">
-			<div class="space-y-6">
-				<div class="mx-auto flex justify-center items-center">
-					<a href="${ cl }/" class="text-3xl">Vlog</a>
-				</div>
-				<div>
-              		<label class="text-gray-800 text-md mb-2 block">사용자 이름</label>
-              		<input type="text" name="username" id="username" placeholder="사용할 이름을 입력하세요"
-              			class="text-gray-800 bg-white border border-gray-300 w-full text-md px-4 py-3 rounded-md outline-blue-500"
-              			required/>
-            	</div>
-            	<div>
-              		<label class="text-gray-800 text-md mb-2 block">이메일</label>
-              		<input type="email" name="useremail" id="useremail" placeholder="이메일을 입력하세요"
-              			class="text-gray-800 bg-white border border-gray-300 w-full text-md px-4 py-3 rounded-md outline-blue-500" 
-              			required/>
-            	</div>
-	            <div>
-	            	<label class="text-gray-800 text-md mb-2 block">비밀번호</label>
-	              	<input type="password" name="userpassword" id="userpassword" placeholder="비밀번호를 입력하세요"
-	              		class="text-gray-800 bg-white border border-gray-300 w-full text-md px-4 py-3 rounded-md outline-blue-500" 
-	              		required/>
-	            </div>
-	            <div>
-	            	<label class="text-gray-800 text-md mb-2 block">프로필 소개</label>
-	            	<textarea class="text-gray-800 bg-white border border-gray-300 w-full text-md px-4 py-3 rounded-md outline-blue-500 resize-none"
-	            		rows="3" name="profilebio" id="profilebio"></textarea>
-	            </div>
-          	</div>
-          	
-          	<div class="!mt-12">
-            	<button type="submit" class="w-full px-4 py-2 text-md rounded-sm font-bold border-2 text-[#007bff] border-[#007bff] bg-[#007bff] 
-          			transition-all ease-in-out duration-300 bg-transparent hover:bg-[#007bff] hover:text-white">
-              		회원가입
-            	</button>
-          	</div>
-          	<p class="text-gray-800 text-md mt-6 text-center">
-          		이미 계정이 있으신가요? <a href="${ cl }/signin" class="text-md text-blue-600 font-semibold hover:underline ml-1">로그인</a>
-          	</p>
-        </form>
+	<jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
+
+	<div class="bg-white rounded-xl p-8 max-w-md w-full mx-auto">
+		<h2 class="text-2xl font-bold text-center text-gray-800 mb-6">회원가입</h2>
+		<form action="${ cl }/signupF" method="post" autocomplete="off" enctype="multipart/form-data" class="space-y-4">
+			<div>
+				<label for="profile" class="block text-gray-700 font-semibold mb-1">프로필 사진</label>
+				<input type="file" id="profile" name="profile" accept="image/*" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+			</div>
+		
+			<div>
+				<label for="username" class="block text-gray-700 font-semibold mb-1">이름</label>
+				<input type="text" id="username" name="username" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+				<div id="username-feedback" class="mt-1"></div>
+			</div>
+
+			<div>
+				<label for="useremail" class="block text-gray-700 font-semibold mb-1">이메일</label>
+				<input type="email" id="useremail" name="useremail" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+			</div>
+
+			<div>
+				<label for="userpassword" class="block text-gray-700 font-semibold mb-1">비밀번호</label>
+				<input type="password" id="userpassword" name="userpassword" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+			</div>
+
+			<div class="hidden">
+				<label for="dateTime" class="block text-gray-700 font-semibold mb-1">가입일</label>
+				<input type="text" id="dateTime" name="dateTime" value="<%= LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd a HH:mm:ss")) %>" 
+					required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+			</div>
+
+			<div>
+				<label for="bio" class="block text-gray-700 font-semibold mb-1">소개말</label>
+				<textarea id="bio" name="bio" rows="4" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black resize-none"></textarea>
+			</div>
+
+			<button type="submit" class="w-full bg-black text-white py-2 rounded-lg hover:opacity-70 transition duration-300">회원가입</button>
+		</form>
 	</div>
-	
-	<jsp:include page="/WEB-INF/common/footer.jsp" />
+
+	<jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
+	<script src="${ cl }/resources/js/chkName.js"></script>
 </body>
 </html>

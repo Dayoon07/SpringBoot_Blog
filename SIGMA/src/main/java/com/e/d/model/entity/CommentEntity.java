@@ -4,34 +4,34 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "BLOGCOMMENT")
+@Table(name = "BLOG_COMMENT")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CommentEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "commentid", nullable = false)
-	private Long commentid;
+	@Column(name = "comment_id", nullable = false)
+	private long commentId;
 	
-	@Column(name = "blogboard_title", nullable = false)
-	private String blogboardTitle;
+	@Column(name = "commenter_id", nullable = false)
+	private long commenterId;
 	
-	@Column(name = "commentasblogid", nullable = false, unique = true)
-	private Long commentasblogid;
-	
-	@Column(name = "commenter", nullable = false)
-	private String commenter;
-	
-	@Lob
-	@Column(name = "commentcontent", nullable = false)
+	@Column(name = "comment_content", nullable = false)
 	private String commentContent;
 	
-	@Column(name = "commentdatetime", nullable = false, columnDefinition = "DEFAULT CURRENT_TIMESTAMP")
-	private String commentDatetime;
+	@Column(name = "blog_writer_id", nullable = false)
+	private long blogWriterId;
 	
-	@Column(name = "parentcommentid")
-	private long parentcommentid;
+	@Column(name = "date_time", nullable = false)
+	private String dateTime;
+	
+	@Column(name = "likes")
+	private long likes;
+	
+	@Column(name = "unlikes")
+	private long unlikes;
+	
 }

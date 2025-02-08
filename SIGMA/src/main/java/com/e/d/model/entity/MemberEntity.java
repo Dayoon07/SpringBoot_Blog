@@ -4,31 +4,34 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "BLOGMEMBER")
+@Table(name = "BLOG_MEMBER")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class MemberEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "memberid", nullable = false)
-	private long memberid;
+	@Column(name = "member_id", nullable = false)
+	private long memberId;
 	
 	@Column(name = "username", nullable = false)
 	private String username;
 	
-	@Column(name = "useremail", nullable = false, unique = true)
+	@Column(name = "useremail", nullable = false)
 	private String useremail;
 	
 	@Column(name = "userpassword", nullable = false)
 	private String userpassword;
 	
-	@Column(name = "joindate", nullable = false)
-	private String joindate;
+	@Column(name = "date_time", nullable = false)
+	private String dateTime;
 	
-	@Lob
-	@Column(name = "profilebio")
-	private String profilebio;
+	@Column(name = "bio")
+	private String bio;
+	
+	@Column(name = "profile_path", nullable = false)
+	private String profile;
+	
 }

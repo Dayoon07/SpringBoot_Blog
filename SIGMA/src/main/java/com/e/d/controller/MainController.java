@@ -2,6 +2,7 @@ package com.e.d.controller;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,8 +105,20 @@ public class MainController {
 	@GetMapping("/")
 	public String index(Model m) {
 		ipPrint();
-		m.addAttribute("boardRepoFindAll", boardRepository.findAll());
+		m.addAttribute("boardRepoFindAll", boardRepository.findAllByOrderByBlogIdDesc());
 		return "index";
+	}
+	
+	@GetMapping("/search")
+	public String searchPage() {
+		return "search/search";
+	}
+	
+	@GetMapping("/result")
+	public String search(@RequestParam String qey, Model m) {
+		m.addAttribute("searchResultLists", boardRepository.findByTitleContainingIgnoreCaseOrWriterContainingIgnoreCaseOrContentContainingIgnoreCaseOrCategoryContainingIgnoreCase(qey, qey, qey, qey));
+		m.addAttribute("searchWord", qey);
+		return "search/searchResult";
 	}
 	
 	@GetMapping("/signup")
@@ -175,8 +188,8 @@ public class MainController {
 	}
 	
 	@GetMapping("/write")
-	public String writePage() {
-		return "blog/write";
+	public String writePage(HttpSession session) {
+		return session.getAttribute("user") == null ? "user/login" : "blog/write";
 	}
 	
 	@PostMapping("/boardWrite")
@@ -185,27 +198,54 @@ public class MainController {
 			@RequestParam String category,
 			@RequestParam String dateTime,
 			@RequestParam MultipartFile img,
+			@RequestParam MultipartFile video,
 			HttpSession session) throws IllegalStateException, IOException {
 		MemberEntity u = (MemberEntity) session.getAttribute("user");
-		if (img.isEmpty()) {
+		
+		if (img.isEmpty() && video.isEmpty()) {
 			boardService.boardWrite1(title, u.getMemberId(), u.getUsername(), content, category, dateTime);
-		} else {
+		} else if (!img.isEmpty() && video.isEmpty()) {
 			boardService.boardWrite2(title, u.getMemberId(), u.getUsername(), content, category, dateTime, session, img);
+		} else if (img.isEmpty() && !video.isEmpty()) {
+			boardService.boardWrite3(title, u.getMemberId(), u.getUsername(), content, category, dateTime, session, video);
+		} else if (!img.isEmpty() && !video.isEmpty()) {
+			boardService.boardWrite4(title, u.getMemberId(), u.getUsername(), content, category, dateTime, session, img, video);
 		}
-		return "redirect:/profile/" + u.getUsername();
+		return "redirect:/blog/" + u.getUsername();
 	}
 	
-	@GetMapping("/profile/{username}")
+	@GetMapping("/blog/{username}")
 	public String profilePage(@PathVariable String username, Model m) {
-		m.addAttribute("profileInfo", memberRepository.findByUsername(username));
+		MemberEntity user = memberRepository.findByUsername(username);
+		m.addAttribute("profileInfo", user);
+		if (!boardRepository.findByWriterId(user.getMemberId()).isEmpty()) {
+			m.addAttribute("profileUserBoard", boardRepository.findByWriterId(user.getMemberId()));
+		}
 		return "profile/profile";
 	}
 	
-	@GetMapping("/{username}/{title}")
-	public String boardPage(@PathVariable String username, @PathVariable String title, Model m) {
+	@GetMapping("/blog/{username}/board")
+	public String boardPage(@PathVariable String username,
+			@RequestParam long id,
+			HttpSession session, Model m) {
+		if (session.getAttribute("user") != null) boardService.incrementBoardViews(id);
 		m.addAttribute("writerInfo", memberRepository.findByUsername(username));
-		m.addAttribute("boardInfo", boardRepository.findByTitleAndWriterId(title, memberRepository.findByUsername(username).getMemberId()).get());
+		m.addAttribute("commentList", commentRepository.findByBlogId(id));
+		if (boardRepository.findById(id).isPresent()) m.addAttribute("boardInfo", boardRepository.findById(id).get());
 		return "blog/board";
+	}
+	
+	@PostMapping("/addComment")
+	public String addComment(@RequestParam long commenterId,
+			@RequestParam String commenterProfile,
+			@RequestParam String commentContent,
+			@RequestParam long blogWriterId,
+			@RequestParam String dateTime,
+			@RequestParam long blogId,
+			@RequestParam String commenterName) {
+		MemberEntity ent = memberRepository.findById(blogWriterId).get();
+		boardService.commentCnt(blogId, commentService.addComment(commenterId, commenterName, commenterProfile, commentContent, blogWriterId, blogId, dateTime)); 
+		return "redirect:/blog/" + URLEncoder.encode(ent.getUsername()) + "/board?id=" + blogId;
 	}
 	
 }

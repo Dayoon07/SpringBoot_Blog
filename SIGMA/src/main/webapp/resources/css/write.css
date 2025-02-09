@@ -1,19 +1,7 @@
 @charset "UTF-8";
-
-.container {
-	display: flex;
-	justify-content: space-between;
-}
-
-.left {
-	width: 45%;
-	padding: 20px;
-	border-right: 2px solid #ddd;
-}
-
-.right {
-	width: 45%;
-	padding: 20px;
+#content {
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .preview {

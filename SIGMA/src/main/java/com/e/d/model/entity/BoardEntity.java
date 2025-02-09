@@ -25,6 +25,9 @@ public class BoardEntity {
 	@Column(name = "writer", nullable = false)
 	private String writer;
 	
+	@Column(name = "writer_profile")
+	private String writerProfile;
+	
 	@Column(name = "content", nullable = false)
 	private String content;
 	
@@ -45,5 +48,8 @@ public class BoardEntity {
 	
 	@Column(name = "img")
 	private String img;
+	
+	@Column(name = "video")
+	private String video;
 	
 }

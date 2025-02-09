@@ -1,1 +1,179 @@
 @charset "UTF-8";
+
+/* 기본 글꼴 스타일 */
+#content {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2d3748;
+    line-height: 1.8;
+    word-wrap: break-word;
+}
+
+/* 헤딩(H1 ~ H6) 스타일 */
+#content h1 {
+    font-size: 2.25rem;  /* 36px */
+    font-weight: bold;
+    margin: 1.5rem 0 1rem;
+    color: #1a202c;  /* 진한 회색 */
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.3rem;
+}
+
+#content h2 {
+    font-size: 1.875rem;  /* 30px */
+    font-weight: bold;
+    margin: 1.4rem 0 0.9rem;
+    color: #2d3748;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.3rem;
+}
+
+#content h3 {
+    font-size: 1.5rem;  /* 24px */
+    font-weight: bold;
+    margin: 1.2rem 0 0.8rem;
+    color: #4a5568;
+}
+
+#content h4 {
+    font-size: 1.25rem;  /* 20px */
+    font-weight: bold;
+    margin: 1rem 0 0.6rem;
+    color: #4a5568;
+}
+
+#content h5 {
+    font-size: 1.125rem;  /* 18px */
+    font-weight: bold;
+    margin: 0.8rem 0 0.5rem;
+    color: #4a5568;
+    font-style: italic;
+}
+
+#content h6 {
+    font-size: 1rem;  /* 16px */
+    font-weight: bold;
+    margin: 0.6rem 0 0.4rem;
+    color: #718096;
+    text-transform: uppercase;  /* 대문자 표시 */
+    letter-spacing: 0.05em;     /* 글자 간격 */
+}
+
+/* 공통 헤딩 간격 및 스타일 */
+#content h1, 
+#content h2, 
+#content h3, 
+#content h4, 
+#content h5, 
+#content h6 {
+    line-height: 1.4;
+}
+
+/* 문단 스타일 */
+#content p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* 리스트 스타일 */
+#content ul, #content ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#content li {
+    margin-bottom: 0.5rem;
+}
+
+/* 체크리스트 스타일 */
+#content input[type="checkbox"] {
+    margin-right: 0.5rem;
+    transform: scale(1.2);
+    vertical-align: middle;
+}
+
+/* 인용문 스타일 */
+#content blockquote {
+    border-left: 4px solid #a0aec0;
+    padding-left: 1rem;
+    color: #718096;
+    font-style: italic;
+    background-color: #f7fafc;
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+/* 코드 블록 스타일 */
+#content pre {
+    background-color: lightgray;
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+    font-family: 'Courier New', monospace;
+}
+
+#content code {
+    background-color: transparent;
+    color: black;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+}
+
+/* 테이블 스타일 */
+#content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+#content th, #content td {
+    border: 1px solid #cbd5e0;
+    padding: 0.75rem;
+    text-align: left;
+}
+
+#content th {
+    background-color: #edf2f7;
+    font-weight: bold;
+}
+
+/* 수평선 */
+#content hr {
+    border: none;
+    border-top: 1px solid #cbd5e0;
+    margin: 1.5rem 0;
+}
+
+/* 링크 스타일 */
+#content a {
+    color: #3182ce;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+#content a:hover {
+    color: #2b6cb0;
+}
+
+/* 이미지 스타일 */
+#content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 강조 (볼드/이탤릭) */
+#content strong {
+    font-weight: bold;
+    color: #1a202c;
+}
+
+#content em {
+    font-style: italic;
+    color: #4a5568;
+}

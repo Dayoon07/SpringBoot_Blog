@@ -19,11 +19,20 @@ public class CommentEntity {
 	@Column(name = "commenter_id", nullable = false)
 	private long commenterId;
 	
+	@Column(name = "commenter_name", nullable = false)
+	private String commenterName;
+	
+	@Column(name = "commenter_profile", nullable = false)
+	private String commenterProfile;
+	
 	@Column(name = "comment_content", nullable = false)
 	private String commentContent;
 	
 	@Column(name = "blog_writer_id", nullable = false)
 	private long blogWriterId;
+	
+	@Column(name = "blog_id", nullable = false)
+	private long blogId;
 	
 	@Column(name = "date_time", nullable = false)
 	private String dateTime;

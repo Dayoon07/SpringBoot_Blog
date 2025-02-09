@@ -34,5 +34,8 @@ document.querySelector('form').addEventListener('submit', function(event) {
 	} else if (document.getElementById('username').value == "") {
 		event.preventDefault();
 		alert("이름을 입력해주세요.");
+	} else if (document.getElementById('username').value.includes(' ')) {
+		event.preventDefault();
+		alert("이름에는 공백이 들어갈 수 없습니다.");
 	}
 });

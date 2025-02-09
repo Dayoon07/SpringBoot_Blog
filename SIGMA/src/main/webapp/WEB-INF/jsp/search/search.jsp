@@ -8,19 +8,25 @@
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="${ cl }/resources/css/custom.css">
 	<title>SIGMA</title>
 </head>
 <body>
 	<jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
 	
-	<h1 class="text-3xl text-center mt-10">${ success } <br>3초 후 메인 페이지로 돌아갑니다</h1>
-	
-	<script>
-		setTimeout(() => {
-			location.href = "${ cl }/";
-		}, 3000);
-	</script>
+	<div class="max-w-screen-md mx-auto my-20 border">
+		<form action="${ cl }/result" method="get" autocomplete="on" class="flex items-center pl-4">
+			<button type="submit" style="width: 17px; height: 17px;" class="cursor-pointer">
+				<svg width="17" height="17" viewBox="0 0 17 17">
+					<path fill-rule="evenodd" d="M13.66 7.36a6.3 6.3 0 1 1-12.598 0 6.3 6.3 0 0 1 12.598 0zm-1.73 
+						5.772a7.36 7.36 0 1 1 1.201-1.201l3.636 3.635c.31.31.31.815 0 1.126l-.075.075a.796.796 0 
+						0 1-1.126 0l-3.636-3.635z" clip-rule="evenodd" fill="currentColor">
+					</path>
+				</svg>
+			</button>
+			<input type="text" id="qey" name="qey" value="${ searchWord }" placeholder="검색어를 입력하세요" required 
+				class="w-full cursor-auto text-lg h-12 px-4 py-2 focus:outline-none">
+		</form>
+	</div>
 	
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>

@@ -10,7 +10,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>회원가입</title>
+	<title>SIGMA</title>
 </head>
 <body>
 	<jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
@@ -20,7 +20,7 @@
 		<form action="${ cl }/signupF" method="post" autocomplete="off" enctype="multipart/form-data" class="space-y-4">
 			<div>
 				<label for="profile" class="block text-gray-700 font-semibold mb-1">프로필 사진</label>
-				<input type="file" id="profile" name="profile" accept="image/*" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+				<input type="file" id="profile" name="profile" accept="image/*" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black cursor-pointer" />
 			</div>
 		
 			<div>
@@ -36,7 +36,7 @@
 
 			<div>
 				<label for="userpassword" class="block text-gray-700 font-semibold mb-1">비밀번호</label>
-				<input type="password" id="userpassword" name="userpassword" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+				<input type="text" id="userpassword" name="userpassword" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
 			</div>
 
 			<div class="hidden">
@@ -56,5 +56,12 @@
 
 	<jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
 	<script src="${ cl }/resources/js/chkName.js"></script>
+	<script>
+		const profile = document.getElementById("profile");
+		const list = ["mov", "mp4", "wmv", "avi", "mkv", "webm", "html5"];
+		
+		profile.add
+		
+	</script>
 </body>
 </html>

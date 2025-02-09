@@ -34,7 +34,7 @@ public class MemberService {
 		String uploadDir = session.getServletContext().getRealPath("/resources/profile-img/");
 		String extension = profile.getOriginalFilename().substring(profile.getOriginalFilename().lastIndexOf("."));
 		String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")) + "_"
-				+ UUID.randomUUID().toString().replaceAll("-", " ") + extension;
+				+ UUID.randomUUID().toString().replaceAll("[^a-zA-Z0-9]", "") + extension;
 
 		File dir = new File(uploadDir);
 		if (!dir.exists()) dir.mkdirs();

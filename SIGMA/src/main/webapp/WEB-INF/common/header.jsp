@@ -11,6 +11,7 @@
 	  	
 	  	<c:if test="${ empty sessionScope.user }">
 	  		<div class="flex items-center space-x-4">
+	  			<a href="${ cl }/search" class="text-lg font-medium text-gray-700 hover:text-black hover:underline">검색</a>
 	  			<a href="${ cl }/signin">
 	  				<button type="button" class="py-2 text-lg text-black hover:bg-gray-200 rounded-md px-4">로그인</button>
 	      		</a>
@@ -23,12 +24,12 @@
 		<c:if test="${ not empty sessionScope.user }">
 			<div class="flex items-center space-x-6 mr-6">
 	      		<div class="space-x-4">
-	        		<a href="${ cl }/searchPage" class="text-lg font-medium text-gray-700 hover:text-black hover:underline">검색</a>
+	        		<a href="${ cl }/search" class="text-lg font-medium text-gray-700 hover:text-black hover:underline">검색</a>
 	        		<a href="${ cl }/write" class="text-lg font-medium text-gray-700 hover:text-black hover:underline">글 작성</a>
 	      		</div>
 	      		<div class="flex items-center space-x-4">
 	        		<div>
-	          			<a href="${ cl }/profile/${ sessionScope.user.username }" class="text-lg font-semibold text-gray-800">
+	          			<a href="${ cl }/blog/${ sessionScope.user.username }" class="text-lg font-semibold text-gray-800">
 	            			${ sessionScope.user.username }
 	          			</a>
 	        		</div>
@@ -36,8 +37,11 @@
 	        			<img src="${ sessionScope.user.profile }" class="w-10 h-10 rounded-full object-cover cursor-pointer" onclick="openProfile()">
 	        			<div id="profileDiv" class="hidden fixed top-0 right-0 w-full h-full bg-transparent z-10" onclick="closeProfile()"></div>
 						<div id="profileRealDiv" class="hidden absolute top-14 right-0 w-60 bg-white rounded-lg border z-20">
-							<a href="${ cl }/profile/${ sessionScope.user.username }">
+							<a href="${ cl }/blog/${ sessionScope.user.username }">
 								<button type="button" class="w-full px-4 py-2 cursor-pointer hover:bg-gray-200 text-left">내 블로그</button>
+							</a>
+							<a href="${ cl }/list/${ sessionScope.user.username }/like">
+								<button type="button" class="w-full px-4 py-2 cursor-pointer hover:bg-gray-200 text-left">좋아하는 글</button>
 							</a>
 							<form action="${ cl }/logout" method="post" autocomplete="off">
 								<input type="hidden" name="memberId" value="${ sessionScope.user.memberId }">

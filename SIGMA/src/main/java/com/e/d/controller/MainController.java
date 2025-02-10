@@ -2,12 +2,13 @@ package com.e.d.controller;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.e.d.model.entity.BoardEntity;
 import com.e.d.model.entity.MemberEntity;
 import com.e.d.model.repository.BoardRepository;
 import com.e.d.model.repository.CommentRepository;
@@ -235,17 +237,26 @@ public class MainController {
 		return "blog/board";
 	}
 	
+	@Transactional
 	@PostMapping("/addComment")
 	public String addComment(@RequestParam long commenterId,
 			@RequestParam String commenterProfile,
-			@RequestParam String commentContent,
-			@RequestParam long blogWriterId,
-			@RequestParam String dateTime,
-			@RequestParam long blogId,
-			@RequestParam String commenterName) {
-		MemberEntity ent = memberRepository.findById(blogWriterId).get();
-		boardService.commentCnt(blogId, commentService.addComment(commenterId, commenterName, commenterProfile, commentContent, blogWriterId, blogId, dateTime)); 
-		return "redirect:/blog/" + URLEncoder.encode(ent.getUsername()) + "/board?id=" + blogId;
+	        @RequestParam String commentContent,
+	        @RequestParam long blogWriterId,
+	        @RequestParam String dateTime,
+	        @RequestParam long blogId,
+	        @RequestParam String commenterName) {
+	    int n = commentService.addComment(commenterId, commenterName, commenterProfile, commentContent, blogWriterId, blogId, dateTime);
+	    BoardEntity board = boardRepository.findById(blogId).orElse(null);
+	    if (board != null) {
+	        board.setCommentCount(n);
+	        boardRepository.save(board);
+	        boardRepository.flush();
+	    } else {
+	        log.error("Board with id {} not found", blogId);
+	    }
+	    return "redirect:/blog/" + (board != null ? board.getWriter() : "") + "/board?id=" + blogId;
 	}
+
 	
 }

@@ -33,64 +33,71 @@
         </div>
 
         <div class="mt-8 max-w-screen-md mx-auto">
-		    <h3 class="text-2xl font-bold mb-6">작성한 글</h3>
-		    <c:forEach var="pub" items="${ profileUserBoard }">
-		        <div class="bg-white shadow-md rounded-2xl p-5 mb-6 hover:shadow-lg transition duration-300">
-		            <div class="w-full h-48 overflow-hidden rounded-xl mb-4">
-		                <c:if test="${ not empty pub.img and empty pub.video }">
-	  						<img src="${ pub.img }" class="w-full" loading="lazy">
-	  					</c:if>
-	  					<c:if test="${ empty pub.img and not empty pub.video }">
-	  						<video src="${ pub.video }"></video>
-	  					</c:if>
-	  					<c:if test="${ not empty pub.img and not empty pub.video }">
-	  						<img src="${ pub.img }" class="w-full" loading="lazy">
-	  					</c:if>
-	  					<c:if test="${ empty pub.img and empty pub.video }">
-	  						<div class="w-full bg-white flex justify-center items-center border">이미지 또는 영상이 없음</div>
-	  					</c:if>
-		            </div>
-		            <div class="mb-3">
-		                <a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="text-2xl font-semibold text-gray-800 hover:underline">
-		                <c:choose>
-		                    <c:when test="${ pub.title.length() > 30 }">
-		                        ${ pub.title.substring(0, 30) }...
-		                    </c:when>
-		                    <c:otherwise>
-		                        ${ pub.title }
-		                    </c:otherwise>
-		                </c:choose>
-		                </a>
-		            </div>
-		            <div class="w-full text-gray-600 text-base leading-relaxed mb-4">
-		    			<a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="hover:underline">
-				    		<c:choose>
-				            	<c:when test="${ pub.content.length() > 80 }">
-				                	${ pub.content.substring(0, 80) }...
-								</c:when>
-				                <c:otherwise>
-				                	${ pub.content }
-								</c:otherwise>
-							</c:choose>
-						</a>
-					</div>
-		
-		            <div class="flex flex-wrap gap-2 mb-4">
-		                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 cursor-pointer">
-		                    #${ pub.category }
-		                </span>
-		            </div>
-		
-		            <div class="text-gray-500 text-sm flex justify-between">
-		                <p>${ pub.dateTime }</p>
-		                <div class="flex gap-4">
-		                    <p>조회수 : ${ pub.views }</p>
-		                    <p>좋아요 : ${ pub.likes }</p>
-		                    <p>댓글 : ${ pub.commentCount }</p>
-		                </div>
-		            </div>
-		        </div>
-		    </c:forEach>
+        	<c:if test="${ empty profileUserBoard }">
+        		<h3 class="text-4xl font-bold text-center mb-24">작성한 글이 없습니다</h3>
+        	</c:if>
+		    <c:if test="${ not empty profileUserBoard }">
+			    <h3 class="text-2xl font-bold mb-6">작성한 글</h3>
+			    <c:forEach var="pub" items="${ profileUserBoard }">
+			        <div class="bg-white shadow-md rounded-2xl p-5 mb-6 hover:shadow-lg transition duration-300">
+			            <div class="w-full h-48 overflow-hidden rounded-xl mb-4">
+			                <c:if test="${ not empty pub.img and empty pub.video }">
+		  						<img src="${ pub.img }" class="w-full" loading="lazy">
+		  					</c:if>
+		  					<c:if test="${ empty pub.img and not empty pub.video }">
+		  						<video src="${ pub.video }"></video>
+		  					</c:if>
+		  					<c:if test="${ not empty pub.img and not empty pub.video }">
+		  						<img src="${ pub.img }" class="w-full" loading="lazy">
+		  					</c:if>
+		  					<c:if test="${ empty pub.img and empty pub.video }">
+		  						<div class="w-full bg-white flex justify-center items-center border">이미지 또는 영상이 없음</div>
+		  					</c:if>
+			            </div>
+			            <div class="mb-3">
+			                <a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="text-2xl font-semibold text-gray-800 hover:underline">
+			                <c:choose>
+			                    <c:when test="${ pub.title.length() > 30 }">
+			                        ${ pub.title.substring(0, 30) }...
+			                    </c:when>
+			                    <c:otherwise>
+			                        ${ pub.title }
+			                    </c:otherwise>
+			                </c:choose>
+			                </a>
+			            </div>
+			            <div class="w-full text-gray-600 text-base leading-relaxed mb-4">
+			    			<a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="hover:underline">
+					    		<c:choose>
+					            	<c:when test="${ pub.content.length() > 80 }">
+					                	${ pub.content.substring(0, 80) }...
+									</c:when>
+					                <c:otherwise>
+					                	${ pub.content }
+									</c:otherwise>
+								</c:choose>
+							</a>
+						</div>
+			
+			            <div class="flex flex-wrap gap-2 mb-4">
+			            	<a href="${ cl }/tags/${ pub.category }">
+			            		<span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 cursor-pointer">
+				                    ${ pub.category }
+				                </span>
+			            	</a>
+			            </div>
+			
+			            <div class="text-gray-500 text-sm flex justify-between">
+			                <p>${ pub.dateTime }</p>
+			                <div class="flex gap-4">
+			                    <p>조회수 : ${ pub.views }</p>
+			                    <p>좋아요 : ${ pub.likes }</p>
+			                    <p>댓글 : ${ pub.commentCount }</p>
+			                </div>
+			            </div>
+			        </div>
+			    </c:forEach>
+		    </c:if>
 		</div>
   	</div>
 

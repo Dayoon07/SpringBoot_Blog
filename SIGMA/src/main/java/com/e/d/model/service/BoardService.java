@@ -146,22 +146,4 @@ public class BoardService {
 		repository.save(board);
 	}
 	
-	public void commentCnt(long blogId, int n) {
-		BoardEntity board = BoardEntity.builder()
-				.blogId(blogId)
-				.title(repository.findById(blogId).get().getTitle())
-				.writerId(repository.findById(blogId).get().getWriterId())
-				.writer(repository.findById(blogId).get().getWriter())
-				.writerProfile(repository.findById(blogId).get().getWriterProfile())
-				.content(repository.findById(blogId).get().getContent())
-				.views(repository.findById(blogId).get().getViews())
-				.likes(repository.findById(blogId).get().getLikes())
-				.category(repository.findById(blogId).get().getCategory())
-				.dateTime(repository.findById(blogId).get().getDateTime())
-				.commentCount(n)
-				.build();
-		log.info("Saving board: {}", board);
-		repository.save(board);
-	}
-	
 }

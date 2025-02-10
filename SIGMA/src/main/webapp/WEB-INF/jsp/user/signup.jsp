@@ -20,7 +20,8 @@
 		<form action="${ cl }/signupF" method="post" autocomplete="off" enctype="multipart/form-data" class="space-y-4">
 			<div>
 				<label for="profile" class="block text-gray-700 font-semibold mb-1">프로필 사진</label>
-				<input type="file" id="profile" name="profile" accept="image/*" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black cursor-pointer" />
+				<input type="file" id="profile" name="profile" accept="image/*" required onchange="imgChk(event)"
+					class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black cursor-pointer" />
 			</div>
 		
 			<div>
@@ -56,12 +57,5 @@
 
 	<jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
 	<script src="${ cl }/resources/js/chkName.js"></script>
-	<script>
-		const profile = document.getElementById("profile");
-		const list = ["mov", "mp4", "wmv", "avi", "mkv", "webm", "html5"];
-		
-		profile.add
-		
-	</script>
 </body>
 </html>

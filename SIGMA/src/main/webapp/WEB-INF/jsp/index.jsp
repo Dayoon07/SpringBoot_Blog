@@ -14,12 +14,19 @@
 <body>
 	<jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
 	
-	<div class="container mx-auto grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
+	<div class="container mx-auto mt-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
 		<c:forEach var="brfa" items="${ boardRepoFindAll }">
-    		<div class="grid-item rounded overflow-hidden p-4 hover:bg-gray-100">
+    		<div class="grid-item rounded overflow-hidden p-4 hover:bg-gray-100 border">
 				<a href="${ cl }/blog/${ brfa.writer }" class="block p-2 mb-2 hover:bg-gray-200 flex items-center">
 					<img src="${ brfa.writerProfile }" class="w-8 h-8 rounded-full object-cover">
-					<span class="mx-2 text-md">${ brfa.writer }</span>
+					<c:choose>
+						<c:when test="${ brfa.writer.length() > 9 }">
+							<span class="mx-2 text-md">${ brfa.writer.substring(0, 9) }...</span>
+						</c:when>
+						<c:otherwise>
+							<span class="mx-2 text-md">${ brfa.writer }</span>
+						</c:otherwise>
+					</c:choose>
 				</a>
   				<a href="${ cl }/blog/${ brfa.writer }/board?id=${ brfa.blogId }" style="height: 170px;" class="block overflow-hidden">
   					<c:if test="${ not empty brfa.img and empty brfa.video }">
@@ -52,8 +59,8 @@
 			    		<p class="text-gray-700 text-base">
 			      			<a href="${ cl }/blog/${ brfa.writer }/board?id=${ brfa.blogId }" class="hover:underline">
 			      				<c:choose>
-									<c:when test="${ brfa.content.length() > 60 }">
-										${ brfa.content.substring(0, 60) += "..." }
+									<c:when test="${ brfa.content.length() > 30 }">
+										${ brfa.content.substring(0, 30) += "..." }
 							        </c:when>
 									<c:otherwise>
 										${ brfa.content }
@@ -72,6 +79,17 @@
 			</div>
 		</c:forEach>
 	</div>
+	
+	<footer class="container mx-auto bg-white m-4">
+    	<div class="p-4 md:flex md:items-center md:justify-between border-t">
+      		<span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+      			Copyright 2024. Dayoon. All Rights Reserved.
+    		</span>
+    		<ul class="flex flex-wrap items-center mt-3 text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
+        		<li><a href="mailto:gangd0642@gmail.com" class="hover:text-blue-600 hover:underline">gangd0642@gmail.com</a></li>
+    		</ul>
+    	</div>
+	</footer>
 	
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>

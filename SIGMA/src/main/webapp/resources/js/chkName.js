@@ -39,3 +39,24 @@ document.querySelector('form').addEventListener('submit', function(event) {
 		alert("이름에는 공백이 들어갈 수 없습니다.");
 	}
 });
+
+function imgChk(event) {
+    const file = event.target.files[0];
+    const AllowedList = [".jpeg", ".jpg", ".png", ".tiff", ".webp"];
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (file) {
+        if (file.size > maxSize) {
+            alert("이미지 업로드 최대는 5MB 입니다.");
+            event.target.value = "";
+            return;
+        }
+
+        const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+        if (!AllowedList.includes(fileExtension)) {
+            alert("허용되지 않은 이미지 형식입니다. (jpeg, jpg, png, tiff, webp만 가능)");
+            event.target.value = "";
+            return;
+        }
+    }
+}

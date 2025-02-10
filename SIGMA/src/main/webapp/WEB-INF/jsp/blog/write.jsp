@@ -11,7 +11,8 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ cl }/resources/css/write.css">
-	<title>SIGMA</title>
+    <link rel="stylesheet" href="${ cl }/resources/css/custom.css">
+	<title>글 작성 - SIGMA</title>
 </head>
 <body>
 	<jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
@@ -24,10 +25,10 @@
                 <div class="preview" id="preview">
                     <span id="previewCategory" class="bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer">카테고리</span>
                     <h2 id="previewTitle" class="mt-3 text-2xl font-semibold text-gray-900" style="word-break: break-word; white-space: pre-wrap;">제목</h2>
-                    <video id="previewVideo" class="hidden w-full object-cover border rounded-md mb-4" controls></video>
                     <img id="previewImg" class="hidden w-full object-cover border rounded-md" />
+                    <video id="previewVideo" class="hidden w-full object-cover border rounded-md mb-4" controls></video>
                     <p id="previewContent" class="block mt-4 text-gray-700" style="width: 610px; word-break: break-word; white-space: pre-wrap;">내용</p>
-                </div>
+                </div>	
             </div>
 
             <!-- 오른쪽 (게시글 작성 폼) -->
@@ -36,32 +37,58 @@
                 <form id="boardForm" action="${ cl }/boardWrite" method="post" autocomplete="off" enctype="multipart/form-data">
                     <input type="hidden" name="dateTime" value="<%= LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) %>" required readonly>
 
-                    <div class="mb-6">
-                        <label for="video" class="block text-lg font-semibold text-gray-700">비디오 파일</label>
-                        <input type="file" id="video" name="video" accept="video/*" class="w-full p-3 border border-gray-300 rounded-lg" onchange="previewImage(event)">
+					<div class="mb-6">
+                        <label for="title" class="block text-lg font-semibold text-gray-700">제목</label>
+                        <input type="text" id="title" name="title" class="w-full p-3 border-gray-300 border-b focus:border-black focus:outline-none" placeholder="제목을 입력하세요" required maxlength="100">
                     </div>
-                    <div class="mb-6">
-                        <label for="img" class="block text-lg font-semibold text-gray-700">이미지 파일</label>
-                        <input type="file" id="img" name="img" accept="image/*" class="w-full p-3 border border-gray-300 rounded-lg" onchange="previewImage(event)">
-                    </div>
+                    
                     <div class="mb-6">
                         <label for="category" class="block text-lg font-semibold text-gray-700">카테고리</label>
-                        <input type="text" id="category" name="category" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="카테고리를 입력하세요" required maxlength="15">
+                        <input type="text" id="category" name="category" class="w-full p-3 border-gray-300 border-b focus:border-black focus:outline-none" placeholder="카테고리를 입력하세요" required maxlength="15">
                     </div>
+                    
+                    <div class="flex items-center mb-6">
+                    	<div>
+	                    	<label for="img" class="inline-block px-4 py-2 bg-black text-white font-semibold cursor-pointer hover:opacity-70 rounded transition">
+				        		이미지 업로드
+				    		</label>
+				    		<input type="file" id="img" name="img" accept="image/*" class="hidden" onchange="previewImage(event)">
+                    	</div>
+                    	<div class="mx-5">
+                    		<label for="video" class="inline-block px-4 py-2 bg-black text-white font-semibold cursor-pointer hover:opacity-70 rounded transition">
+				        		비디오 업로드
+				    		</label>
+				    		<input type="file" id="video" name="video" accept="video/*" class="hidden" onchange="previewImage(event)">
+                    	</div>
+                    </div>
+
                     <div class="mb-6">
-                        <label for="title" class="block text-lg font-semibold text-gray-700">제목</label>
-                        <input type="text" id="title" name="title" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="제목을 입력하세요" required maxlength="100">
-                    </div>
-                    <div class="mb-6">
-                        <label for="content" class="block text-lg font-semibold text-gray-700">내용</label>
-                        <textarea id="content" name="content" rows="10" class="w-full p-3 border border-gray-300 rounded-lg resize-none" placeholder="내용을 입력하세요" required></textarea>
-                    </div>
+					    <label for="content" class="block text-lg font-semibold text-gray-700">내용</label>
+					
+					    <div id="toolbar" class="md:flex gap-2 pb-2">
+					        <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('**', '**')">굵게</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('--- ', '')">구분선</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('*', '*')">기울림</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('~~', '~~')">취소선</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('> ', '')">인용문</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('```\n', '\n```')">코드 블록</button>
+					    </div>
+					    <div id="toolbar" class="md:flex gap-2 pb-2">
+					    	<button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('# ', '')">H1</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('## ', '')">H2</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('### ', '')">H3</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('[링크텍스트](http://)', '')">링크</button>
+						    <button class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('![이미지링크](http://)', '')">이미지</button>
+					    </div>
+					
+					    <textarea id="content" name="content" rows="10" class="w-full p-3 border-gray-300 border resize-none focus:outline-none" placeholder="내용을 입력하세요" required></textarea>
+					</div>
                     <button type="submit" class="w-full bg-black text-white py-3 rounded-lg hover:bg-opacity-80 transition duration-300">게시글 작성</button>
                 </form>
             </div>
         </div>
     </div>
-
+    
 	<jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
     <script src="${ cl }/resources/js/write.js"></script>
 </body>

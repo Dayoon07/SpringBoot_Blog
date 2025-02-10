@@ -80,12 +80,14 @@
 						</c:otherwise>
 					</c:choose>		
 				</p>
-	
-	            <div class="flex flex-wrap gap-2">
-	                #<a href="${ cl }/tags/${ srl.category }" class="px-2 py-1 bg-gray-200 rounded-md text-sm text-gray-700 hover:bg-gray-300">
-	                	${ srl.category }
-	                </a>
-	            </div>
+				
+				<div class="flex flex-wrap gap-2 mb-4">
+					<a href="${ cl }/tags/${ srl.category }">
+						<span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 cursor-pointer">
+		            		${ srl.category }
+		            	</span>
+		            </a>
+				</div>
 	
 	            <div class="flex items-center text-sm text-gray-500 space-x-2">
 	                ${ srl.dateTime } <br>

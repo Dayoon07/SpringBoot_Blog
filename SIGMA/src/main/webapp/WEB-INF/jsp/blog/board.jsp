@@ -11,6 +11,7 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${ cl }/resources/css/custom.css">
+    <link rel="stylesheet" href="${ cl }/resources/css/board.css">
 	<title>${ boardInfo.title } - SIGMA</title>
 </head>
 <body>
@@ -85,12 +86,15 @@
 	        <c:if test="${ not empty commentList }">
 	        	<c:forEach var="commentList" items="${ commentList }">
 		        	<div class="p-4">
-			            <div class="flex items-center text-sm text-gray-500 mb-2">
-			                <span class="font-medium mr-2">${ commentList.commenterName }</span>
-			                <span class="mx-1">&#8226; &nbsp;</span>
+			            <div class="flex items-center text-md text-gray-500 mb-2">
+			            	<a href="${ cl }/blog/${ commentList.commenterName }" class="flex items-center">
+			            		<img src="${ commentList.commenterProfile }" class="w-8 h-8 rounded-full object-cover">
+			                	<span class="font-medium mx-2">${ commentList.commenterName }</span>
+			            	</a>
+			                <span>&#8226; &nbsp;</span>
 			                <span>${ commentList.dateTime }</span>
 			            </div>
-			            <p class="text-gray-800">${ commentList.commentContent }</p>
+			            <textarea id="commentContent" class="text-lg w-full text-gray-800 focus:outline-none focus:ring-hidden resize-none" readonly>${ commentList.commentContent }</textarea>
 			        </div>
 		        </c:forEach>
 	        </c:if>
@@ -101,6 +105,16 @@
 	
 	<jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
 	<script src="${ cl }/resources/js/boardMdEncode.js"></script>
+	<script>
+		fetch(`${url}/boardCommentCountSave?commentCount=${commentList.size()}&blogId=${boardInfo.blogId}`, {method: 'POST'})
+			.then(response => response.json())
+			.then(data => {
+				console.log("댓글 수: " + data + "개");
+			})
+			.catch((error) => {
+			    console.error('에러:', error);
+			});
+	</script>
 	
 </body>
 </html>

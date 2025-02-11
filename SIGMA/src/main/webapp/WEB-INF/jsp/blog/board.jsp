@@ -17,6 +17,23 @@
 <body>
 	<jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
 	
+	<c:if test="${ boardInfo.writerId eq sessionScope.user.memberId }">
+		<div class="max-w-screen-md mx-auto mt-4 flex justify-end space-x-4">
+  			<form action="${ cl }/blog/${ sessionScope.user.username }/board/edit" method="post">
+    			<input type="hidden" name="blogId" value="${ boardInfo.blogId }">
+    			<button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded shadow-md hover:bg-blue-600 transition duration-200">
+      				수정
+    			</button>
+  			</form>
+  			<form action="${ cl }/blog/${ sessionScope.user.username }/board/delete" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+    			<input type="hidden" name="blogId" value="${ boardInfo.blogId }">
+    			<button type="submit" class="px-6 py-2 bg-red-500 text-white rounded shadow-md hover:bg-red-600 transition duration-200">
+      				삭제
+    			</button>
+  			</form>
+		</div>
+	</c:if>
+	
 	<div class="max-w-screen-md mx-auto py-8 px-4">
 	    <h1 class="text-4xl font-bold mb-2 text-gray-900">${ boardInfo.title }</h1>
 	
@@ -61,9 +78,9 @@
 	    <c:if test="${ not empty sessionScope.user }">
 	    	<div class="w-full mb-6">
 		        <h2 class="text-2xl font-semibold mb-4">댓글 작성</h2>
-		        <form action="${ cl }/addComment" method="post" class="flex justify-between">
+		        <form action="${ cl }/addComment" method="post">
 		            <textarea name="commentContent" placeholder="댓글을 입력하세요..." 
-		            	class="w-4/5 p-3 h-12 border focus:ring-2 focus:ring-black focus:outline-none resize-none overflow-y-hidden"></textarea>
+		            	class="w-full p-3 border focus:ring-2 focus:ring-black focus:outline-none resize-none overflow-y-hidden"></textarea>
 		            <button type="submit" class="w-32 bg-black text-white px-4 py-2 hover:opacity-70">댓글 작성</button>
 		        	<input type="hidden" name="commenterId" value="${ sessionScope.user.memberId }">
 		        	<input type="hidden" name="" value="${ sessionScope.user.memberId }">
@@ -94,7 +111,7 @@
 			                <span>&#8226; &nbsp;</span>
 			                <span>${ commentList.dateTime }</span>
 			            </div>
-			            <textarea id="commentContent" class="text-lg w-full text-gray-800 focus:outline-none focus:ring-hidden resize-none" readonly>${ commentList.commentContent }</textarea>
+			            <textarea id="ELcommentContent" class="text-lg w-full text-gray-800 focus:outline-none focus:ring-hidden resize-none" readonly>${ commentList.commentContent }</textarea>
 			        </div>
 		        </c:forEach>
 	        </c:if>
@@ -114,6 +131,13 @@
 			.catch((error) => {
 			    console.error('에러:', error);
 			});
+		
+		window.addEventListener('DOMContentLoaded', () => {
+	        document.querySelectorAll('#ELcommentContent').forEach(textarea => {
+	            textarea.style.height = 'auto';
+	            textarea.style.height = textarea.scrollHeight + 'px';
+	        });
+	    });
 	</script>
 	
 </body>

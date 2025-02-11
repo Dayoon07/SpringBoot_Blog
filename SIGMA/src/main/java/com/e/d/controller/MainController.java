@@ -1,7 +1,9 @@
 package com.e.d.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.Optional;
 
@@ -201,7 +203,7 @@ public class MainController {
 			@RequestParam String dateTime,
 			@RequestParam MultipartFile img,
 			@RequestParam MultipartFile video,
-			HttpSession session) throws IllegalStateException, IOException {
+			HttpSession session) throws IllegalStateException, IOException, UnsupportedEncodingException {
 		MemberEntity u = (MemberEntity) session.getAttribute("user");
 		
 		if (img.isEmpty() && video.isEmpty()) {
@@ -213,7 +215,7 @@ public class MainController {
 		} else if (!img.isEmpty() && !video.isEmpty()) {
 			boardService.boardWrite4(title, u.getMemberId(), u.getUsername(), content, category, dateTime, session, img, video);
 		}
-		return "redirect:/blog/" + u.getUsername();
+		return "redirect:/blog/" + URLEncoder.encode(u.getUsername(), "UTF-8");
 	}
 	
 	@GetMapping("/blog/{username}")
@@ -237,6 +239,37 @@ public class MainController {
 		return "blog/board";
 	}
 	
+	@PostMapping("/blog/{username}/board/delete")
+	public String boardDelete(@PathVariable String username, @RequestParam long blogId) throws UnsupportedEncodingException {
+		boardService.boardDelete(blogId);
+		return "redirect:/blog/" + URLEncoder.encode(username, "UTF-8");
+	}
+	
+	@PostMapping("/blog/{username}/board/edit")
+	public String boardEditPage(@PathVariable String username, @RequestParam long blogId, Model m) {
+	    boardRepository.findById(blogId).ifPresent(entity -> m.addAttribute("editedBoardInfo", entity));
+	    return "blog/edit";
+	}
+	
+	@PostMapping("/boardEdit")
+	public String boardEdit(@RequestParam long blogId,
+			@RequestParam String title,
+			@RequestParam long writerId,
+			@RequestParam String writer,
+			@RequestParam String writerProfile,
+			@RequestParam long views,
+			@RequestParam long likes,
+			@RequestParam long commentCount,
+			@RequestParam String content,
+			@RequestParam String category,
+			@RequestParam String dateTime,
+			@RequestParam MultipartFile img,
+			@RequestParam MultipartFile video,
+			HttpSession session) throws IllegalStateException, IOException {
+		boardService.boardEditFunctionThatsServiceLayerFunc(blogId, title, writerId, writer, writerProfile, views, likes, commentCount, content, category, dateTime, img, video, session);
+		return "redirect:/blog/" + URLEncoder.encode(writer, "UTF-8") + "/board?id=" + blogId;
+	}
+	
 	@Transactional
 	@PostMapping("/addComment")
 	public String addComment(@RequestParam long commenterId,
@@ -245,18 +278,12 @@ public class MainController {
 	        @RequestParam long blogWriterId,
 	        @RequestParam String dateTime,
 	        @RequestParam long blogId,
-	        @RequestParam String commenterName) {
-	    int n = commentService.addComment(commenterId, commenterName, commenterProfile, commentContent, blogWriterId, blogId, dateTime);
+	        @RequestParam String commenterName) throws UnsupportedEncodingException {
+	    commentService.addComment(commenterId, commenterName, commenterProfile, commentContent, blogWriterId, blogId, dateTime);
 	    BoardEntity board = boardRepository.findById(blogId).orElse(null);
-	    if (board != null) {
-	        board.setCommentCount(n);
-	        boardRepository.save(board);
-	        boardRepository.flush();
-	    } else {
-	        log.error("Board with id {} not found", blogId);
-	    }
-	    return "redirect:/blog/" + (board != null ? board.getWriter() : "") + "/board?id=" + blogId;
+	    return "redirect:/blog/" + (board != null ? URLEncoder.encode(board.getWriter(), "UTF-8") : "") + "/board?id=" + blogId;
 	}
+	
 
 	
 }

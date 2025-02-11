@@ -39,8 +39,8 @@
 		    <c:if test="${ not empty profileUserBoard }">
 			    <h3 class="text-2xl font-bold mb-6">작성한 글</h3>
 			    <c:forEach var="pub" items="${ profileUserBoard }">
-			        <div class="bg-white shadow-md rounded-2xl p-5 mb-6 hover:shadow-lg transition duration-300">
-			            <div class="w-full h-48 overflow-hidden rounded-xl mb-4">
+			        <div class="bg-white shadow-md border rounded-md p-5 mb-6 hover:shadow-lg transition duration-300">
+			            <a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="block w-full h-48 overflow-hidden mb-4">
 			                <c:if test="${ not empty pub.img and empty pub.video }">
 		  						<img src="${ pub.img }" class="w-full" loading="lazy">
 		  					</c:if>
@@ -51,9 +51,9 @@
 		  						<img src="${ pub.img }" class="w-full" loading="lazy">
 		  					</c:if>
 		  					<c:if test="${ empty pub.img and empty pub.video }">
-		  						<div class="w-full bg-white flex justify-center items-center border">이미지 또는 영상이 없음</div>
+		  						<div class="w-full h-48 bg-white flex justify-center items-center border">이미지 또는 영상이 없음</div>
 		  					</c:if>
-			            </div>
+			            </a>
 			            <div class="mb-3">
 			                <a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="text-2xl font-semibold text-gray-800 hover:underline">
 			                <c:choose>

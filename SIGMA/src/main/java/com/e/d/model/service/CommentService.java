@@ -17,7 +17,7 @@ public class CommentService {
 	private final BoardRepository boardRepository;
 	private final CommentRepository repository;
 
-	public int addComment(long commenterId, String commenterName, String commenterProfile, 
+	public void addComment(long commenterId, String commenterName, String commenterProfile, 
 			String commentContent, long blogWriterId, long blogId, String dateTime) {
 		CommentEntity entity = CommentEntity.builder()
 				.commenterId(commenterId)
@@ -29,7 +29,6 @@ public class CommentService {
 				.dateTime(dateTime)
 				.build();
 		repository.save(entity);
-		return repository.findByBlogId(blogId).size();
 	}
 
 }

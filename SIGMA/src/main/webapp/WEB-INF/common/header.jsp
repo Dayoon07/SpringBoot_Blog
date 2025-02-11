@@ -34,7 +34,7 @@
 	          			</a>
 	        		</div>
 	        		<div class="relative">
-	        			<img src="${ sessionScope.user.profile }" class="w-10 h-10 rounded-full object-cover cursor-pointer" onclick="openProfile()">
+	        			<img src="${ sessionScope.user.profile }" alt="${ sessionScope.user.username }님 프로필" class="w-10 h-10 rounded-full object-cover cursor-pointer" onclick="openProfile()">
 	        			<div id="profileDiv" class="hidden fixed top-0 right-0 w-full h-full bg-transparent z-10" onclick="closeProfile()"></div>
 						<div id="profileRealDiv" class="hidden absolute top-14 right-0 w-60 bg-white rounded-lg border z-20">
 							<a href="${ cl }/blog/${ sessionScope.user.username }">
@@ -53,3 +53,8 @@
 	    	</div>
 	    </c:if>
 	</header>
+	
+	<div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+	     background: white; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+	    <p>로딩 중...</p>
+	</div>

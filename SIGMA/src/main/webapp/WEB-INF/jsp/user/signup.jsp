@@ -26,18 +26,19 @@
 		
 			<div>
 				<label for="username" class="block text-gray-700 font-semibold mb-1">이름</label>
-				<input type="text" id="username" name="username" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+				<input type="text" id="username" name="username" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" maxlength="30" />
 				<div id="username-feedback" class="mt-1"></div>
 			</div>
 
 			<div>
 				<label for="useremail" class="block text-gray-700 font-semibold mb-1">이메일</label>
-				<input type="email" id="useremail" name="useremail" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+				<input type="email" id="useremail" name="useremail" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" maxlength="100" />
 			</div>
 
 			<div>
 				<label for="userpassword" class="block text-gray-700 font-semibold mb-1">비밀번호</label>
-				<input type="text" id="userpassword" name="userpassword" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black" />
+				<input type="text" id="userpassword" name="userpassword" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+					placeholder="비밀번호는 최소 6자 이상이어야 합니다" pattern=".{6,}" maxlength="100"/>
 			</div>
 
 			<div class="hidden">

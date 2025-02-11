@@ -1,3 +1,6 @@
+window.addEventListener("load", () => {
+	document.getElementById("loading").style.display = "none";
+});
 function openProfile() {
 	document.getElementById("profileDiv").classList.remove("hidden");
 	document.getElementById("profileRealDiv").classList.remove("hidden");

@@ -98,8 +98,8 @@
 					    	<button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('# ', '')">H1</button>
 						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('## ', '')">H2</button>
 						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('### ', '')">H3</button>
-						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('[링크텍스트](http://)', '')">링크</button>
-						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('![이미지링크](http://)', '')">이미지</button>
+						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('[링크텍스트](https://)', '')">링크</button>
+						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('![이미지링크](https://)', '')">이미지</button>
 					    </div>
 					
 					    <textarea id="content" name="content" rows="10" class="w-full p-3 border-gray-300 border resize-none focus:outline-none" placeholder="내용을 입력하세요" required>${ editedBoardInfo.content }</textarea>

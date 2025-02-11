@@ -27,7 +27,7 @@ public class BoardService {
 	private final BoardRepository repository;
 	private final CommentRepository commentRepository;
 	private final MemberRepository memberRepository;
-	
+
 	/**
 	 * <p>
 	 * 이미지와 영상이 둘 다 없을 때
@@ -115,8 +115,10 @@ public class BoardService {
 		File videoDir = new File(videoUploadDir);
 		File imgDir = new File(imgUploadDir);
 
-		if (!videoDir.exists()) videoDir.mkdirs();
-		if (!imgDir.exists()) imgDir.mkdirs();
+		if (!videoDir.exists())
+			videoDir.mkdirs();
+		if (!imgDir.exists())
+			imgDir.mkdirs();
 
 		video.transferTo(new File(videoUploadDir + videoFileName));
 		img.transferTo(new File(imgUploadDir + imgFileName));
@@ -145,93 +147,100 @@ public class BoardService {
 	}
 
 	public void boardEditFunctionThatsServiceLayerFunc(long blogId, String title, long writerId, String writer,
-	        String writerProfile, long views, long likes, long commentCount, String content, String category,
-	        String dateTime, MultipartFile img, MultipartFile video, HttpSession session) throws IllegalStateException, IOException {
+			String writerProfile, long views, long likes, long commentCount, String content, String category,
+			String dateTime, MultipartFile img, MultipartFile video,
+			HttpSession session) throws IllegalStateException, IOException {
 
-	    BoardEntity board = repository.findById(blogId).get();
-	    String currentImgPath = board.getImg();
-	    String currentVideoPath = board.getVideo();
+		BoardEntity board = repository.findById(blogId).get();
+		String currentImgPath = board.getImg();
+		String currentVideoPath = board.getVideo();
 
-	    // 기본 필드 업데이트
-	    board.setBlogId(blogId);
-	    board.setTitle(title);
-	    board.setWriterId(writerId);
-	    board.setWriter(writer);
-	    board.setWriterProfile(writerProfile);
-	    board.setContent(content);
-	    board.setViews(views);
-	    board.setLikes(likes);
-	    board.setCategory(category);
-	    board.setDateTime(dateTime);
-	    board.setCommentCount(commentCount);
+		// 기본 필드 업데이트
+		board.setBlogId(blogId);
+		board.setTitle(title);
+		board.setWriterId(writerId);
+		board.setWriter(writer);
+		board.setWriterProfile(writerProfile);
+		board.setContent(content);
+		board.setViews(views);
+		board.setLikes(likes);
+		board.setCategory(category);
+		board.setDateTime(dateTime);
+		board.setCommentCount(commentCount);
 
-	    // 이미지 업데이트 처리
-	    if (img != null && !img.isEmpty()) { // 새 이미지 업로드
-	        String imgUploadDir = session.getServletContext().getRealPath("/resources/blog-img/");
-	        String imgExtension = img.getOriginalFilename().substring(img.getOriginalFilename().lastIndexOf("."));
-	        String imgFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")) + "_"
-	                + UUID.randomUUID().toString().replaceAll("[^a-zA-Z0-9]", "") + imgExtension;
+		// ✅ 이미지 처리
+		if (img != null && !img.isEmpty()) { // 새 이미지 업로드
+		    String imgUploadDir = session.getServletContext().getRealPath("/resources/blog-img/");
+		    String imgExtension = img.getOriginalFilename().substring(img.getOriginalFilename().lastIndexOf("."));
+		    String imgFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")) + "_"
+		            + UUID.randomUUID().toString().replaceAll("[^a-zA-Z0-9]", "") + imgExtension;
 
-	        // 디렉토리가 없으면 생성
-	        File imgDir = new File(imgUploadDir);
-	        if (!imgDir.exists()) {
-	            imgDir.mkdirs();
-	        }
+		    File imgDir = new File(imgUploadDir);
+		    if (!imgDir.exists()) {
+		        imgDir.mkdirs();
+		    }
 
-	        // 기존 이미지가 있다면 삭제
-	        if (currentImgPath != null && !currentImgPath.isEmpty()) {
-	            File oldImg = new File(session.getServletContext().getRealPath(currentImgPath));
-	            if (oldImg.exists()) {
-	                oldImg.delete();
-	            }
-	        }
+		    // 기존 이미지 삭제
+		    if (currentImgPath != null && !currentImgPath.isEmpty()) {
+		        File oldImg = new File(session.getServletContext().getRealPath(currentImgPath));
+		        if (oldImg.exists()) {
+		            oldImg.delete();
+		        }
+		    }
 
-	        // 새 이미지 저장
-	        img.transferTo(new File(imgUploadDir + imgFileName));
-	        board.setImg("/resources/blog-img/" + imgFileName);
+		    img.transferTo(new File(imgUploadDir + imgFileName));
+		    board.setImg("/resources/blog-img/" + imgFileName);
 
-	    } else if (img != null && img.isEmpty() && currentImgPath != null && !currentImgPath.isEmpty()) { // 기존 이미지 삭제 요청
-	        File oldImg = new File(session.getServletContext().getRealPath(currentImgPath));
-	        if (oldImg.exists()) {
-	            oldImg.delete();
-	        }
-	        board.setImg(null); // DB에서도 삭제
-	    }
+		} else if (currentImgPath != null && !currentImgPath.isEmpty()) { // 명시적 삭제 요청
+		    File oldImg = new File(session.getServletContext().getRealPath(currentImgPath));
+		    if (oldImg.exists()) {
+		        oldImg.delete();
+		    }
+		    board.setImg(null);
 
-	    // 비디오 업데이트 처리
-	    if (video != null && !video.isEmpty()) { // 새 비디오 업로드
-	        String videoUploadDir = session.getServletContext().getRealPath("/resources/blog-video/");
-	        String videoExtension = video.getOriginalFilename().substring(video.getOriginalFilename().lastIndexOf("."));
-	        String videoFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")) + "_"
-	                + UUID.randomUUID().toString().replaceAll("[^a-zA-Z0-9]", "") + videoExtension;
+		} else { // 이미지가 새로 업로드되지 않고 삭제되지 않았으면 기존 이미지 유지
+		    if (currentImgPath != null && !currentImgPath.equals(board.getImg())) {
+		        board.setImg(currentImgPath); // 기존 이미지 유지
+		    }
+		}
 
-	        // 디렉토리가 없으면 생성
-	        File videoDir = new File(videoUploadDir);
-	        if (!videoDir.exists()) {
-	            videoDir.mkdirs();
-	        }
+		// ✅ 비디오 처리
+		if (video != null && !video.isEmpty()) { // 새 비디오 업로드
+		    String videoUploadDir = session.getServletContext().getRealPath("/resources/blog-video/");
+		    String videoExtension = video.getOriginalFilename().substring(video.getOriginalFilename().lastIndexOf("."));
+		    String videoFileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss")) + "_"
+		            + UUID.randomUUID().toString().replaceAll("[^a-zA-Z0-9]", "") + videoExtension;
 
-	        // 기존 비디오가 있다면 삭제
-	        if (currentVideoPath != null && !currentVideoPath.isEmpty()) {
-	            File oldVideo = new File(session.getServletContext().getRealPath(currentVideoPath));
-	            if (oldVideo.exists()) {
-	                oldVideo.delete();
-	            }
-	        }
+		    File videoDir = new File(videoUploadDir);
+		    if (!videoDir.exists()) {
+		        videoDir.mkdirs();
+		    }
 
-	        // 새 비디오 저장
-	        video.transferTo(new File(videoUploadDir + videoFileName));
-	        board.setVideo("/resources/blog-video/" + videoFileName);
+		    // 기존 비디오 삭제
+		    if (currentVideoPath != null && !currentVideoPath.isEmpty()) {
+		        File oldVideo = new File(session.getServletContext().getRealPath(currentVideoPath));
+		        if (oldVideo.exists()) {
+		            oldVideo.delete();
+		        }
+		    }
 
-	    } else if (video != null && video.isEmpty() && currentVideoPath != null && !currentVideoPath.isEmpty()) { // 기존 비디오 삭제 요청
-	        File oldVideo = new File(session.getServletContext().getRealPath(currentVideoPath));
-	        if (oldVideo.exists()) {
-	            oldVideo.delete();
-	        }
-	        board.setVideo(null); // DB에서도 삭제
-	    }
+		    video.transferTo(new File(videoUploadDir + videoFileName));
+		    board.setVideo("/resources/blog-video/" + videoFileName);
 
-	    repository.save(board);
+		} else if (currentVideoPath != null && !currentVideoPath.isEmpty()) { // 명시적 삭제 요청
+		    File oldVideo = new File(session.getServletContext().getRealPath(currentVideoPath));
+		    if (oldVideo.exists()) {
+		        oldVideo.delete();
+		    }
+		    board.setVideo(null);
+
+		} else { // 비디오가 새로 업로드되지 않고 삭제되지 않았으면 기존 비디오 유지
+		    if (currentVideoPath != null && !currentVideoPath.equals(board.getVideo())) {
+		        board.setVideo(currentVideoPath); // 기존 비디오 유지
+		    }
+		}
+
+		repository.save(board);
 	}
 
 }

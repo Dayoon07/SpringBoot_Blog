@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLDecoder" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -13,11 +14,11 @@
 </head>
 <body>
 	<jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
-	
+			
 	<div class="container mx-auto mt-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
 		<c:forEach var="brfa" items="${ boardRepoFindAll }">
-    		<div class="grid-item rounded overflow-hidden p-4 hover:bg-gray-100 border">
-				<a href="${ cl }/blog/${ brfa.writer }" class="block p-2 mb-2 hover:bg-gray-200 flex items-center">
+    		<div class="grid-item rounded-md overflow-hidden p-4 hover:bg-gray-100 border">
+				<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }" class="block p-2 mb-2 hover:bg-gray-200 flex items-center">
 					<img src="${ brfa.writerProfile }" class="w-8 h-8 rounded-full object-cover">
 					<c:choose>
 						<c:when test="${ brfa.writer.length() > 9 }">
@@ -28,26 +29,26 @@
 						</c:otherwise>
 					</c:choose>
 				</a>
-  				<a href="${ cl }/blog/${ brfa.writer }/board?id=${ brfa.blogId }" style="height: 170px;" class="block overflow-hidden">
+  				<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }/board/${ URLDecoder.decode(brfa.title, 'UTF-8') }" style="height: 170px;" class="block overflow-hidden">
   					<c:if test="${ not empty brfa.img and empty brfa.video }">
-  						<img src="${ brfa.img }" class="w-full" loading="lazy">
+  						<img src="${ brfa.img }" class="w-full h-44" loading="lazy">
   					</c:if>
   					<c:if test="${ empty brfa.img and not empty brfa.video }">
-  						<video src="${ brfa.video }"></video>
+  						<video src="${ brfa.video }" class="w-full h-44"></video>
   					</c:if>
   					<c:if test="${ not empty brfa.img and not empty brfa.video }">
-  						<img src="${ brfa.img }" class="w-full" loading="lazy">
+  						<img src="${ brfa.img }" class="w-full h-44" loading="lazy">
   					</c:if>
   					<c:if test="${ empty brfa.img and empty brfa.video }">
-  						<div style="height: 170px;" class="w-full bg-white flex justify-center items-center border">이미지 또는 영상이 없음</div>
+  						<div class="w-full bg-white flex h-44 justify-center items-center border">이미지 또는 영상이 없음</div>
   					</c:if>
 		  		</a>
 			  	<div class="py-4">
 			    	<div class="font-bold text-xl mb-2">
-			    		<a href="${ cl }/blog/${ brfa.writer }/board?id=${ brfa.blogId }" class="hover:underline">
+			    		<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }/board/${ URLDecoder.decode(brfa.title, 'UTF-8') }" class="hover:underline">
 		    				<c:choose>
 								<c:when test="${ brfa.title.length() > 15 }">
-									${ brfa.title.substring(0, 15) += "..." }
+									${ brfa.title.substring(0, 15) }...
 						        </c:when>
 								<c:otherwise>
 									${ brfa.title }
@@ -55,12 +56,12 @@
 							</c:choose>
 		    			</a>
 			    	</div>
-			    	<div class="h-20">
+			    	<div class="h-12">
 			    		<p class="text-gray-700 text-base">
-			      			<a href="${ cl }/blog/${ brfa.writer }/board?id=${ brfa.blogId }" class="hover:underline">
+			      			<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }/board/${ URLDecoder.decode(brfa.title, 'UTF-8') }" class="hover:underline">
 			      				<c:choose>
-									<c:when test="${ brfa.content.length() > 30 }">
-										${ brfa.content.substring(0, 30) += "..." }
+									<c:when test="${ brfa.content.length() > 35 }">
+										${ brfa.content.substring(0, 35) }...
 							        </c:when>
 									<c:otherwise>
 										${ brfa.content }

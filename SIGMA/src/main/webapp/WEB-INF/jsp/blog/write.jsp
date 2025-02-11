@@ -44,7 +44,7 @@
                     
                     <div class="mb-6">
                         <label for="category" class="block text-lg font-semibold text-gray-700">카테고리</label>
-                        <input type="text" id="category" name="category" class="w-full p-3 border-gray-300 border-b focus:border-black focus:outline-none" placeholder="카테고리를 입력하세요" required maxlength="15">
+                        <input type="text" id="category" name="category" class="w-full p-3 border-gray-300 border-b focus:border-black focus:outline-none"  placeholder="카테고리를 입력하세요" required maxlength="15">
                     </div>
                     
                     <div class="flex items-center mb-6">
@@ -77,10 +77,10 @@
 					    	<button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('# ', '')">H1</button>
 						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('## ', '')">H2</button>
 						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('### ', '')">H3</button>
-						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('[링크텍스트](http://)', '')">링크</button>
-						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('![이미지링크](http://)', '')">이미지</button>
+						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('[링크텍스트](https://)', '')">링크</button>
+						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('![이미지링크](https://)', '')">이미지</button>
 					    </div>
-					
+					    
 					    <textarea id="content" name="content" rows="10" class="w-full p-3 border-gray-300 border resize-none focus:outline-none" placeholder="내용을 입력하세요" required></textarea>
 					</div>
                     <button type="submit" class="w-full bg-black text-white py-3 rounded-lg hover:bg-opacity-80 transition duration-300">게시글 작성</button>
@@ -91,5 +91,9 @@
     
 	<jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
     <script src="${ cl }/resources/js/write.js"></script>
+    <script>
+    	const tic = document.querySelector("input[type='submit']");
+    	console.log(tic);
+    </script>
 </body>
 </html>

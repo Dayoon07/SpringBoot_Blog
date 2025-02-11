@@ -3,14 +3,14 @@ package com.e.d.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
-import java.net.URLEncoder;
+import java.net.URLDecoder;
 import java.net.UnknownHostException;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -215,34 +215,41 @@ public class MainController {
 		} else if (!img.isEmpty() && !video.isEmpty()) {
 			boardService.boardWrite4(title, u.getMemberId(), u.getUsername(), content, category, dateTime, session, img, video);
 		}
-		return "redirect:/blog/" + URLEncoder.encode(u.getUsername(), "UTF-8");
+		return "redirect:/blog/" + URLDecoder.decode(u.getUsername(), "UTF-8");
 	}
 	
 	@GetMapping("/blog/{username}")
 	public String profilePage(@PathVariable String username, Model m) {
 		MemberEntity user = memberRepository.findByUsername(username);
 		m.addAttribute("profileInfo", user);
-		if (!boardRepository.findByWriterId(user.getMemberId()).isEmpty()) {
-			m.addAttribute("profileUserBoard", boardRepository.findByWriterId(user.getMemberId()));
+		if (!boardRepository.findByWriterIdOrderByBlogIdDesc(user.getMemberId()).isEmpty()) {
+			m.addAttribute("profileUserBoard", boardRepository.findByWriterIdOrderByBlogIdDesc(user.getMemberId()));
 		}
 		return "profile/profile";
 	}
 	
-	@GetMapping("/blog/{username}/board")
-	public String boardPage(@PathVariable String username,
-			@RequestParam long id,
-			HttpSession session, Model m) {
-		if (session.getAttribute("user") != null) boardService.incrementBoardViews(id);
-		m.addAttribute("writerInfo", memberRepository.findByUsername(username));
-		m.addAttribute("commentList", commentRepository.findByBlogId(id));
-		if (boardRepository.findById(id).isPresent()) m.addAttribute("boardInfo", boardRepository.findById(id).get());
-		return "blog/board";
+	@GetMapping("/blog/{username}/board/{title}")
+	public String viewBoard(@PathVariable String username,
+			@PathVariable String title,
+	        HttpSession session, Model m) {
+	    BoardEntity board = boardRepository.findByWriterAndTitle(username, title)
+	                        .orElseThrow(() -> new NoSuchElementException("게시글을 찾을 수 없습니다."));
+
+	    if (session.getAttribute("user") != null) {
+	        boardService.incrementBoardViews(board.getBlogId());
+	    }
+
+	    m.addAttribute("writerInfo", memberRepository.findByUsername(username));
+	    m.addAttribute("commentList", commentRepository.findByBlogId(board.getBlogId()));
+	    m.addAttribute("boardInfo", board);
+
+	    return "blog/board";
 	}
 	
 	@PostMapping("/blog/{username}/board/delete")
 	public String boardDelete(@PathVariable String username, @RequestParam long blogId) throws UnsupportedEncodingException {
 		boardService.boardDelete(blogId);
-		return "redirect:/blog/" + URLEncoder.encode(username, "UTF-8");
+		return "redirect:/blog/" + URLDecoder.decode(username, "UTF-8");
 	}
 	
 	@PostMapping("/blog/{username}/board/edit")
@@ -267,10 +274,9 @@ public class MainController {
 			@RequestParam MultipartFile video,
 			HttpSession session) throws IllegalStateException, IOException {
 		boardService.boardEditFunctionThatsServiceLayerFunc(blogId, title, writerId, writer, writerProfile, views, likes, commentCount, content, category, dateTime, img, video, session);
-		return "redirect:/blog/" + URLEncoder.encode(writer, "UTF-8") + "/board?id=" + blogId;
+		return "redirect:/blog/" + URLDecoder.decode(writer, "UTF-8") + "/board/" + URLDecoder.decode(title, "UTF-8");
 	}
 	
-	@Transactional
 	@PostMapping("/addComment")
 	public String addComment(@RequestParam long commenterId,
 			@RequestParam String commenterProfile,
@@ -281,9 +287,43 @@ public class MainController {
 	        @RequestParam String commenterName) throws UnsupportedEncodingException {
 	    commentService.addComment(commenterId, commenterName, commenterProfile, commentContent, blogWriterId, blogId, dateTime);
 	    BoardEntity board = boardRepository.findById(blogId).orElse(null);
-	    return "redirect:/blog/" + (board != null ? URLEncoder.encode(board.getWriter(), "UTF-8") : "") + "/board?id=" + blogId;
+	    return "redirect:/blog/" + (board != null ? URLDecoder.decode(board.getWriter(), "UTF-8") : "") + 
+	    		"/board/" + URLDecoder.decode(board.getTitle(), "UTF-8");
 	}
 	
-
+	@GetMapping("/tags/{category}")
+	public String categoryBoardList(@PathVariable String category, Model m) {
+		m.addAttribute("categoryBoardList", boardRepository.findByCategoryOrderByBlogIdDesc(category));
+		m.addAttribute("tagWord", category);
+		return "blog/tags";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

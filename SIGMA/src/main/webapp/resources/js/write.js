@@ -88,3 +88,11 @@ function insertMarkdown(startTag, endTag) {
 	textarea.focus();
 	textarea.setSelectionRange(startPos + startTag.length, startPos + newText.length - endTag.length);
 }
+
+document.addEventListener("submit", (e) => {
+	const r = /^[^\s]+$/;
+	if (!r.test(categoryInput.value)) {
+		e.preventDefault();
+		alert("카테고리에는 공백이 들어갈 수 없습니다");
+	}
+});

@@ -1,5 +1,5 @@
-<%@page import="java.time.format.DateTimeFormatter"%>
-<%@page import="java.time.LocalDateTime"%>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.time.LocalDateTime" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -35,19 +35,38 @@
 	</c:if>
 	
 	<div class="max-w-screen-md mx-auto py-8 px-4">
-	    <h1 class="text-4xl font-bold mb-2 text-gray-900">${ boardInfo.title }</h1>
+	    <h1 class="block max-w-full break-words text-4xl font-bold mb-2 text-gray-900">
+		    ${ boardInfo.title }
+		</h1>
 	
-	    <div class="flex items-center text-md text-gray-500 mb-4">
-	        <span class="mr-2 font-medium">
-				<a href="${ cl }/blog/${ boardInfo.writer }">${ boardInfo.writer }</a>
-			</span>
-	        <span class="mx-1">&#8226; &nbsp;</span>
-	        <span>${ boardInfo.dateTime }</span>
+	    <div class="md:flex md:justify-between md:items-center">
+	    	<div class="flex items-center text-md text-gray-500 mb-4">
+		        <span class="mr-2 font-medium">
+					<a href="${ cl }/blog/${ boardInfo.writer }">${ boardInfo.writer }</a>
+				</span>
+		        <span class="mx-1">&#8226; &nbsp;</span>
+		        <span>${ boardInfo.dateTime }</span>
+		    </div>
+		    <div class="flex items-center text-md text-gray-500 mb-4">
+		        <span>조회수: ${ boardInfo.views }&nbsp;</span>
+		        <span class="mx-1">&#8226; &nbsp;</span>
+		        <span>좋아요: ${ boardInfo.likes }&nbsp;</span>
+		        <span class="mx-1">&#8226; &nbsp;</span>
+		        <span>댓글: ${ boardInfo.commentCount }</span>
+		    </div>
+	    </div>
+	    
+	    <div class="md:flex md:justify-between md:items-center mb-4">
+	    	<a href="${ cl }/tags/${ boardInfo.category }">
+	    		<span class="block bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 cursor-pointer">
+					${ boardInfo.category }
+				</span>
+			</a>
 	    </div>
 	
 	    <c:if test="${ not empty boardInfo.img }">
 	        <div class="w-full mb-6">
-	            <img src="${ boardInfo.img }" class="w-full h-auto border shadow-xl">
+	            <img src="${ boardInfo.img }" alt="이미지링크" class="w-full h-auto border shadow-xl ">
 	        </div>
 	    </c:if>
 	    <c:if test="${ not empty boardInfo.video }">
@@ -68,7 +87,7 @@
 	    	</div>
 	    	<div class="py-2 w-4/5">
 	    		<h1 class="text-2xl mb-2">
-					<a href="${ cl }/${ writerInfo.username }">${ writerInfo.username }</a>
+					<a href="${ cl }/blog/${ writerInfo.username }">${ writerInfo.username }</a>
 				</h1>
 	    		<p>${ writerInfo.bio }</p>
 	    	</div>
@@ -79,7 +98,7 @@
 	    	<div class="w-full mb-6">
 		        <h2 class="text-2xl font-semibold mb-4">댓글 작성</h2>
 		        <form action="${ cl }/addComment" method="post">
-		            <textarea name="commentContent" placeholder="댓글을 입력하세요..." 
+		            <textarea name="commentContent" placeholder="댓글을 입력하세요..." oninput="autoResize(this)" maxlength="250"
 		            	class="w-full p-3 border focus:ring-2 focus:ring-black focus:outline-none resize-none overflow-y-hidden"></textarea>
 		            <button type="submit" class="w-32 bg-black text-white px-4 py-2 hover:opacity-70">댓글 작성</button>
 		        	<input type="hidden" name="commenterId" value="${ sessionScope.user.memberId }">
@@ -98,7 +117,7 @@
 		    </div>
 	    </c:if>
 	
-	    <div class="w-full">
+	    <div class="w-full mb-96">
 	        <h2 class="text-2xl font-semibold mb-4">댓글 ${ commentList.size() }개</h2>
 	        <c:if test="${ not empty commentList }">
 	        	<c:forEach var="commentList" items="${ commentList }">
@@ -111,7 +130,7 @@
 			                <span>&#8226; &nbsp;</span>
 			                <span>${ commentList.dateTime }</span>
 			            </div>
-			            <textarea id="ELcommentContent" class="text-lg w-full text-gray-800 focus:outline-none focus:ring-hidden resize-none" readonly>${ commentList.commentContent }</textarea>
+				        <textarea id="ELcommentContent" class="text-lg w-full text-gray-800 focus:outline-none focus:ring-hidden resize-none" readonly>${ commentList.commentContent }</textarea>
 			        </div>
 		        </c:forEach>
 	        </c:if>
@@ -119,6 +138,13 @@
 	</div>
 	
 	<div id="mdContent" class="hidden">${ boardInfo.content }</div>
+	
+	<div class="lightBox" id="lightBox">
+        <div class="lightBoxContent">
+            <button class="lightBoxClose mb-2 text-xl">&times;</button>
+            <img class="lightBoxImage" src="" alt="확대된 이미지">
+        </div>
+    </div>
 	
 	<jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
 	<script src="${ cl }/resources/js/boardMdEncode.js"></script>
@@ -131,13 +157,6 @@
 			.catch((error) => {
 			    console.error('에러:', error);
 			});
-		
-		window.addEventListener('DOMContentLoaded', () => {
-	        document.querySelectorAll('#ELcommentContent').forEach(textarea => {
-	            textarea.style.height = 'auto';
-	            textarea.style.height = textarea.scrollHeight + 'px';
-	        });
-	    });
 	</script>
 	
 </body>

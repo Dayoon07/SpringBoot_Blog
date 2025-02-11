@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLDecoder" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -32,7 +33,7 @@
 		<c:forEach var="srl" items="${ searchResultLists }">
 			<div class="flex flex-col space-y-4 mb-10">
 	            <div class="flex items-center space-x-3">
-	                <a href="${ cl }/blog/${ srl.writer }" class="block">
+	                <a href="${ cl }/blog/${ URLDecoder.decode(srl.writer, 'UTF-8') }" class="block">
 	                    <img src="${ srl.writerProfile }" class="w-12 h-12 rounded-full">
 	                </a>
 	                <div class="text-lg font-semibold">
@@ -41,7 +42,7 @@
 	            </div>
 	
 	            <div class="relative pt-[52.356%] overflow-hidden rounded-lg shadow-md">
-	            	<a href="${ cl }/blog/${ srl.writer }/board?id=${ srl.blogId }">
+	            	<a href="${ cl }/blog/${ URLDecoder.decode(srl.writer, 'UTF-8') }/board/${ URLDecoder.decode(srl.title, 'UTF-8') }">
 	                	<c:if test="${ not empty srl.img and empty srl.video }">
 	  						<img src="${ srl.img }" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
 	  					</c:if>
@@ -58,7 +59,7 @@
 				</div>
 	
 				<h2 class="text-xl font-bold text-gray-800 hover:text-blue-600">
-			    	<a href="${ cl }/blog/${ srl.writer }/board?id=${ srl.blogId }">
+			    	<a href="${ cl }/blog/${ URLDecoder.decode(srl.writer, 'UTF-8') }/board/${ URLDecoder.decode(srl.title, 'UTF-8') }">
 						<c:choose>
 							<c:when test="${ srl.title.length() > 25 }">
 								${ srl.title.substring(0, 25) += "..." }

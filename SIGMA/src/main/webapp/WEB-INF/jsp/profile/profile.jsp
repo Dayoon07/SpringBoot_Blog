@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLDecoder" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
@@ -37,37 +38,39 @@
         		<h3 class="text-4xl font-bold text-center mb-24">작성한 글이 없습니다</h3>
         	</c:if>
 		    <c:if test="${ not empty profileUserBoard }">
-			    <h3 class="text-2xl font-bold mb-6">작성한 글</h3>
+			    <h3 class="text-2xl font-bold mb-6">작성한 글 ${ profileUserBoard.size() }개</h3>
 			    <c:forEach var="pub" items="${ profileUserBoard }">
 			        <div class="bg-white shadow-md border rounded-md p-5 mb-6 hover:shadow-lg transition duration-300">
-			            <a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="block w-full h-48 overflow-hidden mb-4">
+			            <a href="${ cl }/blog/${ URLDecoder.decode(pub.writer, 'UTF-8') }/board/${ URLDecoder.decode(pub.title, 'UTF-8') }" 
+			            	class="block w-full h-48 mb-4">
 			                <c:if test="${ not empty pub.img and empty pub.video }">
-		  						<img src="${ pub.img }" class="w-full" loading="lazy">
+		  						<img src="${ pub.img }" class="w-full h-44" loading="lazy">
 		  					</c:if>
 		  					<c:if test="${ empty pub.img and not empty pub.video }">
 		  						<video src="${ pub.video }"></video>
 		  					</c:if>
 		  					<c:if test="${ not empty pub.img and not empty pub.video }">
-		  						<img src="${ pub.img }" class="w-full" loading="lazy">
+		  						<img src="${ pub.img }" class="w-full h-44" loading="lazy">
 		  					</c:if>
 		  					<c:if test="${ empty pub.img and empty pub.video }">
-		  						<div class="w-full h-48 bg-white flex justify-center items-center border">이미지 또는 영상이 없음</div>
+		  						<div class="w-full h-48 bg-white flex h-44 justify-center items-center border">이미지 또는 영상이 없음</div>
 		  					</c:if>
 			            </a>
 			            <div class="mb-3">
-			                <a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="text-2xl font-semibold text-gray-800 hover:underline">
-			                <c:choose>
-			                    <c:when test="${ pub.title.length() > 30 }">
-			                        ${ pub.title.substring(0, 30) }...
-			                    </c:when>
-			                    <c:otherwise>
-			                        ${ pub.title }
-			                    </c:otherwise>
-			                </c:choose>
+			                <a href="${ cl }/blog/${ URLDecoder.decode(pub.writer, 'UTF-8') }/board/${ URLDecoder.decode(pub.title, 'UTF-8') }" 
+			                	class="text-2xl font-semibold text-gray-800 hover:underline">
+				                <c:choose>
+				                    <c:when test="${ pub.title.length() > 30 }">
+				                        ${ pub.title.substring(0, 30) }...
+				                    </c:when>
+				                    <c:otherwise>
+				                        ${ pub.title }
+				                    </c:otherwise>
+				                </c:choose>
 			                </a>
 			            </div>
 			            <div class="w-full text-gray-600 text-base leading-relaxed mb-4">
-			    			<a href="${ cl }/blog/${ pub.writer }/board?id=${ pub.blogId }" class="hover:underline">
+			    			<a href="${ cl }/blog/${ URLDecoder.decode(pub.writer, 'UTF-8') }/board/${ URLDecoder.decode(pub.title, 'UTF-8') }" class="hover:underline">
 					    		<c:choose>
 					            	<c:when test="${ pub.content.length() > 80 }">
 					                	${ pub.content.substring(0, 80) }...

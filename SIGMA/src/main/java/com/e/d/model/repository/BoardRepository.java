@@ -12,10 +12,14 @@ import java.util.Optional;
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 	Optional<BoardEntity> findByTitleAndWriterId(String title, long writerId);
 
-	List<BoardEntity> findByWriterId(long writerId);
+	List<BoardEntity> findByWriterIdOrderByBlogIdDesc(long writerId);
 
 	List<BoardEntity> findAllByOrderByBlogIdDesc();
 
 	List<BoardEntity> findByTitleContainingIgnoreCaseOrWriterContainingIgnoreCaseOrContentContainingIgnoreCaseOrCategoryContainingIgnoreCase(
 			String title, String writer, String content, String category);
+	
+	Optional<BoardEntity> findByWriterAndTitle(String writer, String title);
+	
+	List<BoardEntity> findByCategoryOrderByBlogIdDesc(String category);
 }

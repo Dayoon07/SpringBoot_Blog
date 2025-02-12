@@ -4,13 +4,18 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +26,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.e.d.model.entity.BoardEntity;
+import com.e.d.model.entity.LikeEntity;
 import com.e.d.model.entity.MemberEntity;
 import com.e.d.model.repository.BoardRepository;
 import com.e.d.model.repository.CommentRepository;
@@ -187,7 +193,10 @@ public class MainController {
 	@PostMapping("/logout")
 	public String logout(HttpSession session, @RequestParam long memberId) {
 		MemberEntity u = (MemberEntity) session.getAttribute("user");
-		if (u != null && u.getMemberId() == memberId) session.invalidate();
+		if (u != null && u.getMemberId() == memberId) {
+			session.invalidate();
+			log.info("사용자 {}이(가) 로그아웃했습니다", u.getUsername());
+		}
 		return "redirect:/";
 	}
 	
@@ -228,15 +237,26 @@ public class MainController {
 		return "profile/profile";
 	}
 	
+	@GetMapping("/blog/{username}/like")
+	public String myLikeBlogList(@PathVariable String username, Model m) {
+	    m.addAttribute("myLikeList", likeService.myLikeBoardList(username));
+	    m.addAttribute("profileInfo", memberRepository.findByUsername(username));
+	    return "profile/myLike";
+	}
+	
 	@GetMapping("/blog/{username}/board/{title}")
 	public String viewBoard(@PathVariable String username,
 			@PathVariable String title,
 	        HttpSession session, Model m) {
+		MemberEntity user = (MemberEntity) session.getAttribute("user");
 	    BoardEntity board = boardRepository.findByWriterAndTitle(username, title)
 	                        .orElseThrow(() -> new NoSuchElementException("게시글을 찾을 수 없습니다."));
 
-	    if (session.getAttribute("user") != null) {
+	    if (user != null) {
 	        boardService.incrementBoardViews(board.getBlogId());
+	        likeRepository.findByLikerIdAndBlogId(user.getMemberId(), board.getBlogId()).ifPresent(t -> {
+	        	m.addAttribute("findLiker", t);
+	        });
 	    }
 
 	    m.addAttribute("writerInfo", memberRepository.findByUsername(username));
@@ -298,12 +318,35 @@ public class MainController {
 		return "blog/tags";
 	}
 	
+	@PostMapping("/addLike")
+	public String addLike(@RequestParam long blogId, @RequestParam long likerId) throws UnsupportedEncodingException {
+		BoardEntity board = boardRepository.findById(blogId).get();
+		likeService.addLike(blogId, likerId);
+		return "redirect:/blog/" + URLDecoder.decode(board.getWriter(), "UTF-8") + "/board/" + URLDecoder.decode(board.getTitle(), "UTF-8");
+	}
 	
-	
-	
-	
-	
-	
+	@PostMapping("/deleteLike")
+	public String deleteLike(@RequestParam long likeId) throws UnsupportedEncodingException {
+	    // likeId로 Like 엔티티를 찾음
+	    Optional<LikeEntity> likeOptional = likeRepository.findById(likeId);
+
+	    if (likeOptional.isPresent()) {
+	        LikeEntity like = likeOptional.get();
+	        BoardEntity board = boardRepository.findById(like.getBlogId()).orElse(null);
+
+	        if (board != null) {
+	            // 좋아요 삭제
+	            likeRepository.deleteById(likeId);
+
+	            // 좋아요 수 업데이트
+	            likeService.updateLikeCount(like.getBlogId());
+
+	            return "redirect:/blog/" + URLEncoder.encode(board.getWriter(), "UTF-8") + "/board/" + URLEncoder.encode(board.getTitle(), "UTF-8");
+	        }
+	    }
+	    // 게시글이나 좋아요가 존재하지 않을 경우 메인 페이지로 리디렉션
+	    return "redirect:/";
+	}
 	
 	
 	

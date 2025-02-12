@@ -41,19 +41,19 @@
 	                </div>
 	            </div>
 	
-	            <div class="relative pt-[52.356%] overflow-hidden rounded-lg shadow-md">
+	            <div class="relative h-96 overflow-hidden rounded-lg shadow-md">
 	            	<a href="${ cl }/blog/${ URLDecoder.decode(srl.writer, 'UTF-8') }/board/${ URLDecoder.decode(srl.title, 'UTF-8') }">
 	                	<c:if test="${ not empty srl.img and empty srl.video }">
-	  						<img src="${ srl.img }" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+	  						<img src="${ srl.img }" class="absolute inset-0 w-full h-96 object-cover" loading="lazy">
 	  					</c:if>
 	  					<c:if test="${ empty srl.img and not empty srl.video }">
-	  						<video src="${ srl.video }" class="absolute inset-0 w-full h-full object-cover"></video>
+	  						<video src="${ srl.video }" class="absolute inset-0 w-full h-96 object-cover"></video>
 	  					</c:if>
 	  					<c:if test="${ not empty srl.img and not empty srl.video }">
-	  						<img src="${ srl.img }" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+	  						<img src="${ srl.img }" class="absolute inset-0 w-full h-96 object-cover" loading="lazy">
 	  					</c:if>
 	  					<c:if test="${ empty srl.img and empty srl.video }">
-	  						<div style="height: 170px;" class="w-full bg-white flex justify-center items-center border">이미지 또는 영상이 없음</div>
+	  						<div class="w-full h-96 bg-white flex justify-center items-center border">이미지 또는 영상이 없음</div>
 	  					</c:if>
 	            	</a>
 				</div>

@@ -20,11 +20,11 @@
 	<div class="container mx-auto mt-5 px-4">
         <div class="lg:flex space-x-8">
             <!-- 왼쪽 (미리보기 영역) -->
-            <div class="flex-1 bg-white p-4 rounded-lg">
+            <div style="height: 750px;" class="flex-1 p-4 rounded-lg overflow-y-scroll">
                 <h2 class="text-3xl font-bold mb-4 text-gray-800">작성된 글 미리보기</h2>
-                <div class="preview" id="preview">
+                <div id="preview" class="border p-5 rounded">
                     <span id="previewCategory" class="bg-gray-300 text-gray-700 px-3 py-1 rounded-full text-sm cursor-pointer">카테고리</span>
-                    <h2 id="previewTitle" class="mt-3 text-2xl font-semibold text-gray-900" style="word-break: break-word; white-space: pre-wrap;">제목</h2>
+                    <h2 id="previewTitle" class="my-3 text-2xl font-semibold text-gray-900" style="word-break: break-word; white-space: pre-wrap;">제목</h2>
                     <img id="previewImg" class="hidden w-full object-cover border rounded-md" />
                     <video id="previewVideo" class="hidden w-full object-cover border rounded-md mb-4" controls></video>
                     <p id="previewContent" class="block mt-4 text-gray-700" style="width: 610px; word-break: break-word; white-space: pre-wrap;">내용</p>
@@ -72,6 +72,7 @@
 						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('~~', '~~')">취소선</button>
 						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('> ', '')">인용문</button>
 						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('```\n', '\n```')">코드 블록</button>
+						    <button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown(' - ', '')">리스트</button>
 					    </div>
 					    <div id="toolbar" class="md:flex gap-2 pb-2">
 					    	<button type="button" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" onclick="insertMarkdown('# ', '')">H1</button>
@@ -89,11 +90,12 @@
         </div>
     </div>
     
-	<jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
+	<!-- <jsp:include page="${ cl }/WEB-INF/common/footer.jsp" /> -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>	<!-- XSS 방지용 -->
+	<script src="${ cl }/resources/js/script.js"></script>
     <script src="${ cl }/resources/js/write.js"></script>
-    <script>
-    	const tic = document.querySelector("input[type='submit']");
-    	console.log(tic);
-    </script>
 </body>
 </html>

@@ -20,6 +20,6 @@ public class LikeEntity {
 	private long blogId;
 	
 	@Column(name = "liker_id", nullable = false)
-	private long likeIid;
+	private long likerId;
 	
 }

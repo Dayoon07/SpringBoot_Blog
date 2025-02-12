@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* 기본 글꼴 스타일 */
-#content {
+#boardContent {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #2d3748;
     line-height: 1.8;
@@ -9,7 +9,7 @@
 }
 
 /* 헤딩(H1 ~ H6) 스타일 */
-#content h1 {
+#boardContent h1 {
     font-size: 2.25rem;  /* 36px */
     font-weight: bold;
     margin: 1.5rem 0 1rem;
@@ -18,7 +18,7 @@
     padding-bottom: 0.3rem;
 }
 
-#content h2 {
+#boardContent h2 {
     font-size: 1.875rem;  /* 30px */
     font-weight: bold;
     margin: 1.4rem 0 0.9rem;
@@ -26,21 +26,21 @@
     padding-bottom: 0.3rem;
 }
 
-#content h3 {
+#boardContent h3 {
     font-size: 1.5rem;  /* 24px */
     font-weight: bold;
     margin: 1.2rem 0 0.8rem;
     color: #4a5568;
 }
 
-#content h4 {
+#boardContent h4 {
     font-size: 1.25rem;  /* 20px */
     font-weight: bold;
     margin: 1rem 0 0.6rem;
     color: #4a5568;
 }
 
-#content h5 {
+#boardContent h5 {
     font-size: 1.125rem;  /* 18px */
     font-weight: bold;
     margin: 0.8rem 0 0.5rem;
@@ -48,7 +48,7 @@
     font-style: italic;
 }
 
-#content h6 {
+#boardContent h6 {
     font-size: 1rem;  /* 16px */
     font-weight: bold;
     margin: 0.6rem 0 0.4rem;
@@ -58,40 +58,40 @@
 }
 
 /* 공통 헤딩 간격 및 스타일 */
-#content h1, 
-#content h2, 
-#content h3, 
-#content h4, 
-#content h5, 
-#content h6 {
+#boardContent h1, 
+#boardContent h2, 
+#boardContent h3, 
+#boardContent h4, 
+#boardContent h5, 
+#boardContent h6 {
     line-height: 1.4;
 }
 
 /* 문단 스타일 */
-#content p {
+#boardContent p {
     font-size: 1rem;
     margin-bottom: 1rem;
 }
 
 /* 리스트 스타일 */
-#content ul, #content ol {
+#boardContent ul, #boardContent ol {
     margin-left: 1.5rem;
     margin-bottom: 1rem;
 }
 
-#content li {
+#boardContent li {
     margin-bottom: 0.5rem;
 }
 
 /* 체크리스트 스타일 */
-#content input[type="checkbox"] {
+#boardContent input[type="checkbox"] {
     margin-right: 0.5rem;
     transform: scale(1.2);
     vertical-align: middle;
 }
 
 /* 인용문 스타일 */
-#content blockquote {
+#boardContent blockquote {
     border-left: 4px solid #a0aec0;
     padding-left: 1rem;
     color: #718096;
@@ -103,7 +103,7 @@
 }
 
 /* 코드 블록 스타일 */
-#content pre {
+#boardContent pre {
     background-color: lightgray;
     padding: 1rem;
     border-radius: 8px;
@@ -112,7 +112,7 @@
     font-family: 'Courier New', monospace;
 }
 
-#content code {
+#boardContent code {
     background-color: transparent;
     color: black;
     padding: 0.2rem 0.4rem;
@@ -122,43 +122,43 @@
 }
 
 /* 테이블 스타일 */
-#content table {
+#boardContent table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1rem;
 }
 
-#content th, #content td {
+#boardContent th, #content td {
     border: 1px solid #cbd5e0;
     padding: 0.75rem;
     text-align: left;
 }
 
-#content th {
+#boardContent th {
     background-color: #edf2f7;
     font-weight: bold;
 }
 
 /* 수평선 */
-#content hr {
+#boardContent hr {
     border: none;
     border-top: 1px solid #cbd5e0;
     margin: 1.5rem 0;
 }
 
 /* 링크 스타일 */
-#content a {
+#boardContent a {
     color: #3182ce;
     text-decoration: underline;
     transition: color 0.2s;
 }
 
-#content a:hover {
+#boardContent a:hover {
     color: #2b6cb0;
 }
 
 /* 이미지 스타일 */
-#content img {
+#boardContent img {
     width: 100%;
     border-radius: 8px;
     margin: 1rem 0;
@@ -166,12 +166,12 @@
 }
 
 /* 강조 (볼드/이탤릭) */
-#content strong {
+#boardContent strong {
     font-weight: bold;
     color: #1a202c;
 }
 
-#content em {
+#boardContent em {
     font-style: italic;
     color: #4a5568;
 }

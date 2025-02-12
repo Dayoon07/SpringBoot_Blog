@@ -40,7 +40,7 @@
 							<a href="${ cl }/blog/${ sessionScope.user.username }">
 								<button type="button" class="w-full px-4 py-2 cursor-pointer hover:bg-gray-200 text-left">내 블로그</button>
 							</a>
-							<a href="${ cl }/list/${ sessionScope.user.username }/like">
+							<a href="${ cl }/blog/${ sessionScope.user.username }/like">
 								<button type="button" class="w-full px-4 py-2 cursor-pointer hover:bg-gray-200 text-left">좋아하는 글</button>
 							</a>
 							<form action="${ cl }/logout" method="post" autocomplete="off">

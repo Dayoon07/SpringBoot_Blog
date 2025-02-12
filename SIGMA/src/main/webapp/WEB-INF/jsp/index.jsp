@@ -15,21 +15,26 @@
 <body>
 	<jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
 			
-	<div class="container mx-auto mt-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4">
+	<div class="container mx-auto mt-5 grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-6">
 		<c:forEach var="brfa" items="${ boardRepoFindAll }">
-    		<div class="grid-item rounded-md overflow-hidden p-4 hover:bg-gray-100 border">
-				<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }" class="block p-2 mb-2 hover:bg-gray-200 flex items-center">
-					<img src="${ brfa.writerProfile }" class="w-8 h-8 rounded-full object-cover">
-					<c:choose>
-						<c:when test="${ brfa.writer.length() > 9 }">
-							<span class="mx-2 text-md">${ brfa.writer.substring(0, 9) }...</span>
-						</c:when>
-						<c:otherwise>
-							<span class="mx-2 text-md">${ brfa.writer }</span>
-						</c:otherwise>
-					</c:choose>
+    		<div class="grid-item overflow-hidden hover:bg-gray-100 border">
+				<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }" class="block p-2 hover:bg-gray-200 flex justify-between items-center">
+					<span class="flex items-center">
+						<img src="${ brfa.writerProfile }" class="w-8 h-8 rounded-full object-cover">
+						<c:choose>
+							<c:when test="${ brfa.writer.length() > 9 }">
+								<span class="mx-2 text-md">${ brfa.writer.substring(0, 9) }...</span>
+							</c:when>
+							<c:otherwise>
+								<span class="mx-2 text-md">${ brfa.writer }</span>
+							</c:otherwise>
+						</c:choose>
+					</span>
+					<span class="mr-2">
+						${ brfa.dateTime.substring(0, 10) } <br>
+					</span>
 				</a>
-  				<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }/board/${ URLDecoder.decode(brfa.title, 'UTF-8') }" style="height: 170px;" class="block overflow-hidden">
+  				<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }/board/${ URLDecoder.decode(brfa.title, 'UTF-8') }" style="height: 180px;" class="block overflow-hidden">
   					<c:if test="${ not empty brfa.img and empty brfa.video }">
   						<img src="${ brfa.img }" class="w-full h-44" loading="lazy">
   					</c:if>
@@ -43,7 +48,7 @@
   						<div class="w-full bg-white flex h-44 justify-center items-center border">이미지 또는 영상이 없음</div>
   					</c:if>
 		  		</a>
-			  	<div class="py-4">
+			  	<div class="py-3 mx-4">
 			    	<div class="font-bold text-xl mb-2">
 			    		<a href="${ cl }/blog/${ URLDecoder.decode(brfa.writer, 'UTF-8') }/board/${ URLDecoder.decode(brfa.title, 'UTF-8') }" class="hover:underline">
 		    				<c:choose>
@@ -72,10 +77,11 @@
 			    	</div>
 			  	</div>
 		  		<div class="py-2 border-gray-300 border-t text-gray-500 text-sm">
-		  			${ brfa.dateTime.substring(0, 10) } <br>
-		  			조회수 : ${ brfa.views } &nbsp; &#8226; &nbsp; 
-		  			좋아요 : ${ brfa.likes } &nbsp; &#8226; &nbsp; 
-		  			댓글 : ${ brfa.commentCount }
+		  			<div class="mx-4">
+			  			조회수 : ${ brfa.views } &nbsp; &#8226; &nbsp; 
+			  			좋아요 : ${ brfa.likes } &nbsp; &#8226; &nbsp; 
+			  			댓글 : ${ brfa.commentCount }
+			  		</div>
 		  		</div>
 			</div>
 		</c:forEach>

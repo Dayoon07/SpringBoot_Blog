@@ -62,6 +62,21 @@
 					${ boardInfo.category }
 				</span>
 			</a>
+			<div>
+				<c:if test="${ not empty sessionScope.user and empty findLiker }">
+					<form action="${ cl }/addLike" method="post" autocomplete="off">
+						<button type="submit" class="py-2 px-6 border-black border rounded cursor-pointer">좋아요</button>
+						<input type="hidden" name="blogId" value="${ boardInfo.blogId }" required readonly>
+						<input type="hidden" name="likerId" value="${ sessionScope.user.memberId }" required readonly>
+					</form>
+				</c:if>
+				<c:if test="${ not empty sessionScope.user and not empty findLiker }">
+					<form action="${ cl }/deleteLike" method="post" autocomplete="off">
+						<button type="submit" class="py-2 px-6 bg-black text-white rounded cursor-pointer">좋아요 취소</button>
+						<input type="hidden" name="likeId" value="${ findLiker.likeId }" required readonly>
+					</form>
+				</c:if>
+			</div>
 	    </div>
 	
 	    <c:if test="${ not empty boardInfo.img }">
@@ -77,7 +92,7 @@
 	        </div>
 	    </c:if>
 	
-	    <div id="content" class="w-full"></div> 
+	    <div id="boardContent" class="w-full"></div> 
 	    
 	    <div class="w-full mt-10 flex justify-between">
 	    	<div>

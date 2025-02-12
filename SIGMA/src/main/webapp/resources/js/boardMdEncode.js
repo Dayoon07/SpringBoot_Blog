@@ -5,7 +5,7 @@ marked.setOptions({
 
 document.addEventListener('DOMContentLoaded', function() {
 	const markdownText = document.getElementById('mdContent').textContent || '내용을 입력하세요';
-	const previewContent = document.getElementById('content');
+	const previewContent = document.getElementById('boardContent');
 	try {
 		const htmlContent = DOMPurify.sanitize(marked.parse(markdownText));
 		previewContent.innerHTML = htmlContent;

@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.e.d.model.entity.BoardEntity;
@@ -138,7 +137,6 @@ public class BoardService {
 		repository.save(board);
 	}
 
-	@Transactional
 	public void boardDelete(long blogId) {
 		log.info("게시글 삭제 요청: blogId = {}", blogId);
 		repository.deleteById(blogId);

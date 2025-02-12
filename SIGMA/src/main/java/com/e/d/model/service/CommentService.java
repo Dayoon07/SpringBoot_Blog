@@ -1,7 +1,6 @@
 package com.e.d.model.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.e.d.model.entity.CommentEntity;
 import com.e.d.model.repository.BoardRepository;
@@ -18,7 +17,6 @@ public class CommentService {
 	private final BoardRepository boardRepository;
 	private final CommentRepository repository;
 
-	@Transactional
 	public void addComment(long commenterId, String commenterName, String commenterProfile, 
 			String commentContent, long blogWriterId, long blogId, String dateTime) {
 		CommentEntity entity = CommentEntity.builder()

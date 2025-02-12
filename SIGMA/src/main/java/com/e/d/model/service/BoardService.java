@@ -189,16 +189,11 @@ public class BoardService {
 		    img.transferTo(new File(imgUploadDir + imgFileName));
 		    board.setImg("/resources/blog-img/" + imgFileName);
 
-		} else if (currentImgPath != null && !currentImgPath.isEmpty()) { // 명시적 삭제 요청
-		    File oldImg = new File(session.getServletContext().getRealPath(currentImgPath));
-		    if (oldImg.exists()) {
-		        oldImg.delete();
-		    }
-		    board.setImg(null);
-
-		} else { // 이미지가 새로 업로드되지 않고 삭제되지 않았으면 기존 이미지 유지
-		    if (currentImgPath != null && !currentImgPath.equals(board.getImg())) {
+		} else { // 이미지가 새로 업로드되지 않으면 기존 이미지 유지
+		    if (currentImgPath != null && !currentImgPath.isEmpty()) {
 		        board.setImg(currentImgPath); // 기존 이미지 유지
+		    } else {
+		        board.setImg(null); // 기존 이미지가 없으면 null로 설정
 		    }
 		}
 
@@ -225,16 +220,11 @@ public class BoardService {
 		    video.transferTo(new File(videoUploadDir + videoFileName));
 		    board.setVideo("/resources/blog-video/" + videoFileName);
 
-		} else if (currentVideoPath != null && !currentVideoPath.isEmpty()) { // 명시적 삭제 요청
-		    File oldVideo = new File(session.getServletContext().getRealPath(currentVideoPath));
-		    if (oldVideo.exists()) {
-		        oldVideo.delete();
-		    }
-		    board.setVideo(null);
-
-		} else { // 비디오가 새로 업로드되지 않고 삭제되지 않았으면 기존 비디오 유지
-		    if (currentVideoPath != null && !currentVideoPath.equals(board.getVideo())) {
+		} else { // 비디오가 새로 업로드되지 않으면 기존 비디오 유지
+		    if (currentVideoPath != null && !currentVideoPath.isEmpty()) {
 		        board.setVideo(currentVideoPath); // 기존 비디오 유지
+		    } else {
+		        board.setVideo(null); // 기존 비디오가 없으면 null로 설정
 		    }
 		}
 

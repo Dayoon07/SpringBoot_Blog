@@ -39,185 +39,47 @@
   </div>
 </div>
 
-  <h3>blogmember 테이블</h3>
-<table>
-  <tr>
-    <td>필드명</td>
-    <td>타입</td>
-    <td>제약조건</td>
-  </tr>
-  <tr>
-    <td>memberid</td>
-    <td>number</td>
-    <td>identity(increment), pk</td>
-  </tr>
-  <tr>
-    <td>username</td>
-    <td>varchar2(255)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>useremail</td>
-    <td>varchar2(255)</td>
-    <td>unique, not null</td>
-  </tr>
-  <tr>
-    <td>userpassword</td>
-    <td>varchar2(255)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>joindate</td>
-    <td>varchar2(255)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>profile</td>
-    <td>clob</td>
-    <td>없음</td>
-  </tr>
-  <tr>
-    <td>selfbio</td>
-    <td>clob</td>
-    <td>없음</td>
-  </tr>
-</table><br>
+![이미지](https://dayoon07.github.io/static-page-test/img/SpringBoot_Blog-ERD.png)
 
-<h3>blogboard 테이블</h3>
-<table>
-  <tr>
-    <td>필드명</td>
-    <td>타입</td>
-    <td>제약조건</td>
-  </tr>
-  <tr>
-    <td>blog_id</td>
-    <td>number</td>
-    <td>identity(increment), pk</td>
-  </tr>
-  <tr>
-    <td>title</td>
-    <td>varchar2(255)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>writer</td>
-    <td>varchar2(255)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>content</td>
-    <td>clob</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>views</td>
-    <td>number</td>
-    <td>default 0</td>
-  </tr>
-  <tr>
-    <td>likes</td>
-    <td>number</td>
-    <td>default 0</td>
-  </tr>
-  <tr>
-    <td>category</td>
-    <td>varchar2(50)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>datetime</td>
-    <td>varchar2(50)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>commentcount</td>
-    <td>NUMBER</td>
-    <td>DEFAULT 0</td>
-  </tr>
-</table><br>
+## 로그인
+- **비밀번호 암호화:** `bcrypt`를 사용하여 안전한 비밀번호 저장  
+- **사용자 이름 중복 확인:** 회원가입 시 사용자 이름의 중복 여부 확인  
 
-<h3>blogcomment 테이블</h3>
-<table>
-  <tr>
-    <td>필드명</td>
-    <td>타입</td>
-    <td>제약조건</td>
-  </tr>
-  <tr>
-    <td>commentid</td>
-    <td>number</td>
-    <td>identity(increment), pk</td>
-  </tr>
-  <tr>
-    <td>blogboard_title</td>
-    <td>varchar2(255)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>commentasblogid</td>
-    <td>number</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>commenter</td>
-    <td>varchar2(255)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>commentcontent</td>
-    <td>clob</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>commentdatetime</td>
-    <td>varchar2(255)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>parentcommentid</td>
-    <td>number</td>
-    <td>default 0</td>
-  </tr>
-  <tr>
-    <td>FK_BLOGCOMMENT_BLOGBOARD</td>
-    <td colspan="2">constraint commentasblogid references</td>
-  </tr>
-</table><br>
+---
 
-<h3>blogimg 테이블</h3>
-<table>
-  <tr>
-    <td>필드명</td>
-    <td>타입</td>
-    <td>제약조건</td>
-  </tr>
-  <tr>
-    <td>img_id</td>
-    <td>number</td>
-    <td>identity(increment), pk</td>
-  </tr>
-  <tr>
-    <td>blog_value</td>
-    <td>number</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>filepath</td>
-    <td>varchar2(255 char)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>filename</td>
-    <td>varchar2(255 char)</td>
-    <td>not null</td>
-  </tr>
-  <tr>
-    <td>create_at</td>
-    <td>varchar2(50 char)</td>
-    <td>not null</td>
-  </tr>
-</table>
-<br>
+## 파일 업로드
+- **프로필 사진 업로드:** 사용자 프로필 사진 파일 업로드 기능  
+- **비디오, 이미지 파일 입출력:** 글 작성 시 비디오 및 이미지 파일 첨부 가능  
 
-<h2>프로젝트 기능 정리 중</h2>
+---
+
+## 글 작성
+- **Markdown 문법 지원:** `Markdown`을 활용한 서식 있는 글 작성  
+- **서식 있는 텍스트 추가:** 다양한 텍스트 스타일 적용 가능  
+- **미리보기 화면:** 작성한 글을 실시간으로 미리보기  
+- **글 수정:** 작성한 글을 편집할 수 있는 기능  
+- **글 삭제:** 불필요한 글 삭제 기능  
+
+---
+
+## 댓글
+- **댓글 입력:** 게시글에 대한 댓글 작성 기능  
+- **댓글 수정:** 작성한 댓글을 편집하는 기능  
+- **댓글 삭제:** 작성한 댓글을 삭제하는 기능  
+- **댓글 개수 저장:**  
+  - 댓글 작성 시 `REST API`로 댓글 개수를 요청  
+  - 특정 글의 `commentCount` 필드에 댓글 개수 저장  
+
+---
+
+## 검색
+- **검색 기능:**  
+  - `JPA`의 메서드 이름 기반 쿼리 생성  
+  - 게시글 및 댓글 등 다양한 데이터 검색 가능  
+
+---
+
+## 좋아요
+- **좋아요 추가:** 게시글에 좋아요를 눌러 선호도 표시  
+- **좋아요 취소:** 누른 좋아요를 다시 취소할 수 있는 기능  
+- **내가 누른 좋아요 확인:** 사용자가 누른 모든 좋아요 목록 조회

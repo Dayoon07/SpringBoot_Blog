@@ -12,6 +12,7 @@ import com.e.d.model.repository.BoardRepository;
 import com.e.d.model.repository.LikeRepository;
 import com.e.d.model.repository.MemberRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,6 +70,11 @@ public class LikeService {
 	    List<BoardEntity> likedBoards = boardRepository.findAllById(blogIds);
 	    
 	    return likedBoards;
+	}
+	
+	@Transactional
+	public void dropAccount(long memberId) {
+		repository.deleteByLikerId(memberId);
 	}
 	
 }

@@ -3,9 +3,9 @@ package com.e.d.model.service;
 import org.springframework.stereotype.Service;
 
 import com.e.d.model.entity.CommentEntity;
-import com.e.d.model.repository.BoardRepository;
 import com.e.d.model.repository.CommentRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CommentService {
 
-	private final BoardRepository boardRepository;
 	private final CommentRepository repository;
 
 	public void addComment(long commenterId, String commenterName, String commenterProfile, 
@@ -29,6 +28,16 @@ public class CommentService {
 				.dateTime(dateTime)
 				.build();
 		repository.save(entity);
+	}
+	
+	@Transactional
+	public void dropAccount(long memberId) {
+		repository.deleteByCommenterId(memberId);
+	}
+	
+	@Transactional
+	public void deleteComment(long commentId) {
+		repository.deleteById(commentId);
 	}
 
 }

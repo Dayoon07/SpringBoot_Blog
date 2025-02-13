@@ -137,6 +137,12 @@
 	        <c:if test="${ not empty commentList }">
 	        	<c:forEach var="commentList" items="${ commentList }">
 		        	<div class="p-4">
+		        		<c:if test="${ not empty sessionScope.user and sessionScope.user.memberId eq commentList.commenterId }">
+			        		<form action="${ cl }/deleteComment" method="post" autocomplete="off" class="my-2">
+			        			<button type="submit" class="px-6 py-2 text-red-500 cursor-pointer hover:underline">댓글 삭제</button>
+			        			<input type="hidden" name="commentId" value="${ commentList.commentId }">
+			        		</form>
+		        		</c:if>
 			            <div class="flex items-center text-md text-gray-500 mb-2">
 			            	<a href="${ cl }/blog/${ commentList.commenterName }" class="flex items-center">
 			            		<img src="${ commentList.commenterProfile }" class="w-8 h-8 rounded-full object-cover">
@@ -166,9 +172,6 @@
 	<script>
 		fetch(`${url}/boardCommentCountSave?commentCount=${commentList.size()}&blogId=${boardInfo.blogId}`, {method: 'POST'})
 			.then(response => response.json())
-			.then(data => {
-				console.log("댓글 수: " + data + "개");
-			})
 			.catch((error) => {
 			    console.error('에러:', error);
 			});

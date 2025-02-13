@@ -10,7 +10,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${ profileInfo.username } 작성글 - SIGMA</title>
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <jsp:include page="${ cl }/WEB-INF/common/header.jsp" />
@@ -24,17 +23,25 @@
             </div>
         </div>
         <br><hr><br>
-        <div class="w-full">
-        	<p class="text-md text-gray-500">이메일 : 
-				<a href="mailto:${ profileInfo.useremail }" class="hover:underline hover:text-black">${ profileInfo.useremail }</a>
-			</p>
-			<p class="text-md text-gray-500 py-2">가입일 : ${ profileInfo.dateTime }</p>
+        <div class="w-full md:flex md:justify-between">
+        	<div>
+        		<p class="text-md text-gray-500">이메일 : 
+					<a href="mailto:${ profileInfo.useremail }" class="hover:underline hover:text-black">${ profileInfo.useremail }</a>
+				</p>
+				<p class="text-md text-gray-500 py-2">가입일 : ${ profileInfo.dateTime }</p>
+        	</div>
+        	<c:if test="${ not empty sessionScope.user and sessionScope.user.memberId eq profileInfo.memberId }">
+        		<div>
+					<button class="px-6 py-2 bg-red-600 text-white font-semibold rounded focus:outline-none hover:bg-red-500" 
+						type="button" onclick="openDropModal()" >계정 삭제</button>
+	        	</div>
+        	</c:if>
         </div>
 
         <div class="mt-8 max-w-screen-md mx-auto">
-        	<div class="flex mb-4 border-gray-300 border-b-2">
+        	<div class="flex mb-4 border-gray-200 border-b-2">
 			    <a href="${ cl }/blog/${ profileInfo.username }" 
-			       class="px-6 py-3 bg-gray-300">
+			       class="px-6 py-3 bg-gray-200">
 			        블로그
 			    </a>
 			    <a href="${ cl }/blog/${ profileInfo.username }/like" 
@@ -43,7 +50,7 @@
 			    </a>
 			</div>
         	<c:if test="${ empty profileUserBoard }">
-        		<h3 class="text-4xl font-bold text-center mb-24">작성한 글이 없습니다</h3>
+        		<h3 class="text-2xl font-bold text-center my-24">작성한 글이 없습니다</h3>
         	</c:if>
 		    <c:if test="${ not empty profileUserBoard }">
 			    <h3 class="text-2xl font-bold mb-6">작성한 글 ${ profileUserBoard.size() }개</h3>
@@ -111,7 +118,24 @@
 		    </c:if>
 		</div>
   	</div>
+  	
+  	<div id="dropAccountModal" class="hidden fixed bg-black opacity-50 top-0 left-0 w-full h-full z-10"></div>
+  	
+  	<div id="dropAccountForm" style="position: absolute; top: 200px; left: 50%; transform: translate(-50%);" class="hidden z-30">
+  		<div style="width: 400px;" class="p-10 bg-white rounded-md">
+  			<h1 class="text-xl font-semibold">정말 계정을 삭제하시겠습니까?</h1>
+  			<p class="pt-6 pb-12">계정 삭제 시, 작성한 모든 글과 댓글은 삭제됩니다. 계정은 복구되지 않습니다.</p>
+  			<div class="space-y-4">
+  				<form action="${ cl }/dropAccount" method="post" autocomplete="off">
+	    			<button type="submit" class="px-6 py-2 bg-red-600 text-white font-semibold rounded w-full hover:bg-red-500">계정 삭제</button>
+	    			<input type="hidden" name="memberId" value="${ profileInfo.memberId }">
+	    		</form>
+	    		<button type="button" onclick="cancelDropAccount()" class="px-6 py-2 bg-gray-100 text-black border font-semibold rounded w-full hover:bg-gray-200">취소</button>
+	    	</div>
+  		</div>
+  	</div>
 
     <jsp:include page="${ cl }/WEB-INF/common/footer.jsp" />
+    <script src="${ cl }/resources/js/profile.js"></script>
 </body>
 </html>

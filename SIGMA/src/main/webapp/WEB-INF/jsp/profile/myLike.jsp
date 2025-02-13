@@ -32,18 +32,18 @@
         </div>
 
         <div class="mt-8 max-w-screen-md mx-auto">
-        	<div class="flex mb-4 border-gray-300 border-b-2">
+        	<div class="flex mb-4 border-gray-200 border-b-2">
 			    <a href="${ cl }/blog/${ profileInfo.username }" 
 			       class="px-6 py-3">
 			        블로그
 			    </a>
 			    <a href="${ cl }/blog/${ profileInfo.username }/like" 
-			       class="px-6 py-3 bg-gray-300">
+			       class="px-6 py-3 bg-gray-200">
 			        좋아요 표시한 글
 			    </a>
 			</div>
         	<c:if test="${ empty myLikeList }">
-        		<h3 class="text-4xl font-bold text-center mb-24">좋아요를 누른 글이 없습니다</h3>
+        		<h3 class="text-2xl font-bold text-center my-24">좋아요를 누른 글이 없습니다</h3>
         	</c:if>
 		    <c:if test="${ not empty myLikeList }">
 			    <h3 class="text-2xl font-bold mb-6">좋아요를 누른 글 ${ myLikeList.size() }개</h3>

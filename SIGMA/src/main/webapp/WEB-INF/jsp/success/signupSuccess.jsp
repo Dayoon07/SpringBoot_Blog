@@ -18,13 +18,15 @@
 	
 	<script>
 		setTimeout(() => {
-			location.href = "${ cl }/";
+			location.href = location.origin;
 		}, 3000);
 	</script>
 	
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/showdown/dist/showdown.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.2/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
 	<script src="${ cl }/resources/js/script.js"></script>
+	
 </body>
 </html>

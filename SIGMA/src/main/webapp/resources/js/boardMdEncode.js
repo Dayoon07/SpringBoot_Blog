@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === "Escape" && lightbox.classList.contains("active")) {
             closeLightbox();
         }
-		console.log(`너가 눌렀던 키야 ${e.key}`);
     });
 
     // Lightbox 닫기 함수

@@ -15,6 +15,7 @@ import com.e.d.model.entity.MemberEntity;
 import com.e.d.model.repository.MemberRepository;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class MemberService {
 
-	private final MemberRepository repository;
+	private final MemberRepository memberRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -46,7 +47,12 @@ public class MemberService {
 				.profile("/resources/profile-img/" + fileName) // 경로 수정 (절대 경로 대신 상대 경로 추천)
 				.build();
 
-		return repository.save(entity);
+		return memberRepository.save(entity);
+	}
+	
+	@Transactional
+	public void dropAccount(long memberId) {
+		memberRepository.deleteById(memberId);
 	}
 
 }

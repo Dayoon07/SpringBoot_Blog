@@ -22,4 +22,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 	Optional<BoardEntity> findByWriterAndTitle(String writer, String title);
 	
 	List<BoardEntity> findByCategoryOrderByBlogIdDesc(String category);
+	
+	void deleteByWriterId(long writerId);
 }

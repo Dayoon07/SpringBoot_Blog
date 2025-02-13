@@ -41,22 +41,32 @@ document.querySelector('form').addEventListener('submit', function(event) {
 });
 
 function imgChk(event) {
-	const file = event.target.files[0];
-	const AllowedList = [".jpeg", ".jpg", ".png", ".tiff", ".webp"];
-	const maxSize = 3 * 1024 * 1024; // 3MB
+    const file = event.target.files[0];
+    const AllowedList = [".jpeg", ".jpg", ".png", ".tiff", ".webp"];
+    const maxSize = 3 * 1024 * 1024; // 3MB
+    const preview = document.getElementById("imgPreview");
 
-	if (file) {
-		const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
-		if (!AllowedList.includes(fileExtension)) {
-			alert("허용되지 않은 이미지 형식입니다. (jpeg, jpg, png, tiff, webp만 가능)");
-			event.target.value = "";
-			return;
-		}
+    if (file) {
+        const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+        if (!AllowedList.includes(fileExtension)) {
+            alert("허용되지 않은 이미지 형식입니다. (jpeg, jpg, png, tiff, webp만 가능)");
+            event.target.value = "";
+            return;
+        }
 
-		if (file.size > maxSize) {
-			alert("이미지 업로드 최대는 3MB 입니다.");
-			event.target.value = "";
-			return;
-		}
-	}
+        if (file.size > maxSize) {
+            alert("이미지 업로드 최대는 3MB 입니다.");
+            event.target.value = "";
+            return;
+        }
+
+        // 미리보기 기능 추가
+        const reader = new FileReader();
+        reader.onload = function(e) {
+			preview.classList.add("w-32", "h-32", "rounded-full", "object-cover", "mx-auto");
+            preview.src = e.target.result;
+            preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+    }
 }

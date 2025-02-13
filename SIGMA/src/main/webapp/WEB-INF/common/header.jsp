@@ -41,7 +41,7 @@
 								<button type="button" class="w-full px-4 py-2 cursor-pointer hover:bg-gray-200 text-left">내 블로그</button>
 							</a>
 							<a href="${ cl }/blog/${ sessionScope.user.username }/like">
-								<button type="button" class="w-full px-4 py-2 cursor-pointer hover:bg-gray-200 text-left">좋아하는 글</button>
+								<button type="button" class="w-full px-4 py-2 cursor-pointer hover:bg-gray-200 text-left">좋아요 표시한 글</button>
 							</a>
 							<form action="${ cl }/logout" method="post" autocomplete="off">
 								<input type="hidden" name="memberId" value="${ sessionScope.user.memberId }">

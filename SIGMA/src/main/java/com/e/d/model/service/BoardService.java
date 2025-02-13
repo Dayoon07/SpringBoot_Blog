@@ -15,6 +15,7 @@ import com.e.d.model.repository.CommentRepository;
 import com.e.d.model.repository.MemberRepository;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -230,5 +231,10 @@ public class BoardService {
 
 		repository.save(board);
 	}
-
+	
+	@Transactional
+	public void dropAccount(long memberId) {
+		repository.deleteByWriterId(memberId);
+	}
+	
 }

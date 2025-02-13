@@ -10,7 +10,7 @@
 
 
 <div style="width: 100%; padding: 10px 20px;">
-  <h2>개발 기간 2024. 11. 23~</h2>
+  <h2>개발 기간 2024.11.23~2025.02.13</h2>
 </div>
 
 <div align="center">

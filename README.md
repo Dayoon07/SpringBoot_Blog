@@ -39,7 +39,7 @@
   </div>
 </div>
 
-![이미지](https://dayoon07.github.io/static-page-test/img/SpringBoot_Blog-ERD.png)
+![이미지](https://dayoon07.github.io/static-page-test/img/springbootblogerd.png)
 
 ## 로그인
 - **비밀번호 암호화:** `bcrypt`를 사용하여 안전한 비밀번호 저장  

@@ -368,8 +368,8 @@ public class MainController {
 	
 	@PostMapping("/deleteComment")
 	public String deleteComment(@RequestParam long commentId) throws UnsupportedEncodingException {
-		commentService.deleteComment(commentId);
 		BoardEntity board = boardRepository.findById(commentRepository.findById(commentId).get().getBlogId()).get();
+		commentService.deleteComment(commentId);
 		return "redirect:/blog/" + URLDecoder.decode(board.getWriter(), "UTF-8") + "/board/" + URLDecoder.decode(board.getTitle(), "UTF-8");
 	}
 
